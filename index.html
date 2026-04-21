@@ -19,50 +19,50 @@
   /* ── TOPBAR ── */
   .topbar{display:flex;align-items:center;justify-content:space-between;padding:12px 24px;background:var(--surface);border-bottom:1px solid var(--border);position:sticky;top:0;z-index:100;}
   .topbar-left{display:flex;align-items:center;gap:12px;}
-  .topbar-logo{font-size:15px;font-weight:800;background:linear-gradient(135deg,#fff,#aaa);-webkit-background-clip:text;-webkit-text-fill-color:transparent;}
-  .topbar-badge{font-size:9px;font-weight:700;letter-spacing:1.2px;text-transform:uppercase;background:linear-gradient(135deg,var(--accent),var(--pink));color:#fff;padding:3px 10px;border-radius:100px;}
-  .topbar-date{font-size:12px;color:var(--faint);}
-  .topbar-refresh{font-size:10px;color:var(--dim);background:var(--surface2);padding:4px 10px;border-radius:100px;border:1px solid var(--border);}
+  .topbar-logo{font-size:19px;font-weight:800;background:linear-gradient(135deg,#fff,#aaa);-webkit-background-clip:text;-webkit-text-fill-color:transparent;}
+  .topbar-badge{font-size:12px;font-weight:700;letter-spacing:1.2px;text-transform:uppercase;background:linear-gradient(135deg,var(--accent),var(--pink));color:#fff;padding:3px 10px;border-radius:100px;}
+  .topbar-date{font-size:14px;color:var(--faint);}
+  .topbar-refresh{font-size:12px;color:var(--dim);background:var(--surface2);padding:4px 10px;border-radius:100px;border:1px solid var(--border);}
 
   /* ── KPI ── */
   .kpi-strip{display:grid;grid-template-columns:repeat(6,1fr);gap:1px;background:var(--border);border-bottom:1px solid var(--border);}
   .kpi{background:var(--surface);padding:14px 16px;text-align:center;}
-  .kpi-v{font-size:22px;font-weight:800;}
+  .kpi-v{font-size:26px;font-weight:800;}
   .kpi-v.gv{background:linear-gradient(135deg,var(--accent),var(--cyan));-webkit-background-clip:text;-webkit-text-fill-color:transparent;}
   .kpi-v.rv{background:linear-gradient(135deg,var(--red),var(--orange));-webkit-background-clip:text;-webkit-text-fill-color:transparent;}
   .kpi-v.ov{background:linear-gradient(135deg,var(--orange),var(--yellow));-webkit-background-clip:text;-webkit-text-fill-color:transparent;}
   .kpi-v.bv{background:linear-gradient(135deg,var(--blue),var(--cyan));-webkit-background-clip:text;-webkit-text-fill-color:transparent;}
   .kpi-v.pv{background:linear-gradient(135deg,var(--pink),var(--red));-webkit-background-clip:text;-webkit-text-fill-color:transparent;}
-  .kpi-l{font-size:10px;color:var(--faint);text-transform:uppercase;letter-spacing:.8px;margin-top:2px;}
+  .kpi-l{font-size:13px;color:var(--faint);text-transform:uppercase;letter-spacing:.8px;margin-top:2px;}
 
   /* ── CATEGORY TABS ── */
   .cat-tabs{display:flex;background:var(--surface);border-bottom:1px solid var(--border);padding:0 24px;gap:0;}
   .cat-tab{
-    padding:14px 24px;font-size:13px;font-weight:600;color:var(--dim);cursor:pointer;
+    padding:14px 24px;font-size:15px;font-weight:600;color:var(--dim);cursor:pointer;
     border-bottom:2px solid transparent;transition:all .15s;position:relative;
     display:flex;align-items:center;gap:8px;
   }
   .cat-tab:hover{color:var(--text);}
   .cat-tab.active{color:#fff;border-bottom-color:var(--accent);}
   .cat-tab .tab-count{
-    font-size:10px;font-weight:700;padding:2px 7px;border-radius:100px;
+    font-size:12px;font-weight:700;padding:2px 7px;border-radius:100px;
     background:var(--surface3);color:var(--faint);
   }
   .cat-tab.active .tab-count{background:var(--accent);color:#fff;}
-  .cat-tab .tab-icon{font-size:16px;}
+  .cat-tab .tab-icon{font-size:20px;}
 
   /* ── FILTER BAR ── */
   .filter-bar{display:flex;align-items:center;gap:8px;padding:8px 24px;background:var(--surface);border-bottom:1px solid var(--border);flex-wrap:wrap;}
-  .filter-bar-label{font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.8px;color:var(--faint);}
+  .filter-bar-label{font-size:12px;font-weight:700;text-transform:uppercase;letter-spacing:.8px;color:var(--faint);}
   .filter-pill{
-    font-size:10px;font-weight:600;padding:4px 10px;border-radius:100px;
+    font-size:12px;font-weight:600;padding:4px 10px;border-radius:100px;
     border:1px solid var(--border);color:var(--dim);cursor:pointer;transition:all .15s;
     background:transparent;
   }
   .filter-pill:hover{border-color:var(--accent);color:var(--text);}
   .filter-pill.active{background:var(--accent);border-color:var(--accent);color:#fff;}
   .filter-pill.active-red{background:rgba(255,77,106,.15);border-color:var(--red);color:var(--red);}
-  .filter-clear{font-size:10px;color:var(--accent2);cursor:pointer;margin-left:auto;text-decoration:underline;display:none;}
+  .filter-clear{font-size:12px;color:var(--accent2);cursor:pointer;margin-left:auto;text-decoration:underline;display:none;}
 
   /* ── MAIN LAYOUT ── */
   .dash{display:grid;grid-template-columns:1fr 380px;min-height:calc(100vh - 200px);}
@@ -72,19 +72,19 @@
   /* ── PANELS ── */
   .panel{padding:18px 22px;}
   .panel-hd{display:flex;align-items:center;justify-content:space-between;margin-bottom:12px;padding-bottom:8px;border-bottom:1px solid var(--border);}
-  .panel-t{font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:1px;color:var(--dim);}
-  .panel-sub{font-size:10px;color:var(--faint);}
+  .panel-t{font-size:13px;font-weight:700;text-transform:uppercase;letter-spacing:1px;color:var(--dim);}
+  .panel-sub{font-size:12px;color:var(--faint);}
 
   /* ── SCORING LEGEND ── */
   .score-legend{display:flex;gap:16px;padding:6px 22px 6px;flex-wrap:wrap;align-items:center;}
-  .score-legend-item{display:flex;align-items:center;gap:4px;font-size:9.5px;color:var(--faint);}
+  .score-legend-item{display:flex;align-items:center;gap:4px;font-size:12px;color:var(--faint);}
   .score-legend-dot{width:8px;height:8px;border-radius:2px;}
 
   /* ── COLUMN HEADER ── */
   .col-header{
     display:grid;grid-template-columns:26px 1fr 52px 52px 52px 56px 60px 28px;
     align-items:center;gap:6px;padding:6px 6px;margin:0 0 2px;
-    font-size:9px;font-weight:700;text-transform:uppercase;letter-spacing:.5px;color:var(--faint);
+    font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.5px;color:var(--faint);
     border-bottom:1px solid var(--border);
   }
 
@@ -101,25 +101,25 @@
   .item-row:hover{background:var(--surface2);}
   .item-row.open{background:var(--surface3);}
   .item-row.filtered-out{display:none;}
-  .item-rank{font-size:10px;font-weight:800;color:var(--faint);width:22px;height:22px;display:flex;align-items:center;justify-content:center;background:var(--surface3);border-radius:5px;}
-  .item-name{font-size:12px;font-weight:600;line-height:1.3;}
-  .item-score{font-size:11px;font-weight:800;text-align:center;}
+  .item-rank{font-size:12px;font-weight:800;color:var(--faint);width:22px;height:22px;display:flex;align-items:center;justify-content:center;background:var(--surface3);border-radius:5px;}
+  .item-name{font-size:14px;font-weight:600;line-height:1.3;}
+  .item-score{font-size:13px;font-weight:800;text-align:center;}
   .item-score.sc-hi{color:var(--red);}
   .item-score.sc-mh{color:var(--orange);}
   .item-score.sc-md{color:var(--yellow);}
   .item-score.sc-lo{color:var(--green);}
-  .item-sub-score{font-size:10px;font-weight:600;text-align:center;color:var(--dim);}
-  .item-trend{font-size:13px;text-align:center;}
+  .item-sub-score{font-size:12px;font-weight:600;text-align:center;color:var(--dim);}
+  .item-trend{font-size:15px;text-align:center;}
   .trend-up{color:var(--red);}
   .trend-flat{color:var(--yellow);}
   .trend-down{color:var(--green);}
   .trend-new{color:var(--pink);}
-  .item-sev{font-size:8px;font-weight:700;text-transform:uppercase;letter-spacing:.3px;padding:3px 6px;border-radius:100px;text-align:center;white-space:nowrap;}
+  .item-sev{font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.3px;padding:3px 6px;border-radius:100px;text-align:center;white-space:nowrap;}
   .sev-c{background:rgba(255,77,106,.12);color:var(--red);}
   .sev-h{background:rgba(255,140,66,.12);color:var(--orange);}
   .sev-m{background:rgba(255,197,61,.12);color:var(--yellow);}
   .sev-l{background:rgba(52,211,153,.12);color:var(--green);}
-  .item-arrow{font-size:13px;color:var(--faint);transition:transform .15s;text-align:center;}
+  .item-arrow{font-size:15px;color:var(--faint);transition:transform .15s;text-align:center;}
   .item-row.open .item-arrow{transform:rotate(90deg);color:var(--accent);}
 
   /* ── DETAIL DRAWER ── */
@@ -128,16 +128,16 @@
   .detail-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:10px;}
   .detail-left{}
   .detail-right{background:var(--surface2);border-radius:8px;padding:12px;border:1px solid var(--border);}
-  .detail-sum{font-size:11.5px;color:var(--dim);line-height:1.55;margin-bottom:8px;}
+  .detail-sum{font-size:14px;color:var(--dim);line-height:1.55;margin-bottom:8px;}
   .detail-tags{display:flex;flex-wrap:wrap;gap:4px;margin-bottom:10px;}
-  .tg{font-size:9.5px;padding:2px 6px;border-radius:4px;background:var(--surface3);color:var(--dim);border:1px solid var(--border);}
+  .tg{font-size:12px;padding:2px 6px;border-radius:4px;background:var(--surface3);color:var(--dim);border:1px solid var(--border);}
   .tg-r{background:rgba(255,77,106,.08);color:var(--red);border-color:rgba(255,77,106,.15);}
   .tg-p{background:rgba(124,92,252,.08);color:var(--accent2);border-color:rgba(124,92,252,.15);}
   .tg-seg{background:rgba(56,189,248,.08);color:var(--blue);border-color:rgba(56,189,248,.15);}
   .qbox{background:var(--surface2);border-left:3px solid var(--accent);padding:9px 12px;border-radius:0 6px 6px 0;margin-bottom:6px;position:relative;}
-  .qtxt{font-size:11.5px;font-style:italic;color:var(--text);line-height:1.5;}
-  .qsrc{font-size:10px;color:var(--faint);font-style:normal;margin-top:3px;display:flex;align-items:center;gap:6px;}
-  .acct-tier{font-size:8px;font-weight:700;padding:2px 5px;border-radius:3px;text-transform:uppercase;letter-spacing:.3px;}
+  .qtxt{font-size:14px;font-style:italic;color:var(--text);line-height:1.5;}
+  .qsrc{font-size:12px;color:var(--faint);font-style:normal;margin-top:3px;display:flex;align-items:center;gap:6px;}
+  .acct-tier{font-size:10px;font-weight:700;padding:2px 5px;border-radius:3px;text-transform:uppercase;letter-spacing:.3px;}
   .tier-ent{background:rgba(255,77,106,.12);color:var(--red);}
   .tier-plat{background:rgba(124,92,252,.12);color:var(--accent2);}
   .tier-gold{background:rgba(255,197,61,.12);color:var(--yellow);}
@@ -146,48 +146,48 @@
 
   /* ── ACTION BOX ── */
   .action-box{background:rgba(124,92,252,.06);border:1px solid rgba(124,92,252,.15);border-radius:8px;padding:10px 12px;margin-top:8px;}
-  .action-box h5{font-size:10px;font-weight:700;color:var(--accent2);text-transform:uppercase;letter-spacing:.5px;margin-bottom:6px;}
+  .action-box h5{font-size:12px;font-weight:700;color:var(--accent2);text-transform:uppercase;letter-spacing:.5px;margin-bottom:6px;}
   .action-row{display:flex;gap:12px;flex-wrap:wrap;align-items:center;}
-  .action-chip{font-size:10px;padding:3px 8px;border-radius:4px;font-weight:600;}
+  .action-chip{font-size:12px;padding:3px 8px;border-radius:4px;font-weight:600;}
   .ac-owner{background:rgba(56,189,248,.1);color:var(--blue);border:1px solid rgba(56,189,248,.2);}
   .ac-effort{background:rgba(255,197,61,.1);color:var(--yellow);border:1px solid rgba(255,197,61,.2);}
   .ac-rev{background:rgba(255,77,106,.1);color:var(--red);border:1px solid rgba(255,77,106,.2);}
-  .ac-next{font-size:10.5px;color:var(--dim);line-height:1.4;margin-top:6px;}
+  .ac-next{font-size:13px;color:var(--dim);line-height:1.4;margin-top:6px;}
 
   /* ── RIGHT: SCORING METHODOLOGY ── */
   .method-box{background:var(--surface2);border:1px solid var(--border);border-radius:8px;padding:12px;margin-bottom:10px;}
-  .method-box h5{font-size:10px;font-weight:700;color:var(--accent2);text-transform:uppercase;letter-spacing:.5px;margin-bottom:6px;}
-  .method-row{display:flex;justify-content:space-between;align-items:center;padding:3px 0;font-size:10.5px;border-bottom:1px solid rgba(255,255,255,.03);}
+  .method-box h5{font-size:12px;font-weight:700;color:var(--accent2);text-transform:uppercase;letter-spacing:.5px;margin-bottom:6px;}
+  .method-row{display:flex;justify-content:space-between;align-items:center;padding:3px 0;font-size:13px;border-bottom:1px solid rgba(255,255,255,.03);}
   .method-row:last-child{border-bottom:none;}
   .method-label{color:var(--dim);}
   .method-val{font-weight:700;}
 
   /* ── RIGHT: WIN/LOSS MATRIX ── */
   .matrix-wrap{overflow-x:auto;}
-  .matrix{width:100%;border-collapse:collapse;font-size:9.5px;}
+  .matrix{width:100%;border-collapse:collapse;font-size:12px;}
   .matrix th{padding:5px 4px;text-align:center;font-weight:700;color:var(--faint);text-transform:uppercase;letter-spacing:.3px;border-bottom:1px solid var(--border);position:sticky;top:0;background:var(--surface);}
   .matrix th:first-child{text-align:left;min-width:90px;}
   .matrix td{padding:4px;text-align:center;border-bottom:1px solid rgba(255,255,255,.03);}
-  .matrix td:first-child{text-align:left;font-weight:600;color:var(--dim);font-size:10px;}
+  .matrix td:first-child{text-align:left;font-weight:600;color:var(--dim);font-size:12px;}
   .mx-lost{color:var(--red);font-weight:700;}
   .mx-risk{color:var(--orange);font-weight:600;}
   .mx-gap{color:var(--yellow);}
-  .mx-ok{color:var(--green);font-size:8px;}
+  .mx-ok{color:var(--green);font-size:10px;}
 
   /* ── RIGHT: SEGMENTS (clickable) ── */
   .seg-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px;}
-  .seg-col h4{font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.5px;margin-bottom:6px;cursor:pointer;transition:color .15s;}
+  .seg-col h4{font-size:13px;font-weight:700;text-transform:uppercase;letter-spacing:.5px;margin-bottom:6px;cursor:pointer;transition:color .15s;}
   .seg-col h4.th{color:var(--orange);}
   .seg-col h4.sh{color:var(--blue);}
   .seg-col h4:hover{text-decoration:underline;}
-  .seg-item{display:flex;align-items:center;gap:5px;font-size:10.5px;color:var(--dim);padding:4px 0;border-bottom:1px solid rgba(255,255,255,.03);cursor:pointer;transition:color .15s;}
+  .seg-item{display:flex;align-items:center;gap:5px;font-size:13px;color:var(--dim);padding:4px 0;border-bottom:1px solid rgba(255,255,255,.03);cursor:pointer;transition:color .15s;}
   .seg-item:hover{color:var(--text);}
   .seg-item.seg-active{color:var(--accent2);font-weight:600;}
   .seg-dot{width:4px;height:4px;border-radius:50%;flex-shrink:0;}
 
   /* ── RIGHT: CHANNELS ── */
   .ch-row{display:flex;align-items:center;gap:6px;padding:3px 0;}
-  .ch-nm{font-size:10.5px;font-weight:600;min-width:140px;color:var(--dim);}
+  .ch-nm{font-size:13px;font-weight:600;min-width:140px;color:var(--dim);}
   .ch-bg{flex:1;height:12px;background:var(--surface3);border-radius:3px;overflow:hidden;}
   .ch-fill{height:100%;border-radius:3px;}
 
@@ -195,24 +195,84 @@
   .bottom-bar{border-top:1px solid var(--border);background:var(--surface);}
   .take-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin-bottom:16px;}
   .take{background:var(--surface2);border-radius:8px;padding:14px;border-left:3px solid;}
-  .take h5{font-size:11px;font-weight:700;margin-bottom:4px;}
-  .take p{font-size:10.5px;color:var(--dim);line-height:1.5;}
+  .take h5{font-size:13px;font-weight:700;margin-bottom:4px;}
+  .take p{font-size:13px;color:var(--dim);line-height:1.5;}
   .rrow{display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:8px;}
   .rc{background:var(--surface2);border:1px solid var(--border);border-radius:8px;padding:12px;}
-  .rc-d{font-size:9px;color:var(--faint);text-transform:uppercase;letter-spacing:.5px;margin-bottom:3px;}
-  .rc-t{font-size:11.5px;font-weight:700;margin-bottom:4px;}
-  .rc-b{font-size:10.5px;color:var(--dim);line-height:1.45;}
-  .sc{display:inline-block;background:rgba(124,92,252,.1);color:var(--accent2);padding:1px 5px;border-radius:3px;font-weight:600;font-size:10.5px;}
+  .rc-d{font-size:11px;color:var(--faint);text-transform:uppercase;letter-spacing:.5px;margin-bottom:3px;}
+  .rc-t{font-size:14px;font-weight:700;margin-bottom:4px;}
+  .rc-b{font-size:13px;color:var(--dim);line-height:1.45;}
+  .sc{display:inline-block;background:rgba(124,92,252,.1);color:var(--accent2);padding:1px 5px;border-radius:3px;font-weight:600;font-size:13px;}
 
   .r-divider{border-top:1px solid var(--border);margin:12px 0;}
 
+
+  /* ── STATUS BADGES ── */
+  .status-badge{font-size:10px;font-weight:700;padding:2px 8px;border-radius:100px;text-transform:uppercase;letter-spacing:.5px;display:inline-block;margin-left:8px;vertical-align:middle;}
+  .st-not-started{background:rgba(104,104,128,.15);color:var(--faint);}
+  .st-in-design{background:rgba(124,92,252,.12);color:var(--accent2);}
+  .st-in-dev{background:rgba(56,189,248,.12);color:var(--blue);}
+  .st-shipped{background:rgba(52,211,153,.12);color:var(--green);}
+  .st-blocked{background:rgba(255,77,106,.12);color:var(--red);}
+
+  /* ── LIFECYCLE TAGS ── */
+  .tg-lc{background:rgba(34,211,238,.08);color:var(--cyan);border-color:rgba(34,211,238,.15);}
+  .filter-pill.active-cyan{background:rgba(34,211,238,.15);border-color:var(--cyan);color:var(--cyan);}
+
+  /* ── EXEC SUMMARY ── */
+  .exec-summary{background:var(--surface);border-bottom:1px solid var(--border);}
+  .exec-toggle{padding:10px 24px;cursor:pointer;display:flex;align-items:center;transition:background .15s;}
+  .exec-toggle:hover{background:var(--surface2);}
+  .exec-body{padding:16px 24px;}
+  .exec-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-bottom:14px;}
+  .exec-card{background:var(--surface2);border:1px solid var(--border);border-radius:8px;padding:14px;}
+  .exec-bet{border-left:3px solid var(--accent);}
+  .exec-card-label{font-size:12px;font-weight:800;text-transform:uppercase;letter-spacing:.5px;color:var(--accent2);margin-bottom:6px;}
+  .exec-card-body{font-size:13px;color:var(--dim);line-height:1.55;margin-bottom:8px;}
+  .exec-card-meta{display:flex;gap:8px;flex-wrap:wrap;}
+  .exec-not-doing{background:rgba(255,77,106,.04);border:1px solid rgba(255,77,106,.12);border-radius:8px;padding:14px;}
+  .exec-not-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px;}
+  .exec-not-item{font-size:12px;color:var(--dim);line-height:1.5;padding:6px 10px;background:var(--surface2);border-radius:6px;border:1px solid var(--border);}
+
+  /* ── FEEDBACK BAR ── */
+  .feedback-bar{background:var(--surface);border-top:1px solid var(--border);padding:14px 24px;}
+  .feedback-btn{font-size:12px;font-weight:600;padding:6px 14px;border-radius:6px;text-decoration:none;display:inline-block;background:var(--accent);color:#fff;transition:opacity .15s;}
+  .feedback-btn:hover{opacity:.85;}
+  .feedback-btn-sec{background:transparent;border:1px solid var(--border);color:var(--dim);}
+  .feedback-btn-sec:hover{border-color:var(--accent);color:var(--text);}
+
+  /* ── HEAT MAP TAB ── */
+  .heatmap-intro{font-size:13px;color:var(--dim);line-height:1.55;margin-bottom:14px;}
+  .heatmap-table{width:100%;border-collapse:collapse;font-size:12px;}
+  .heatmap-table th{padding:8px 6px;text-align:center;font-weight:700;color:var(--faint);text-transform:uppercase;letter-spacing:.3px;border-bottom:2px solid var(--border);font-size:11px;white-space:nowrap;}
+  .heatmap-table th:first-child{text-align:left;min-width:180px;}
+  .heatmap-table td{padding:6px;text-align:center;border-bottom:1px solid rgba(255,255,255,.04);}
+  .heatmap-table td:first-child{text-align:left;font-weight:600;color:var(--text);font-size:13px;}
+  .heatmap-table tr:hover{background:var(--surface2);}
+  .hm-cell{display:inline-block;width:28px;height:28px;border-radius:5px;line-height:28px;font-weight:700;font-size:12px;}
+  .hm-5{background:rgba(255,77,106,.35);color:var(--red);}
+  .hm-4{background:rgba(255,140,66,.3);color:var(--orange);}
+  .hm-3{background:rgba(255,197,61,.25);color:var(--yellow);}
+  .hm-2{background:rgba(56,189,248,.15);color:var(--blue);}
+  .hm-1{background:rgba(104,104,128,.15);color:var(--faint);}
+  .hm-0{color:rgba(104,104,128,.3);font-size:11px;}
+  .hm-agg{font-weight:800;font-size:13px;}
+  .hm-agg-hi{color:var(--red);}
+  .hm-agg-mh{color:var(--orange);}
+  .hm-agg-md{color:var(--yellow);}
+  .hm-agg-lo{color:var(--green);}
+  .hm-legend{display:flex;gap:12px;align-items:center;margin-top:10px;flex-wrap:wrap;}
+  .hm-legend-item{display:flex;align-items:center;gap:4px;font-size:11px;color:var(--faint);}
+  .hm-legend-swatch{width:14px;height:14px;border-radius:3px;}
+  .hm-source-note{font-size:11px;color:var(--faint);margin-top:8px;line-height:1.5;}
+
   /* ── METHODOLOGY FOOTER ── */
   .methodology{background:var(--surface2);border-top:1px solid var(--border);padding:20px 24px;}
-  .methodology h4{font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:1px;color:var(--accent2);margin-bottom:10px;}
+  .methodology h4{font-size:13px;font-weight:700;text-transform:uppercase;letter-spacing:1px;color:var(--accent2);margin-bottom:10px;}
   .meth-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;}
-  .meth-section h5{font-size:10px;font-weight:700;color:var(--dim);text-transform:uppercase;letter-spacing:.5px;margin-bottom:6px;}
-  .meth-section p{font-size:10.5px;color:var(--faint);line-height:1.55;}
-  .meth-section .meth-formula{font-family:monospace;font-size:10px;color:var(--accent2);background:var(--surface3);padding:4px 8px;border-radius:4px;display:inline-block;margin:4px 0;}
+  .meth-section h5{font-size:12px;font-weight:700;color:var(--dim);text-transform:uppercase;letter-spacing:.5px;margin-bottom:6px;}
+  .meth-section p{font-size:13px;color:var(--faint);line-height:1.55;}
+  .meth-section .meth-formula{font-family:monospace;font-size:12px;color:var(--accent2);background:var(--surface3);padding:4px 8px;border-radius:4px;display:inline-block;margin:4px 0;}
 
   @media(max-width:1100px){
     .dash{grid-template-columns:1fr;}
@@ -234,7 +294,7 @@
   </div>
   <div style="display:flex;align-items:center;gap:12px;">
     <div class="topbar-refresh">Next refresh: May 5, 2026</div>
-    <div class="topbar-date">GlossGenius · Data through Apr 21, 2026 · N=128 signals from 5 channels</div>
+    <div class="topbar-date">GlossGenius · Data through Apr 21, 2026 · N=128 signals from 5 channels · <span style="color:var(--accent2);">By Karlo Andrei Antalan</span></div>
   </div>
 </div>
 
@@ -246,6 +306,43 @@
   <div class="kpi"><div class="kpi-v bv">12</div><div class="kpi-l">Experiences Requested</div></div>
   <div class="kpi"><div class="kpi-v pv">~$480K</div><div class="kpi-l">Est. Monthly GPV at Risk</div></div>
   <div class="kpi"><div class="kpi-v gv">9</div><div class="kpi-l">Competitors Cited</div></div>
+</div>
+
+
+<!-- EXEC SUMMARY -->
+<div class="exec-summary" id="execSummary">
+  <div class="exec-toggle" id="execToggle">
+    <span style="font-size:13px;font-weight:700;color:var(--accent2);text-transform:uppercase;letter-spacing:1px;">&#9656; Executive Decision Framework</span>
+    <span style="font-size:12px;color:var(--faint);margin-left:12px;">Click to expand</span>
+  </div>
+  <div class="exec-body" id="execBody" style="display:none;">
+    <div class="exec-grid">
+      <div class="exec-card exec-bet">
+        <div class="exec-card-label">BET 1 — Close the Teams Gap</div>
+        <div class="exec-card-body">Ship Add-Ons → MSMP → Commissions in sequence. Unblocks ~$350K/mo GPV pipeline. Every enterprise loss cites 2+ of these. Add-Ons alone unblocks ~30% of lost deals and is the single highest-ROI feature.</div>
+        <div class="exec-card-meta"><span class="action-chip ac-rev">$350K/mo GPV</span> <span class="action-chip ac-effort">Effort: 2-3 quarters</span> <span class="action-chip ac-owner">Product (Booking + Checkout)</span></div>
+      </div>
+      <div class="exec-card exec-bet">
+        <div class="exec-card-label">BET 2 — Fix Trust Infrastructure</div>
+        <div class="exec-card-body">Card reader reliability + payout transparency. These are activation gates — fix before adding features. Combs actively poaching on this. Target: first-swipe success rate &gt;95%, first-payout &lt;48hrs.</div>
+        <div class="exec-card-meta"><span class="action-chip ac-rev">$270K/mo GPV</span> <span class="action-chip ac-effort">Effort: 1-2 quarters</span> <span class="action-chip ac-owner">Hardware + Payments</span></div>
+      </div>
+      <div class="exec-card exec-bet">
+        <div class="exec-card-label">BET 3 — Migration & Switching Moat</div>
+        <div class="exec-card-body">GC balance import + appointment history + seamless onboarding. The "3 strikes" migration trio. Businesses pay 2× more to stay on competitors for this alone. GC import is fastest to ship.</div>
+        <div class="exec-card-meta"><span class="action-chip ac-rev">$80K/mo GPV blocked</span> <span class="action-chip ac-effort">Effort: 1 quarter</span> <span class="action-chip ac-owner">Product (Onboarding)</span></div>
+      </div>
+    </div>
+    <div class="exec-not-doing">
+      <div class="exec-card-label" style="margin-bottom:6px;">What We're NOT Doing (And Why)</div>
+      <div class="exec-not-grid">
+        <div class="exec-not-item"><strong>Multi-language (Spanish)</strong> — High effort (XL), unlocks new segment but doesn't retain existing. Defer to H2.</div>
+        <div class="exec-not-item"><strong>SOAP Notes / EMR</strong> — Strategic but separate vertical bet. Keep on EMR-specific roadmap.</div>
+        <div class="exec-not-item"><strong>2-Way Texting</strong> — Nice-to-have, not a deal breaker. Validate willingness-to-pay first.</div>
+        <div class="exec-not-item"><strong>Custom Domains</strong> — Revenue opportunity but doesn't stop churn. Backlog for monetization sprint.</div>
+      </div>
+    </div>
+  </div>
 </div>
 
 <!-- CATEGORY TABS -->
@@ -262,6 +359,10 @@
     <span class="tab-icon">&#x2728;</span> Experiences to Polish
     <span class="tab-count">12</span>
   </div>
+  <div class="cat-tab" data-cat="heatmap">
+    <span class="tab-icon">&#x1F525;</span> Signal Heat Map
+    <span class="tab-count">20</span>
+  </div>
 </div>
 
 <!-- FILTER BAR -->
@@ -273,6 +374,11 @@
   <span class="filter-pill" data-filter="type" data-val="deal-breaker">Deal Breakers Only</span>
   <span class="filter-pill" data-filter="type" data-val="churn">Churn Drivers</span>
   <span class="filter-pill" data-filter="type" data-val="quick-win">Quick Wins</span>
+  <span class="filter-bar-label" style="margin-left:8px;">Stage:</span>
+  <span class="filter-pill" data-filter="lifecycle" data-val="acquisition">Acquisition</span>
+  <span class="filter-pill" data-filter="lifecycle" data-val="activation">Activation</span>
+  <span class="filter-pill" data-filter="lifecycle" data-val="retention">Retention</span>
+  <span class="filter-pill" data-filter="lifecycle" data-val="expansion">Expansion</span>
   <span class="filter-clear" id="clearFilters">Clear filters</span>
 </div>
 
@@ -284,13 +390,13 @@
 
   <!-- SCORING LEGEND -->
   <div class="score-legend">
-    <span style="font-size:9px;font-weight:700;color:var(--faint);text-transform:uppercase;letter-spacing:.5px;">Priority Score =</span>
+    <span style="font-size:11px;font-weight:700;color:var(--faint);text-transform:uppercase;letter-spacing:.5px;">Priority Score =</span>
     <div class="score-legend-item"><div class="score-legend-dot" style="background:var(--orange)"></div>Frequency (1-5)</div>
-    <span style="color:var(--faint);font-size:9px;">&times;</span>
+    <span style="color:var(--faint);font-size:11px;">&times;</span>
     <div class="score-legend-item"><div class="score-legend-dot" style="background:var(--red)"></div>Churn Signal (1-5)</div>
-    <span style="color:var(--faint);font-size:9px;">&times;</span>
+    <span style="color:var(--faint);font-size:11px;">&times;</span>
     <div class="score-legend-item"><div class="score-legend-dot" style="background:var(--pink)"></div>Revenue Impact (1-5)</div>
-    <span style="font-size:9px;color:var(--faint);margin-left:12px;">Trend: <span class="trend-up">&#9650;</span> worsening <span class="trend-flat">&#9654;</span> stable <span class="trend-down">&#9660;</span> improving <span class="trend-new">&#9733;</span> new</span>
+    <span style="font-size:11px;color:var(--faint);margin-left:12px;">Trend: <span class="trend-up">&#9650;</span> worsening <span class="trend-flat">&#9654;</span> stable <span class="trend-down">&#9660;</span> improving <span class="trend-new">&#9733;</span> new</span>
   </div>
 
   <!-- ── TAB 1: CX PROBLEMS ── -->
@@ -305,12 +411,12 @@
       </div>
 
       <!-- P1: Card Reader -->
-      <div class="item-row" data-id="p1" data-segments="teams,solo" data-types="churn,deal-breaker">
+      <div class="item-row" data-id="p1" data-lifecycle="activation" data-segments="teams,solo" data-types="churn,deal-breaker">
         <div class="item-rank">1</div>
-        <div class="item-name">Card Reader Failures (Tap & Go)</div>
+        <div class="item-name">Card Reader Failures (Tap & Go)<span class="status-badge st-blocked">Blocked</span></div>
         <div class="item-sub-score">5</div><div class="item-sub-score">5</div><div class="item-sub-score">5</div>
         <div class="item-score sc-hi">125</div>
-        <div class="item-trend trend-up" title="Worsening — Combs actively targeting GG members citing this">&#9650;</div>
+        <div class="item-trend trend-up" title="Worsening — Combs actively targeting GG members citing this | 8 signals this month, 5 prev month">&#9650;</div>
         <div class="item-arrow">&#x203A;</div>
       </div>
       <div class="item-detail" data-id="p1">
@@ -341,12 +447,12 @@
       </div>
 
       <!-- P2: Payout Delays -->
-      <div class="item-row" data-id="p2" data-segments="teams,solo" data-types="churn">
+      <div class="item-row" data-id="p2" data-lifecycle="activation" data-segments="teams,solo" data-types="churn">
         <div class="item-rank">2</div>
-        <div class="item-name">Payout Delays & Account Pauses</div>
+        <div class="item-name">Payout Delays & Account Pauses<span class="status-badge st-not-started">Not Started</span></div>
         <div class="item-sub-score">4</div><div class="item-sub-score">5</div><div class="item-sub-score">5</div>
         <div class="item-score sc-hi">100</div>
-        <div class="item-trend trend-up" title="Worsening — instant deposit removal driving explicit churn threats">&#9650;</div>
+        <div class="item-trend trend-up" title="Worsening — instant deposit removal driving explicit churn threats | 4 signals this month, 3 prev month">&#9650;</div>
         <div class="item-arrow">&#x203A;</div>
       </div>
       <div class="item-detail" data-id="p2">
@@ -372,9 +478,9 @@
       </div>
 
       <!-- P3: Commission Confusion -->
-      <div class="item-row" data-id="p3" data-segments="teams" data-types="churn">
+      <div class="item-row" data-id="p3" data-lifecycle="retention" data-segments="teams" data-types="churn">
         <div class="item-rank">3</div>
-        <div class="item-name">Commission Report Confusion (Packages)</div>
+        <div class="item-name">Commission Report Confusion (Packages)<span class="status-badge st-not-started">Not Started</span></div>
         <div class="item-sub-score">3</div><div class="item-sub-score">4</div><div class="item-sub-score">4</div>
         <div class="item-score sc-mh">48</div>
         <div class="item-trend trend-flat" title="Stable — recurring issue, not worsening">&#9654;</div>
@@ -402,9 +508,9 @@
       </div>
 
       <!-- P4: Processing Blocks -->
-      <div class="item-row" data-id="p4" data-segments="teams,solo" data-types="">
+      <div class="item-row" data-id="p4" data-lifecycle="activation" data-segments="teams,solo" data-types="">
         <div class="item-rank">4</div>
-        <div class="item-name">Processing Blocks Confusing on Mobile</div>
+        <div class="item-name">Processing Blocks Confusing on Mobile<span class="status-badge st-not-started">Not Started</span></div>
         <div class="item-sub-score">3</div><div class="item-sub-score">3</div><div class="item-sub-score">3</div>
         <div class="item-score sc-md">27</div>
         <div class="item-trend trend-new" title="New signal — Apr 2026">&#9733;</div>
@@ -432,9 +538,9 @@
       </div>
 
       <!-- P5: Calendar Clutter -->
-      <div class="item-row" data-id="p5" data-segments="teams,solo" data-types="deal-breaker">
+      <div class="item-row" data-id="p5" data-lifecycle="acquisition" data-segments="teams,solo" data-types="deal-breaker">
         <div class="item-rank">5</div>
-        <div class="item-name">Calendar Clutter (Multi-Service Blocks)</div>
+        <div class="item-name">Calendar Clutter (Multi-Service Blocks)<span class="status-badge st-not-started">Not Started</span></div>
         <div class="item-sub-score">3</div><div class="item-sub-score">4</div><div class="item-sub-score">3</div>
         <div class="item-score sc-md">36</div>
         <div class="item-trend trend-flat" title="Stable — reported since Aug 2024">&#9654;</div>
@@ -462,12 +568,12 @@
       </div>
 
       <!-- P6: AI/UX Disruption -->
-      <div class="item-row" data-id="p6" data-segments="solo" data-types="churn">
+      <div class="item-row" data-id="p6" data-lifecycle="retention" data-segments="solo" data-types="churn">
         <div class="item-rank">6</div>
-        <div class="item-name">AI/UX Changes Disrupting Workflows</div>
+        <div class="item-name">AI/UX Changes Disrupting Workflows<span class="status-badge st-in-design">Investigating</span></div>
         <div class="item-sub-score">3</div><div class="item-sub-score">3</div><div class="item-sub-score">3</div>
         <div class="item-score sc-md">27</div>
-        <div class="item-trend trend-up" title="Worsening — second detailed complaint in 2 days, Product investigating">&#9650;</div>
+        <div class="item-trend trend-up" title="Worsening — second detailed complaint in 2 days, Product investigating | 3 signals this month, 1 prev month">&#9650;</div>
         <div class="item-arrow">&#x203A;</div>
       </div>
       <div class="item-detail" data-id="p6">
@@ -493,9 +599,9 @@
       </div>
 
       <!-- P7: Payment Pending Bug -->
-      <div class="item-row" data-id="p7" data-segments="solo" data-types="quick-win">
+      <div class="item-row" data-id="p7" data-lifecycle="activation" data-segments="solo" data-types="quick-win">
         <div class="item-rank">7</div>
-        <div class="item-name">Payment Setup Shows "Pending" After Done</div>
+        <div class="item-name">Payment Setup Shows "Pending" After Done<span class="status-badge st-not-started">Not Started</span></div>
         <div class="item-sub-score">2</div><div class="item-sub-score">2</div><div class="item-sub-score">3</div>
         <div class="item-score sc-lo">12</div>
         <div class="item-trend trend-new" title="New signal — Apr 2026">&#9733;</div>
@@ -523,9 +629,9 @@
       </div>
 
       <!-- P8: Sales Reporting -->
-      <div class="item-row" data-id="p8" data-segments="teams,solo" data-types="">
+      <div class="item-row" data-id="p8" data-lifecycle="retention" data-segments="teams,solo" data-types="">
         <div class="item-rank">8</div>
-        <div class="item-name">Sales Reporting Inaccuracies</div>
+        <div class="item-name">Sales Reporting Inaccuracies<span class="status-badge st-not-started">Not Started</span></div>
         <div class="item-sub-score">2</div><div class="item-sub-score">3</div><div class="item-sub-score">3</div>
         <div class="item-score sc-md">18</div>
         <div class="item-trend trend-flat" title="Stable — reported since Oct 2025">&#9654;</div>
@@ -553,9 +659,9 @@
       </div>
 
       <!-- P9: Gift Card Bad Data -->
-      <div class="item-row" data-id="p9" data-segments="solo" data-types="">
+      <div class="item-row" data-id="p9" data-lifecycle="retention" data-segments="solo" data-types="">
         <div class="item-rank">9</div>
-        <div class="item-name">Gift Card Purchase Flow Creates Bad Data</div>
+        <div class="item-name">Gift Card Purchase Flow Creates Bad Data<span class="status-badge st-not-started">Not Started</span></div>
         <div class="item-sub-score">2</div><div class="item-sub-score">2</div><div class="item-sub-score">2</div>
         <div class="item-score sc-lo">8</div>
         <div class="item-trend trend-flat" title="Stable">&#9654;</div>
@@ -583,9 +689,9 @@
       </div>
 
       <!-- P10: Text Tone -->
-      <div class="item-row" data-id="p10" data-segments="solo" data-types="">
+      <div class="item-row" data-id="p10" data-lifecycle="retention" data-segments="solo" data-types="">
         <div class="item-rank">10</div>
-        <div class="item-name">Text Tone Too Casual / Unprofessional</div>
+        <div class="item-name">Text Tone Too Casual / Unprofessional<span class="status-badge st-not-started">Not Started</span></div>
         <div class="item-sub-score">2</div><div class="item-sub-score">2</div><div class="item-sub-score">2</div>
         <div class="item-score sc-lo">8</div>
         <div class="item-trend trend-flat" title="Stable — reported since Oct 2025">&#9654;</div>
@@ -613,9 +719,9 @@
       </div>
 
       <!-- P11: Cancellation Flow -->
-      <div class="item-row" data-id="p11" data-segments="solo" data-types="">
+      <div class="item-row" data-id="p11" data-lifecycle="retention" data-segments="solo" data-types="">
         <div class="item-rank">11</div>
-        <div class="item-name">Subscription Cancellation Flow</div>
+        <div class="item-name">Subscription Cancellation Flow<span class="status-badge st-not-started">Not Started</span></div>
         <div class="item-sub-score">2</div><div class="item-sub-score">2</div><div class="item-sub-score">1</div>
         <div class="item-score sc-lo">4</div>
         <div class="item-trend trend-flat" title="Stable">&#9654;</div>
@@ -642,9 +748,9 @@
       </div>
 
       <!-- P12: Trial Transparency -->
-      <div class="item-row" data-id="p12" data-segments="solo" data-types="quick-win">
+      <div class="item-row" data-id="p12" data-lifecycle="activation" data-segments="solo" data-types="quick-win">
         <div class="item-rank">12</div>
-        <div class="item-name">Trial Plan Transparency</div>
+        <div class="item-name">Trial Plan Transparency<span class="status-badge st-not-started">Not Started</span></div>
         <div class="item-sub-score">2</div><div class="item-sub-score">2</div><div class="item-sub-score">1</div>
         <div class="item-score sc-lo">4</div>
         <div class="item-trend trend-flat" title="Stable">&#9654;</div>
@@ -671,9 +777,9 @@
       </div>
 
       <!-- P13: Year Missing -->
-      <div class="item-row" data-id="p13" data-segments="teams,solo" data-types="quick-win">
+      <div class="item-row" data-id="p13" data-lifecycle="retention" data-segments="teams,solo" data-types="quick-win">
         <div class="item-rank">13</div>
-        <div class="item-name">Year Missing from Appointment Dates</div>
+        <div class="item-name">Year Missing from Appointment Dates<span class="status-badge st-not-started">Not Started</span></div>
         <div class="item-sub-score">1</div><div class="item-sub-score">1</div><div class="item-sub-score">1</div>
         <div class="item-score sc-lo">1</div>
         <div class="item-trend trend-flat" title="Stable">&#9654;</div>
@@ -701,9 +807,9 @@
       </div>
 
       <!-- P14: Legal Structure -->
-      <div class="item-row" data-id="p14" data-segments="solo" data-types="quick-win">
+      <div class="item-row" data-id="p14" data-lifecycle="activation" data-segments="solo" data-types="quick-win">
         <div class="item-rank">14</div>
-        <div class="item-name">Legal Structure Dropdown Confusing</div>
+        <div class="item-name">Legal Structure Dropdown Confusing<span class="status-badge st-not-started">Not Started</span></div>
         <div class="item-sub-score">1</div><div class="item-sub-score">1</div><div class="item-sub-score">1</div>
         <div class="item-score sc-lo">1</div>
         <div class="item-trend trend-flat" title="Stable">&#9654;</div>
@@ -744,12 +850,12 @@
       </div>
 
       <!-- F1: Add-Ons -->
-      <div class="item-row" data-id="f1" data-segments="teams,solo,medspa" data-types="deal-breaker">
+      <div class="item-row" data-id="f1" data-lifecycle="acquisition" data-segments="teams,solo,medspa" data-types="deal-breaker">
         <div class="item-rank">1</div>
-        <div class="item-name">Add-Ons / Service Options</div>
+        <div class="item-name">Add-Ons / Service Options<span class="status-badge st-in-design">In Design</span></div>
         <div class="item-sub-score">5</div><div class="item-sub-score">5</div><div class="item-sub-score">5</div>
         <div class="item-score sc-hi">125</div>
-        <div class="item-trend trend-up" title="Worsening — cited in every competitive loss review">&#9650;</div>
+        <div class="item-trend trend-up" title="Worsening — cited in every competitive loss review | 6 signals this month, 4 prev month">&#9650;</div>
         <div class="item-arrow">&#x203A;</div>
       </div>
       <div class="item-detail" data-id="f1">
@@ -775,12 +881,12 @@
       </div>
 
       <!-- F2: MSMP -->
-      <div class="item-row" data-id="f2" data-segments="teams" data-types="deal-breaker">
+      <div class="item-row" data-id="f2" data-lifecycle="acquisition" data-segments="teams" data-types="deal-breaker">
         <div class="item-rank">2</div>
-        <div class="item-name">Multi-Service / Multi-Provider (MSMP)</div>
+        <div class="item-name">Multi-Service / Multi-Provider (MSMP)<span class="status-badge st-in-design">In Design</span></div>
         <div class="item-sub-score">5</div><div class="item-sub-score">5</div><div class="item-sub-score">5</div>
         <div class="item-score sc-hi">125</div>
-        <div class="item-trend trend-up" title="Worsening — accelerating as GG pushes upmarket">&#9650;</div>
+        <div class="item-trend trend-up" title="Worsening — accelerating as GG pushes upmarket | 5 signals this month, 3 prev month">&#9650;</div>
         <div class="item-arrow">&#x203A;</div>
       </div>
       <div class="item-detail" data-id="f2">
@@ -805,12 +911,12 @@
       </div>
 
       <!-- F3: Commissions -->
-      <div class="item-row" data-id="f3" data-segments="teams" data-types="deal-breaker,churn">
+      <div class="item-row" data-id="f3" data-lifecycle="acquisition" data-segments="teams" data-types="deal-breaker,churn">
         <div class="item-rank">3</div>
-        <div class="item-name">Commissions: Backbar, Parts & Labor, Tiers</div>
+        <div class="item-name">Commissions: Backbar, Parts & Labor, Tiers<span class="status-badge st-not-started">Not Started</span></div>
         <div class="item-sub-score">4</div><div class="item-sub-score">5</div><div class="item-sub-score">5</div>
         <div class="item-score sc-hi">100</div>
-        <div class="item-trend trend-up" title="Worsening — teams churning specifically on this">&#9650;</div>
+        <div class="item-trend trend-up" title="Worsening — teams churning specifically on this | 4 signals this month, 2 prev month">&#9650;</div>
         <div class="item-arrow">&#x203A;</div>
       </div>
       <div class="item-detail" data-id="f3">
@@ -835,12 +941,12 @@
       </div>
 
       <!-- F4: Smart Booking -->
-      <div class="item-row" data-id="f4" data-segments="teams,solo" data-types="deal-breaker">
+      <div class="item-row" data-id="f4" data-lifecycle="acquisition" data-segments="teams,solo" data-types="deal-breaker">
         <div class="item-rank">4</div>
-        <div class="item-name">Smart Booking / Gap Prevention</div>
+        <div class="item-name">Smart Booking / Gap Prevention<span class="status-badge st-not-started">Not Started</span></div>
         <div class="item-sub-score">4</div><div class="item-sub-score">4</div><div class="item-sub-score">4</div>
         <div class="item-score sc-mh">64</div>
-        <div class="item-trend trend-up" title="Worsening — raised 3x in one week by one AE">&#9650;</div>
+        <div class="item-trend trend-up" title="Worsening — raised 3x in one week by one AE | 3 signals this month, 2 prev month">&#9650;</div>
         <div class="item-arrow">&#x203A;</div>
       </div>
       <div class="item-detail" data-id="f4">
@@ -865,9 +971,9 @@
       </div>
 
       <!-- F5: Check-In -->
-      <div class="item-row" data-id="f5" data-segments="teams" data-types="deal-breaker">
+      <div class="item-row" data-id="f5" data-lifecycle="acquisition" data-segments="teams" data-types="deal-breaker">
         <div class="item-rank">5</div>
-        <div class="item-name">Client Check-In Status</div>
+        <div class="item-name">Client Check-In Status<span class="status-badge st-not-started">Not Started</span></div>
         <div class="item-sub-score">3</div><div class="item-sub-score">4</div><div class="item-sub-score">4</div>
         <div class="item-score sc-mh">48</div>
         <div class="item-trend trend-flat" title="Stable — consistent ask from large teams">&#9654;</div>
@@ -895,9 +1001,9 @@
       </div>
 
       <!-- F6: Custom Domains -->
-      <div class="item-row" data-id="f6" data-segments="solo" data-types="">
+      <div class="item-row" data-id="f6" data-lifecycle="retention" data-segments="solo" data-types="">
         <div class="item-rank">6</div>
-        <div class="item-name">Custom Domain Names</div>
+        <div class="item-name">Custom Domain Names<span class="status-badge st-not-started">Not Started</span></div>
         <div class="item-sub-score">3</div><div class="item-sub-score">3</div><div class="item-sub-score">3</div>
         <div class="item-score sc-md">27</div>
         <div class="item-trend trend-flat" title="Stable">&#9654;</div>
@@ -925,9 +1031,9 @@
       </div>
 
       <!-- F7: Audit Trail -->
-      <div class="item-row" data-id="f7" data-segments="teams" data-types="deal-breaker">
+      <div class="item-row" data-id="f7" data-lifecycle="acquisition" data-segments="teams" data-types="deal-breaker">
         <div class="item-rank">7</div>
-        <div class="item-name">Scheduling Audit Trail</div>
+        <div class="item-name">Scheduling Audit Trail<span class="status-badge st-not-started">Not Started</span></div>
         <div class="item-sub-score">2</div><div class="item-sub-score">4</div><div class="item-sub-score">4</div>
         <div class="item-score sc-md">32</div>
         <div class="item-trend trend-flat" title="Stable">&#9654;</div>
@@ -955,9 +1061,9 @@
       </div>
 
       <!-- F8: Level Tiering -->
-      <div class="item-row" data-id="f8" data-segments="teams" data-types="deal-breaker">
+      <div class="item-row" data-id="f8" data-lifecycle="acquisition" data-segments="teams" data-types="deal-breaker">
         <div class="item-rank">8</div>
-        <div class="item-name">Level Stylist / Service Tiering</div>
+        <div class="item-name">Level Stylist / Service Tiering<span class="status-badge st-not-started">Not Started</span></div>
         <div class="item-sub-score">2</div><div class="item-sub-score">4</div><div class="item-sub-score">3</div>
         <div class="item-score sc-md">24</div>
         <div class="item-trend trend-flat" title="Stable">&#9654;</div>
@@ -984,9 +1090,9 @@
       </div>
 
       <!-- F9: Multi-Language -->
-      <div class="item-row" data-id="f9" data-segments="solo" data-types="deal-breaker">
+      <div class="item-row" data-id="f9" data-lifecycle="acquisition" data-segments="solo" data-types="deal-breaker">
         <div class="item-rank">9</div>
-        <div class="item-name">Multi-Language Support (Spanish)</div>
+        <div class="item-name">Multi-Language Support (Spanish)<span class="status-badge st-not-started">Not Started</span></div>
         <div class="item-sub-score">2</div><div class="item-sub-score">5</div><div class="item-sub-score">3</div>
         <div class="item-score sc-md">30</div>
         <div class="item-trend trend-up" title="Worsening — firm deal breaker, growing demand">&#9650;</div>
@@ -1014,9 +1120,9 @@
       </div>
 
       <!-- F10: GC Balance -->
-      <div class="item-row" data-id="f10" data-segments="teams,solo" data-types="deal-breaker">
+      <div class="item-row" data-id="f10" data-lifecycle="acquisition" data-segments="teams,solo" data-types="deal-breaker">
         <div class="item-rank">10</div>
-        <div class="item-name">Gift Card Balance Transfers</div>
+        <div class="item-name">Gift Card Balance Transfers<span class="status-badge st-not-started">Not Started</span></div>
         <div class="item-sub-score">2</div><div class="item-sub-score">4</div><div class="item-sub-score">3</div>
         <div class="item-score sc-md">24</div>
         <div class="item-trend trend-flat" title="Stable — persistent migration blocker">&#9654;</div>
@@ -1043,9 +1149,9 @@
       </div>
 
       <!-- F11: 2-Way Texting -->
-      <div class="item-row" data-id="f11" data-segments="teams" data-types="">
+      <div class="item-row" data-id="f11" data-lifecycle="expansion" data-segments="teams" data-types="">
         <div class="item-rank">11</div>
-        <div class="item-name">2-Way Texting</div>
+        <div class="item-name">2-Way Texting<span class="status-badge st-not-started">Not Started</span></div>
         <div class="item-sub-score">2</div><div class="item-sub-score">3</div><div class="item-sub-score">3</div>
         <div class="item-score sc-md">18</div>
         <div class="item-trend trend-flat" title="Stable">&#9654;</div>
@@ -1072,9 +1178,9 @@
       </div>
 
       <!-- F12: Per-Service Tax Control (NEW Apr 21) -->
-      <div class="item-row" data-id="f12" data-segments="teams,solo" data-types="deal-breaker" style="border-left:3px solid var(--pink);">
+      <div class="item-row" data-id="f12" data-lifecycle="acquisition" data-segments="teams,solo" data-types="deal-breaker" style="border-left:3px solid var(--pink);">
         <div class="item-rank" style="background:var(--pink);color:#fff;">N</div>
-        <div class="item-name">Per-Service Tax Control at Checkout</div>
+        <div class="item-name">Per-Service Tax Control at Checkout<span class="status-badge st-not-started">Not Started</span></div>
         <div class="item-sub-score">1</div><div class="item-sub-score">5</div><div class="item-sub-score">3</div>
         <div class="item-score sc-md">15</div>
         <div class="item-trend trend-new" title="New signal — Apr 20, 2026">&#9733;</div>
@@ -1102,9 +1208,9 @@
       </div>
 
       <!-- F13: SOAP Notes (was F12) -->
-      <div class="item-row" data-id="f13" data-segments="medspa" data-types="">
+      <div class="item-row" data-id="f13" data-lifecycle="expansion" data-segments="medspa" data-types="">
         <div class="item-rank">13</div>
-        <div class="item-name">SOAP Notes</div>
+        <div class="item-name">SOAP Notes<span class="status-badge st-in-design">In Design</span></div>
         <div class="item-sub-score">2</div><div class="item-sub-score">3</div><div class="item-sub-score">3</div>
         <div class="item-score sc-md">18</div>
         <div class="item-trend trend-up" title="Growing — medspa vertical expanding">&#9650;</div>
@@ -1131,9 +1237,9 @@
       </div>
 
       <!-- F14: Provider Links -->
-      <div class="item-row" data-id="f14" data-segments="teams" data-types="">
+      <div class="item-row" data-id="f14" data-lifecycle="expansion" data-segments="teams" data-types="">
         <div class="item-rank">14</div>
-        <div class="item-name">Provider-Specific Booking Links</div>
+        <div class="item-name">Provider-Specific Booking Links<span class="status-badge st-not-started">Not Started</span></div>
         <div class="item-sub-score">2</div><div class="item-sub-score">2</div><div class="item-sub-score">2</div>
         <div class="item-score sc-lo">8</div>
         <div class="item-trend trend-flat" title="Stable">&#9654;</div>
@@ -1160,9 +1266,9 @@
       </div>
 
       <!-- F15: Outside Payments -->
-      <div class="item-row" data-id="f15" data-segments="solo" data-types="">
+      <div class="item-row" data-id="f15" data-lifecycle="retention" data-segments="solo" data-types="">
         <div class="item-rank">15</div>
-        <div class="item-name">Outside Payment Method Tracking</div>
+        <div class="item-name">Outside Payment Method Tracking<span class="status-badge st-not-started">Not Started</span></div>
         <div class="item-sub-score">2</div><div class="item-sub-score">2</div><div class="item-sub-score">2</div>
         <div class="item-score sc-lo">8</div>
         <div class="item-trend trend-flat" title="Stable">&#9654;</div>
@@ -1189,9 +1295,9 @@
       </div>
 
       <!-- F16: Client Time Memory -->
-      <div class="item-row" data-id="f16" data-segments="solo" data-types="">
+      <div class="item-row" data-id="f16" data-lifecycle="retention" data-segments="solo" data-types="">
         <div class="item-rank">16</div>
-        <div class="item-name">Client-Specific Service Time Memory</div>
+        <div class="item-name">Client-Specific Service Time Memory<span class="status-badge st-not-started">Not Started</span></div>
         <div class="item-sub-score">1</div><div class="item-sub-score">1</div><div class="item-sub-score">2</div>
         <div class="item-score sc-lo">2</div>
         <div class="item-trend trend-new" title="New signal — Apr 2026">&#9733;</div>
@@ -1219,9 +1325,9 @@
       </div>
 
       <!-- F17: Bulk Profiles -->
-      <div class="item-row" data-id="f17" data-segments="teams" data-types="quick-win">
+      <div class="item-row" data-id="f17" data-lifecycle="retention" data-segments="teams" data-types="quick-win">
         <div class="item-rank">17</div>
-        <div class="item-name">Bulk Client Profile Management</div>
+        <div class="item-name">Bulk Client Profile Management<span class="status-badge st-not-started">Not Started</span></div>
         <div class="item-sub-score">1</div><div class="item-sub-score">1</div><div class="item-sub-score">1</div>
         <div class="item-score sc-lo">1</div>
         <div class="item-trend trend-flat" title="Stable">&#9654;</div>
@@ -1262,9 +1368,9 @@
       </div>
 
       <!-- E1: Migration -->
-      <div class="item-row" data-id="e1" data-segments="teams,solo" data-types="deal-breaker">
+      <div class="item-row" data-id="e1" data-lifecycle="acquisition" data-segments="teams,solo" data-types="deal-breaker">
         <div class="item-rank">1</div>
-        <div class="item-name">Seamless Data Migration Experience</div>
+        <div class="item-name">Seamless Data Migration Experience<span class="status-badge st-not-started">Not Started</span></div>
         <div class="item-sub-score">4</div><div class="item-sub-score">5</div><div class="item-sub-score">4</div>
         <div class="item-score sc-mh">80</div>
         <div class="item-trend trend-up" title="Worsening — as GG targets switchers, this blocks more deals">&#9650;</div>
@@ -1292,9 +1398,9 @@
       </div>
 
       <!-- E2: Gift Card Experience -->
-      <div class="item-row" data-id="e2" data-segments="solo" data-types="">
+      <div class="item-row" data-id="e2" data-lifecycle="expansion" data-segments="solo" data-types="">
         <div class="item-rank">2</div>
-        <div class="item-name">Gift Card "Real Gift" Experience</div>
+        <div class="item-name">Gift Card "Real Gift" Experience<span class="status-badge st-not-started">Not Started</span></div>
         <div class="item-sub-score">3</div><div class="item-sub-score">3</div><div class="item-sub-score">3</div>
         <div class="item-score sc-md">27</div>
         <div class="item-trend trend-flat" title="Stable">&#9654;</div>
@@ -1322,9 +1428,9 @@
       </div>
 
       <!-- E3: Self-Service Checkout -->
-      <div class="item-row" data-id="e3" data-segments="teams,medspa" data-types="deal-breaker">
+      <div class="item-row" data-id="e3" data-lifecycle="acquisition" data-segments="teams,medspa" data-types="deal-breaker">
         <div class="item-rank">3</div>
-        <div class="item-name">Self-Service Checkout (Pre-Pay + Tip)</div>
+        <div class="item-name">Self-Service Checkout (Pre-Pay + Tip)<span class="status-badge st-not-started">Not Started</span></div>
         <div class="item-sub-score">3</div><div class="item-sub-score">4</div><div class="item-sub-score">4</div>
         <div class="item-score sc-mh">48</div>
         <div class="item-trend trend-flat" title="Stable — consistent spa segment ask">&#9654;</div>
@@ -1352,9 +1458,9 @@
       </div>
 
       <!-- E4: SMS Customization -->
-      <div class="item-row" data-id="e4" data-segments="solo" data-types="">
+      <div class="item-row" data-id="e4" data-lifecycle="retention" data-segments="solo" data-types="">
         <div class="item-rank">4</div>
-        <div class="item-name">SMS / Text Customization</div>
+        <div class="item-name">SMS / Text Customization<span class="status-badge st-not-started">Not Started</span></div>
         <div class="item-sub-score">2</div><div class="item-sub-score">2</div><div class="item-sub-score">2</div>
         <div class="item-score sc-lo">8</div>
         <div class="item-trend trend-flat" title="Stable">&#9654;</div>
@@ -1381,9 +1487,9 @@
       </div>
 
       <!-- E5: Forms from Profile -->
-      <div class="item-row" data-id="e5" data-segments="medspa" data-types="">
+      <div class="item-row" data-id="e5" data-lifecycle="retention" data-segments="medspa" data-types="">
         <div class="item-rank">5</div>
-        <div class="item-name">Forms Fillable from Client Profile</div>
+        <div class="item-name">Forms Fillable from Client Profile<span class="status-badge st-not-started">Not Started</span></div>
         <div class="item-sub-score">2</div><div class="item-sub-score">3</div><div class="item-sub-score">3</div>
         <div class="item-score sc-md">18</div>
         <div class="item-trend trend-flat" title="Stable">&#9654;</div>
@@ -1411,9 +1517,9 @@
       </div>
 
       <!-- E6-E12: Remaining experiences -->
-      <div class="item-row" data-id="e6" data-segments="medspa" data-types="">
+      <div class="item-row" data-id="e6" data-lifecycle="retention" data-segments="medspa" data-types="">
         <div class="item-rank">6</div>
-        <div class="item-name">Post-Care Instructions Auto-Send</div>
+        <div class="item-name">Post-Care Instructions Auto-Send<span class="status-badge st-not-started">Not Started</span></div>
         <div class="item-sub-score">2</div><div class="item-sub-score">2</div><div class="item-sub-score">2</div>
         <div class="item-score sc-lo">8</div>
         <div class="item-trend trend-flat">&#9654;</div>
@@ -1431,9 +1537,9 @@
         </div>
       </div>
 
-      <div class="item-row" data-id="e7" data-segments="solo" data-types="">
+      <div class="item-row" data-id="e7" data-lifecycle="retention" data-segments="solo" data-types="">
         <div class="item-rank">7</div>
-        <div class="item-name">Seamless Rebooking Flow</div>
+        <div class="item-name">Seamless Rebooking Flow<span class="status-badge st-not-started">Not Started</span></div>
         <div class="item-sub-score">2</div><div class="item-sub-score">2</div><div class="item-sub-score">2</div>
         <div class="item-score sc-lo">8</div>
         <div class="item-trend trend-flat">&#9654;</div>
@@ -1446,9 +1552,9 @@
         </div>
       </div>
 
-      <div class="item-row" data-id="e8" data-segments="teams" data-types="">
+      <div class="item-row" data-id="e8" data-lifecycle="retention" data-segments="teams" data-types="">
         <div class="item-rank">8</div>
-        <div class="item-name">Working Hours Only Calendar View</div>
+        <div class="item-name">Working Hours Only Calendar View<span class="status-badge st-not-started">Not Started</span></div>
         <div class="item-sub-score">2</div><div class="item-sub-score">2</div><div class="item-sub-score">2</div>
         <div class="item-score sc-lo">8</div>
         <div class="item-trend trend-new" title="New — Apr 2026">&#9733;</div>
@@ -1463,8 +1569,8 @@
         </div>
       </div>
 
-      <div class="item-row" data-id="e9" data-segments="solo" data-types="">
-        <div class="item-rank">9</div><div class="item-name">Multi-Platform Review Options</div>
+      <div class="item-row" data-id="e9" data-lifecycle="expansion" data-segments="solo" data-types="">
+        <div class="item-rank">9</div><div class="item-name">Multi-Platform Review Options<span class="status-badge st-not-started">Not Started</span></div>
         <div class="item-sub-score">1</div><div class="item-sub-score">1</div><div class="item-sub-score">2</div>
         <div class="item-score sc-lo">2</div><div class="item-trend trend-flat">&#9654;</div><div class="item-arrow">&#x203A;</div>
       </div>
@@ -1475,8 +1581,8 @@
         </div>
       </div>
 
-      <div class="item-row" data-id="e10" data-segments="solo" data-types="">
-        <div class="item-rank">10</div><div class="item-name">Package Notifications for Sales</div>
+      <div class="item-row" data-id="e10" data-lifecycle="retention" data-segments="solo" data-types="">
+        <div class="item-rank">10</div><div class="item-name">Package Notifications for Sales<span class="status-badge st-not-started">Not Started</span></div>
         <div class="item-sub-score">1</div><div class="item-sub-score">1</div><div class="item-sub-score">1</div>
         <div class="item-score sc-lo">1</div><div class="item-trend trend-flat">&#9654;</div><div class="item-arrow">&#x203A;</div>
       </div>
@@ -1487,8 +1593,8 @@
         </div>
       </div>
 
-      <div class="item-row" data-id="e11" data-segments="solo" data-types="">
-        <div class="item-rank">11</div><div class="item-name">Service Display Customization</div>
+      <div class="item-row" data-id="e11" data-lifecycle="retention" data-segments="solo" data-types="">
+        <div class="item-rank">11</div><div class="item-name">Service Display Customization<span class="status-badge st-not-started">Not Started</span></div>
         <div class="item-sub-score">1</div><div class="item-sub-score">1</div><div class="item-sub-score">1</div>
         <div class="item-score sc-lo">1</div><div class="item-trend trend-flat">&#9654;</div><div class="item-arrow">&#x203A;</div>
       </div>
@@ -1499,8 +1605,8 @@
         </div>
       </div>
 
-      <div class="item-row" data-id="e12" data-segments="solo" data-types="">
-        <div class="item-rank">12</div><div class="item-name">Inventory "Gifted Product" Tracking</div>
+      <div class="item-row" data-id="e12" data-lifecycle="retention" data-segments="solo" data-types="">
+        <div class="item-rank">12</div><div class="item-name">Inventory "Gifted Product" Tracking<span class="status-badge st-not-started">Not Started</span></div>
         <div class="item-sub-score">1</div><div class="item-sub-score">1</div><div class="item-sub-score">1</div>
         <div class="item-score sc-lo">1</div><div class="item-trend trend-flat">&#9654;</div><div class="item-arrow">&#x203A;</div>
       </div>
@@ -1514,6 +1620,242 @@
     </div>
   </div>
 
+  <!-- ── TAB 4: SIGNAL HEAT MAP ── -->
+  <div class="cat-section" id="heatmap">
+    <div class="panel">
+      <div class="panel-hd">
+        <div><div class="panel-t">Feature Request Signal Heat Map</div><div class="panel-sub">Cross-source signal intensity — where the same request surfaces across multiple channels</div></div>
+      </div>
+      <div class="heatmap-intro">Each cell shows signal intensity (0-5) from that source. Features that light up across multiple sources are stronger candidates for prioritization than those driven by a single loud voice. The <strong>Agg</strong> column is a weighted composite: Slack VOC &times; 1.0 + Slack CX &times; 1.0 + Sales/AE &times; 1.5 + Competitive &times; 1.2 + Dixa/Tickets &times; 0.8 + Community &times; 0.5.</div>
+
+      <table class="heatmap-table">
+        <tr>
+          <th>Feature / Signal</th>
+          <th title="Slack #voiceofthecustomer + #cx-voice-of-customer">Slack VOC</th>
+          <th title="Slack #customer-experience">Slack CX</th>
+          <th title="AE objections and sales channel feedback">Sales/AE</th>
+          <th title="Competitors who have this feature">Competitive</th>
+          <th title="Dixa tickets and support volume">Dixa/Tickets</th>
+          <th title="Facebook community + Typeform requests">Community</th>
+          <th title="Weighted aggregate score">Agg</th>
+        </tr>
+        <tr data-hm-segments="teams,solo,medspa" data-hm-types="deal-breaker" data-hm-lifecycle="acquisition">
+          <td>Add-Ons / Service Options</td>
+          <td><span class="hm-cell hm-5">5</span></td>
+          <td><span class="hm-cell hm-4">4</span></td>
+          <td><span class="hm-cell hm-5">5</span></td>
+          <td><span class="hm-cell hm-5">5</span></td>
+          <td><span class="hm-cell hm-3">3</span></td>
+          <td><span class="hm-cell hm-4">4</span></td>
+          <td><span class="hm-agg hm-agg-hi">28.9</span></td>
+        </tr>
+        <tr data-hm-segments="teams" data-hm-types="deal-breaker" data-hm-lifecycle="acquisition">
+          <td>MSMP / Split Tickets</td>
+          <td><span class="hm-cell hm-5">5</span></td>
+          <td><span class="hm-cell hm-4">4</span></td>
+          <td><span class="hm-cell hm-5">5</span></td>
+          <td><span class="hm-cell hm-5">5</span></td>
+          <td><span class="hm-cell hm-2">2</span></td>
+          <td><span class="hm-cell hm-3">3</span></td>
+          <td><span class="hm-agg hm-agg-hi">27.1</span></td>
+        </tr>
+        <tr data-hm-segments="teams" data-hm-types="deal-breaker,churn" data-hm-lifecycle="acquisition">
+          <td>Commissions (Backbar/Tiers)</td>
+          <td><span class="hm-cell hm-4">4</span></td>
+          <td><span class="hm-cell hm-4">4</span></td>
+          <td><span class="hm-cell hm-5">5</span></td>
+          <td><span class="hm-cell hm-4">4</span></td>
+          <td><span class="hm-cell hm-3">3</span></td>
+          <td><span class="hm-cell hm-3">3</span></td>
+          <td><span class="hm-agg hm-agg-hi">25.7</span></td>
+        </tr>
+        <tr data-hm-segments="teams,solo" data-hm-types="deal-breaker" data-hm-lifecycle="acquisition">
+          <td>Smart Booking / Gap Prevention</td>
+          <td><span class="hm-cell hm-4">4</span></td>
+          <td><span class="hm-cell hm-3">3</span></td>
+          <td><span class="hm-cell hm-4">4</span></td>
+          <td><span class="hm-cell hm-4">4</span></td>
+          <td><span class="hm-cell hm-2">2</span></td>
+          <td><span class="hm-cell hm-3">3</span></td>
+          <td><span class="hm-agg hm-agg-mh">22.4</span></td>
+        </tr>
+        <tr data-hm-segments="teams,solo" data-hm-types="churn,deal-breaker" data-hm-lifecycle="activation">
+          <td>Card Reader Reliability</td>
+          <td><span class="hm-cell hm-5">5</span></td>
+          <td><span class="hm-cell hm-5">5</span></td>
+          <td><span class="hm-cell hm-3">3</span></td>
+          <td><span class="hm-cell hm-3">3</span></td>
+          <td><span class="hm-cell hm-5">5</span></td>
+          <td><span class="hm-cell hm-2">2</span></td>
+          <td><span class="hm-agg hm-agg-hi">25.1</span></td>
+        </tr>
+        <tr data-hm-segments="teams,solo" data-hm-types="churn" data-hm-lifecycle="activation">
+          <td>Payout Delays / Account Pauses</td>
+          <td><span class="hm-cell hm-4">4</span></td>
+          <td><span class="hm-cell hm-4">4</span></td>
+          <td><span class="hm-cell hm-2">2</span></td>
+          <td><span class="hm-cell hm-1">1</span></td>
+          <td><span class="hm-cell hm-5">5</span></td>
+          <td><span class="hm-cell hm-3">3</span></td>
+          <td><span class="hm-agg hm-agg-mh">20.7</span></td>
+        </tr>
+        <tr data-hm-segments="teams" data-hm-types="deal-breaker" data-hm-lifecycle="acquisition">
+          <td>Client Check-In Status</td>
+          <td><span class="hm-cell hm-3">3</span></td>
+          <td><span class="hm-cell hm-3">3</span></td>
+          <td><span class="hm-cell hm-4">4</span></td>
+          <td><span class="hm-cell hm-4">4</span></td>
+          <td><span class="hm-cell hm-1">1</span></td>
+          <td><span class="hm-cell hm-2">2</span></td>
+          <td><span class="hm-agg hm-agg-mh">20.6</span></td>
+        </tr>
+        <tr data-hm-segments="teams,solo" data-hm-types="deal-breaker" data-hm-lifecycle="acquisition">
+          <td>Seamless Data Migration</td>
+          <td><span class="hm-cell hm-4">4</span></td>
+          <td><span class="hm-cell hm-3">3</span></td>
+          <td><span class="hm-cell hm-5">5</span></td>
+          <td><span class="hm-cell hm-2">2</span></td>
+          <td><span class="hm-cell hm-2">2</span></td>
+          <td><span class="hm-cell hm-2">2</span></td>
+          <td><span class="hm-agg hm-agg-mh">21.5</span></td>
+        </tr>
+        <tr data-hm-segments="teams,medspa" data-hm-types="deal-breaker" data-hm-lifecycle="acquisition">
+          <td>Self-Service Checkout (Pre-Pay)</td>
+          <td><span class="hm-cell hm-3">3</span></td>
+          <td><span class="hm-cell hm-2">2</span></td>
+          <td><span class="hm-cell hm-4">4</span></td>
+          <td><span class="hm-cell hm-4">4</span></td>
+          <td><span class="hm-cell hm-1">1</span></td>
+          <td><span class="hm-cell hm-1">1</span></td>
+          <td><span class="hm-agg hm-agg-md">18.6</span></td>
+        </tr>
+        <tr data-hm-segments="teams" data-hm-types="churn" data-hm-lifecycle="retention">
+          <td>Commission Report Confusion</td>
+          <td><span class="hm-cell hm-3">3</span></td>
+          <td><span class="hm-cell hm-3">3</span></td>
+          <td><span class="hm-cell hm-3">3</span></td>
+          <td><span class="hm-cell hm-1">1</span></td>
+          <td><span class="hm-cell hm-3">3</span></td>
+          <td><span class="hm-cell hm-3">3</span></td>
+          <td><span class="hm-agg hm-agg-md">18.2</span></td>
+        </tr>
+        <tr data-hm-segments="solo" data-hm-types="deal-breaker" data-hm-lifecycle="acquisition">
+          <td>Multi-Language (Spanish)</td>
+          <td><span class="hm-cell hm-2">2</span></td>
+          <td><span class="hm-cell hm-2">2</span></td>
+          <td><span class="hm-cell hm-4">4</span></td>
+          <td><span class="hm-cell hm-2">2</span></td>
+          <td><span class="hm-cell hm-2">2</span></td>
+          <td><span class="hm-cell hm-3">3</span></td>
+          <td><span class="hm-agg hm-agg-md">17.5</span></td>
+        </tr>
+        <tr data-hm-segments="solo" data-hm-types="" data-hm-lifecycle="retention">
+          <td>Custom Domain Names</td>
+          <td><span class="hm-cell hm-3">3</span></td>
+          <td><span class="hm-cell hm-2">2</span></td>
+          <td><span class="hm-cell hm-3">3</span></td>
+          <td><span class="hm-cell hm-2">2</span></td>
+          <td><span class="hm-cell hm-1">1</span></td>
+          <td><span class="hm-cell hm-3">3</span></td>
+          <td><span class="hm-agg hm-agg-md">16.4</span></td>
+        </tr>
+        <tr data-hm-segments="teams" data-hm-types="deal-breaker" data-hm-lifecycle="acquisition">
+          <td>Scheduling Audit Trail</td>
+          <td><span class="hm-cell hm-2">2</span></td>
+          <td><span class="hm-cell hm-2">2</span></td>
+          <td><span class="hm-cell hm-3">3</span></td>
+          <td><span class="hm-cell hm-3">3</span></td>
+          <td><span class="hm-cell hm-1">1</span></td>
+          <td><span class="hm-cell hm-1">1</span></td>
+          <td><span class="hm-agg hm-agg-md">14.6</span></td>
+        </tr>
+        <tr data-hm-segments="teams,solo" data-hm-types="deal-breaker" data-hm-lifecycle="acquisition">
+          <td>Gift Card Balance Transfers</td>
+          <td><span class="hm-cell hm-2">2</span></td>
+          <td><span class="hm-cell hm-2">2</span></td>
+          <td><span class="hm-cell hm-4">4</span></td>
+          <td><span class="hm-cell hm-1">1</span></td>
+          <td><span class="hm-cell hm-2">2</span></td>
+          <td><span class="hm-cell hm-2">2</span></td>
+          <td><span class="hm-agg hm-agg-md">16.8</span></td>
+        </tr>
+        <tr data-hm-segments="teams" data-hm-types="deal-breaker" data-hm-lifecycle="acquisition">
+          <td>Level Stylist / Service Tiering</td>
+          <td><span class="hm-cell hm-2">2</span></td>
+          <td><span class="hm-cell hm-2">2</span></td>
+          <td><span class="hm-cell hm-3">3</span></td>
+          <td><span class="hm-cell hm-3">3</span></td>
+          <td><span class="hm-cell hm-1">1</span></td>
+          <td><span class="hm-cell hm-1">1</span></td>
+          <td><span class="hm-agg hm-agg-md">14.6</span></td>
+        </tr>
+        <tr data-hm-segments="medspa" data-hm-types="" data-hm-lifecycle="expansion">
+          <td>SOAP Notes</td>
+          <td><span class="hm-cell hm-2">2</span></td>
+          <td><span class="hm-cell hm-2">2</span></td>
+          <td><span class="hm-cell hm-2">2</span></td>
+          <td><span class="hm-cell hm-3">3</span></td>
+          <td><span class="hm-cell hm-2">2</span></td>
+          <td><span class="hm-cell hm-2">2</span></td>
+          <td><span class="hm-agg hm-agg-md">14.2</span></td>
+        </tr>
+        <tr data-hm-segments="teams,solo" data-hm-types="deal-breaker" data-hm-lifecycle="acquisition">
+          <td>Per-Service Tax Control</td>
+          <td><span class="hm-cell hm-1">1</span></td>
+          <td><span class="hm-cell hm-1">1</span></td>
+          <td><span class="hm-cell hm-3">3</span></td>
+          <td><span class="hm-cell hm-2">2</span></td>
+          <td><span class="hm-cell hm-1">1</span></td>
+          <td><span class="hm-cell hm-1">1</span></td>
+          <td><span class="hm-agg hm-agg-lo">10.4</span></td>
+        </tr>
+        <tr data-hm-segments="teams" data-hm-types="" data-hm-lifecycle="expansion">
+          <td>2-Way Texting</td>
+          <td><span class="hm-cell hm-2">2</span></td>
+          <td><span class="hm-cell hm-2">2</span></td>
+          <td><span class="hm-cell hm-2">2</span></td>
+          <td><span class="hm-cell hm-2">2</span></td>
+          <td><span class="hm-cell hm-1">1</span></td>
+          <td><span class="hm-cell hm-2">2</span></td>
+          <td><span class="hm-agg hm-agg-md">12.2</span></td>
+        </tr>
+        <tr data-hm-segments="teams,solo" data-hm-types="deal-breaker" data-hm-lifecycle="acquisition">
+          <td>Calendar Clutter (Multi-Service)</td>
+          <td><span class="hm-cell hm-3">3</span></td>
+          <td><span class="hm-cell hm-2">2</span></td>
+          <td><span class="hm-cell hm-2">2</span></td>
+          <td><span class="hm-cell hm-1">1</span></td>
+          <td><span class="hm-cell hm-2">2</span></td>
+          <td><span class="hm-cell hm-2">2</span></td>
+          <td><span class="hm-agg hm-agg-md">12.8</span></td>
+        </tr>
+        <tr data-hm-segments="solo" data-hm-types="churn" data-hm-lifecycle="retention">
+          <td>AI/UX Change Disruption</td>
+          <td><span class="hm-cell hm-3">3</span></td>
+          <td><span class="hm-cell hm-3">3</span></td>
+          <td><span class="hm-cell hm-1">1</span></td>
+          <td><span class="hm-cell hm-1">1</span></td>
+          <td><span class="hm-cell hm-2">2</span></td>
+          <td><span class="hm-cell hm-3">3</span></td>
+          <td><span class="hm-agg hm-agg-md">13.3</span></td>
+        </tr>
+      </table>
+
+      <div class="hm-legend">
+        <div class="hm-legend-item"><div class="hm-legend-swatch" style="background:rgba(255,77,106,.35)"></div>5 = Critical</div>
+        <div class="hm-legend-item"><div class="hm-legend-swatch" style="background:rgba(255,140,66,.3)"></div>4 = High</div>
+        <div class="hm-legend-item"><div class="hm-legend-swatch" style="background:rgba(255,197,61,.25)"></div>3 = Moderate</div>
+        <div class="hm-legend-item"><div class="hm-legend-swatch" style="background:rgba(56,189,248,.15)"></div>2 = Low</div>
+        <div class="hm-legend-item"><div class="hm-legend-swatch" style="background:rgba(104,104,128,.15)"></div>1 = Minimal</div>
+        <div class="hm-legend-item"><span style="color:var(--faint);">0 = No signal</span></div>
+      </div>
+      <div class="hm-source-note">
+        <strong>Source weighting:</strong> Sales/AE objections weighted 1.5&times; (closest to revenue), Competitive pressure 1.2&times; (market urgency), Slack VOC &amp; CX 1.0&times; (baseline), Dixa tickets 0.8&times; (high volume but lower signal density), Community/Typeform 0.5&times; (self-selected, lower reliability). Scores range 0-30. Features scoring 20+ across 4+ sources are strong cross-validated priorities.<br>
+        <strong>Key insight:</strong> Add-Ons, MSMP, and Commissions are the only three features that hit 4+ intensity across <em>every</em> source — confirming the "Teams Gap" cluster is the single highest-priority investment.
+      </div>
+    </div>
+  </div>
+
 </div>
 
 <!-- RIGHT SIDEBAR -->
@@ -1524,7 +1866,7 @@
     <div class="panel-hd"><div class="panel-t">Scoring Methodology</div></div>
     <div class="method-box">
       <h5>Priority Score Formula</h5>
-      <div class="method-row"><span class="method-label">Formula</span><span class="method-val" style="color:var(--accent2);font-family:monospace;font-size:10px;">FRQ × CHR × REV</span></div>
+      <div class="method-row"><span class="method-label">Formula</span><span class="method-val" style="color:var(--accent2);font-family:monospace;font-size:11px;">FRQ × CHR × REV</span></div>
       <div class="method-row"><span class="method-label">FRQ (Frequency)</span><span class="method-val">Mention count: 1=1-2, 2=3-5, 3=6-12, 4=13-20, 5=21+</span></div>
       <div class="method-row"><span class="method-label">CHR (Churn Signal)</span><span class="method-val">1=none, 2=frustration, 3=threat, 4=canceled, 5=multiple cancels</span></div>
       <div class="method-row"><span class="method-label">REV (Revenue Impact)</span><span class="method-val">1=none, 2=&lt;$10K, 3=$10-50K, 4=$50-100K, 5=$100K+ GPV/mo</span></div>
@@ -1555,16 +1897,17 @@
         <tr><td>Self-checkout</td><td class="mx-ok">—</td><td class="mx-lost">1 lost</td><td class="mx-gap">gap</td><td class="mx-ok">—</td><td class="mx-ok">—</td></tr>
         <tr><td>Card reader</td><td class="mx-risk">risk</td><td class="mx-ok">—</td><td class="mx-ok">—</td><td class="mx-ok">—</td><td class="mx-lost">3 lost</td></tr>
         <tr><td>Audit trail</td><td class="mx-gap">gap</td><td class="mx-ok">—</td><td class="mx-ok">—</td><td class="mx-gap">gap</td><td class="mx-ok">—</td></tr>
+        <tr style="border-top:2px solid var(--border);"><td style="color:var(--accent2);font-style:italic;">Est. Price/mo</td><td style="color:var(--faint);">$25-85</td><td style="color:var(--faint);">$165-375</td><td style="color:var(--faint);">$175-410</td><td style="color:var(--faint);">$139-399</td><td style="color:var(--faint);">$30-90</td></tr>
       </table>
     </div>
-    <div style="font-size:9px;color:var(--faint);margin-top:6px;"><span class="mx-lost">lost</span> = confirmed deal lost to competitor | <span class="mx-risk">risk</span> = active churn threat | <span class="mx-gap">gap</span> = competitor has it, no confirmed loss yet</div>
+    <div style="font-size:11px;color:var(--faint);margin-top:6px;"><span class="mx-lost">lost</span> = confirmed deal lost to competitor | <span class="mx-risk">risk</span> = active churn threat | <span class="mx-gap">gap</span> = competitor has it, no confirmed loss yet</div>
   </div>
 
   <div class="r-divider"></div>
 
   <!-- Segments (clickable) -->
   <div class="panel">
-    <div class="panel-hd"><div class="panel-t">Pain by Segment</div><div class="panel-sub" style="font-size:9px;color:var(--accent2);">Click to filter</div></div>
+    <div class="panel-hd"><div class="panel-t">Pain by Segment</div><div class="panel-sub" style="font-size:11px;color:var(--accent2);">Click to filter</div></div>
     <div class="seg-grid">
       <div class="seg-col">
         <h4 class="th" data-seg-filter="teams">Teams (10+)</h4>
@@ -1646,8 +1989,22 @@
       <p><strong>Bi-weekly refresh recommended</strong> (every other Monday). Each refresh: re-scan channels for new signals, update frequency counts, re-score items where evidence changed, flag newly trending items.</p>
       <p><strong>Quarterly deep dive:</strong> Cross-reference with Dixa ticket data, NPS results, and competitive intel to validate or challenge Slack-based rankings.</p>
       <p><strong>Next refresh:</strong> May 5, 2026</p>
-      <p><strong>Owner:</strong> Product Strategy / CX Insights</p>
-      <p style="margin-top:8px;color:var(--accent2);font-weight:600;font-size:10px;">To expand coverage, connect additional data sources: Dixa API, Typeform export, NPS platform, Facebook community scrape.</p>
+      <p><strong>Owner:</strong> Karlo Andrei Antalan · Product Strategy / CX Insights</p>
+      <p style="margin-top:8px;color:var(--accent2);font-weight:600;font-size:11px;">To expand coverage, connect additional data sources: Dixa API, Typeform export, NPS platform, Facebook community scrape.</p>
+    </div>
+  </div>
+</div>
+
+<!-- FEEDBACK BAR -->
+<div class="feedback-bar">
+  <div style="display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:12px;">
+    <div>
+      <span style="font-size:13px;font-weight:700;color:var(--accent2);">Have additional signal?</span>
+      <span style="font-size:12px;color:var(--dim);margin-left:8px;">This dashboard improves with input. Submit new data points, score corrections, or status updates.</span>
+    </div>
+    <div style="display:flex;gap:8px;">
+      <a href="mailto:k.antalan@glossgenius.com?subject=Customer%20Voice%20Dashboard%20Signal&body=Feature%2FIssue%3A%20%0ASource%3A%20%0ACustomer%20Quote%3A%20%0AAccount%20Tier%3A%20%0ARevenue%20Impact%3A%20" class="feedback-btn">&#x1F4E8; Submit Signal</a>
+      <a href="mailto:k.antalan@glossgenius.com?subject=Dashboard%20Score%20Correction&body=Item%3A%20%0ACurrent%20Score%3A%20%0ASuggested%20Score%3A%20%0AReason%3A%20" class="feedback-btn feedback-btn-sec">&#x270F;&#xFE0F; Suggest Correction</a>
     </div>
   </div>
 </div>
@@ -1689,6 +2046,7 @@ function applyFilters() {
   const hasFilters = Object.keys(activeFilters).length > 0;
   document.getElementById('clearFilters').style.display = hasFilters ? 'inline' : 'none';
 
+  // Filter item rows (tabs 1-3)
   document.querySelectorAll('.item-row').forEach(row => {
     if (!hasFilters) {
       row.classList.remove('filtered-out');
@@ -1696,6 +2054,7 @@ function applyFilters() {
     }
     const segments = (row.dataset.segments || '').split(',');
     const types = (row.dataset.types || '').split(',');
+    const lifecycle = row.dataset.lifecycle || '';
     let show = true;
 
     if (activeFilters.segment) {
@@ -1704,12 +2063,31 @@ function applyFilters() {
     if (show && activeFilters.type) {
       show = types.includes(activeFilters.type);
     }
+    if (show && activeFilters.lifecycle) {
+      show = lifecycle === activeFilters.lifecycle;
+    }
     row.classList.toggle('filtered-out', !show);
     if (!show) {
       row.classList.remove('open');
       const detail = document.querySelector(`.item-detail[data-id="${row.dataset.id}"]`);
       if (detail) detail.classList.remove('open');
     }
+  });
+
+  // Filter heat map rows (tab 4)
+  document.querySelectorAll('.heatmap-table tr[data-hm-segments]').forEach(tr => {
+    if (!hasFilters) {
+      tr.style.display = '';
+      return;
+    }
+    const segments = (tr.dataset.hmSegments || '').split(',');
+    const types = (tr.dataset.hmTypes || '').split(',');
+    const lifecycle = tr.dataset.hmLifecycle || '';
+    let show = true;
+    if (activeFilters.segment) show = segments.includes(activeFilters.segment);
+    if (show && activeFilters.type) show = types.includes(activeFilters.type);
+    if (show && activeFilters.lifecycle) show = lifecycle === activeFilters.lifecycle;
+    tr.style.display = show ? '' : 'none';
   });
 }
 
@@ -1727,7 +2105,7 @@ document.querySelectorAll('.filter-pill').forEach(pill => {
         p.classList.remove('active', 'active-red');
       });
       activeFilters[filterType] = filterVal;
-      pill.classList.add(filterType === 'type' ? 'active-red' : 'active');
+      pill.classList.add(filterType === 'type' ? 'active-red' : filterType === 'lifecycle' ? 'active-cyan' : 'active');
     }
     applyFilters();
   });
@@ -1735,7 +2113,7 @@ document.querySelectorAll('.filter-pill').forEach(pill => {
 
 document.getElementById('clearFilters').addEventListener('click', () => {
   activeFilters = {};
-  document.querySelectorAll('.filter-pill').forEach(p => p.classList.remove('active', 'active-red'));
+  document.querySelectorAll('.filter-pill').forEach(p => p.classList.remove('active', 'active-red', 'active-cyan'));
   applyFilters();
 });
 
@@ -1755,6 +2133,15 @@ document.querySelectorAll('[data-seg-filter]').forEach(el => {
     }
     applyFilters();
   });
+});
+
+// Exec summary toggle
+document.getElementById('execToggle').addEventListener('click', () => {
+  const body = document.getElementById('execBody');
+  const isOpen = body.style.display !== 'none';
+  body.style.display = isOpen ? 'none' : 'block';
+  document.querySelector('#execToggle span:first-child').innerHTML = isOpen ? '&#9656; Executive Decision Framework' : '&#9662; Executive Decision Framework';
+  document.querySelector('#execToggle span:last-child').textContent = isOpen ? 'Click to expand' : 'Click to collapse';
 });
 </script>
 </body>
