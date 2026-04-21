@@ -1,0 +1,1761 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Customer Voice Dashboard — GlossGenius</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap');
+  :root {
+    --bg:#0b0b10; --surface:#14141c; --surface2:#1c1c28; --surface3:#242432;
+    --border:#2a2a3a; --text:#e8e8f0; --dim:#9898b0; --faint:#686880;
+    --accent:#7c5cfc; --accent2:#a78bfa;
+    --red:#ff4d6a; --orange:#ff8c42; --yellow:#ffc53d; --green:#34d399;
+    --blue:#38bdf8; --pink:#f472b6; --cyan:#22d3ee;
+  }
+  *{margin:0;padding:0;box-sizing:border-box;}
+  body{font-family:'Inter',-apple-system,sans-serif;background:var(--bg);color:var(--text);overflow-x:hidden;}
+
+  /* ── TOPBAR ── */
+  .topbar{display:flex;align-items:center;justify-content:space-between;padding:12px 24px;background:var(--surface);border-bottom:1px solid var(--border);position:sticky;top:0;z-index:100;}
+  .topbar-left{display:flex;align-items:center;gap:12px;}
+  .topbar-logo{font-size:15px;font-weight:800;background:linear-gradient(135deg,#fff,#aaa);-webkit-background-clip:text;-webkit-text-fill-color:transparent;}
+  .topbar-badge{font-size:9px;font-weight:700;letter-spacing:1.2px;text-transform:uppercase;background:linear-gradient(135deg,var(--accent),var(--pink));color:#fff;padding:3px 10px;border-radius:100px;}
+  .topbar-date{font-size:12px;color:var(--faint);}
+  .topbar-refresh{font-size:10px;color:var(--dim);background:var(--surface2);padding:4px 10px;border-radius:100px;border:1px solid var(--border);}
+
+  /* ── KPI ── */
+  .kpi-strip{display:grid;grid-template-columns:repeat(6,1fr);gap:1px;background:var(--border);border-bottom:1px solid var(--border);}
+  .kpi{background:var(--surface);padding:14px 16px;text-align:center;}
+  .kpi-v{font-size:22px;font-weight:800;}
+  .kpi-v.gv{background:linear-gradient(135deg,var(--accent),var(--cyan));-webkit-background-clip:text;-webkit-text-fill-color:transparent;}
+  .kpi-v.rv{background:linear-gradient(135deg,var(--red),var(--orange));-webkit-background-clip:text;-webkit-text-fill-color:transparent;}
+  .kpi-v.ov{background:linear-gradient(135deg,var(--orange),var(--yellow));-webkit-background-clip:text;-webkit-text-fill-color:transparent;}
+  .kpi-v.bv{background:linear-gradient(135deg,var(--blue),var(--cyan));-webkit-background-clip:text;-webkit-text-fill-color:transparent;}
+  .kpi-v.pv{background:linear-gradient(135deg,var(--pink),var(--red));-webkit-background-clip:text;-webkit-text-fill-color:transparent;}
+  .kpi-l{font-size:10px;color:var(--faint);text-transform:uppercase;letter-spacing:.8px;margin-top:2px;}
+
+  /* ── CATEGORY TABS ── */
+  .cat-tabs{display:flex;background:var(--surface);border-bottom:1px solid var(--border);padding:0 24px;gap:0;}
+  .cat-tab{
+    padding:14px 24px;font-size:13px;font-weight:600;color:var(--dim);cursor:pointer;
+    border-bottom:2px solid transparent;transition:all .15s;position:relative;
+    display:flex;align-items:center;gap:8px;
+  }
+  .cat-tab:hover{color:var(--text);}
+  .cat-tab.active{color:#fff;border-bottom-color:var(--accent);}
+  .cat-tab .tab-count{
+    font-size:10px;font-weight:700;padding:2px 7px;border-radius:100px;
+    background:var(--surface3);color:var(--faint);
+  }
+  .cat-tab.active .tab-count{background:var(--accent);color:#fff;}
+  .cat-tab .tab-icon{font-size:16px;}
+
+  /* ── FILTER BAR ── */
+  .filter-bar{display:flex;align-items:center;gap:8px;padding:8px 24px;background:var(--surface);border-bottom:1px solid var(--border);flex-wrap:wrap;}
+  .filter-bar-label{font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.8px;color:var(--faint);}
+  .filter-pill{
+    font-size:10px;font-weight:600;padding:4px 10px;border-radius:100px;
+    border:1px solid var(--border);color:var(--dim);cursor:pointer;transition:all .15s;
+    background:transparent;
+  }
+  .filter-pill:hover{border-color:var(--accent);color:var(--text);}
+  .filter-pill.active{background:var(--accent);border-color:var(--accent);color:#fff;}
+  .filter-pill.active-red{background:rgba(255,77,106,.15);border-color:var(--red);color:var(--red);}
+  .filter-clear{font-size:10px;color:var(--accent2);cursor:pointer;margin-left:auto;text-decoration:underline;display:none;}
+
+  /* ── MAIN LAYOUT ── */
+  .dash{display:grid;grid-template-columns:1fr 380px;min-height:calc(100vh - 200px);}
+  .left-col{border-right:1px solid var(--border);overflow-y:auto;max-height:calc(100vh - 200px);}
+  .right-col{overflow-y:auto;max-height:calc(100vh - 200px);}
+
+  /* ── PANELS ── */
+  .panel{padding:18px 22px;}
+  .panel-hd{display:flex;align-items:center;justify-content:space-between;margin-bottom:12px;padding-bottom:8px;border-bottom:1px solid var(--border);}
+  .panel-t{font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:1px;color:var(--dim);}
+  .panel-sub{font-size:10px;color:var(--faint);}
+
+  /* ── SCORING LEGEND ── */
+  .score-legend{display:flex;gap:16px;padding:6px 22px 6px;flex-wrap:wrap;align-items:center;}
+  .score-legend-item{display:flex;align-items:center;gap:4px;font-size:9.5px;color:var(--faint);}
+  .score-legend-dot{width:8px;height:8px;border-radius:2px;}
+
+  /* ── COLUMN HEADER ── */
+  .col-header{
+    display:grid;grid-template-columns:26px 1fr 52px 52px 52px 56px 60px 28px;
+    align-items:center;gap:6px;padding:6px 6px;margin:0 0 2px;
+    font-size:9px;font-weight:700;text-transform:uppercase;letter-spacing:.5px;color:var(--faint);
+    border-bottom:1px solid var(--border);
+  }
+
+  /* ── CATEGORY SECTIONS ── */
+  .cat-section{display:none;}
+  .cat-section.active{display:block;}
+
+  /* ── ITEM ROWS ── */
+  .item-row{
+    display:grid;grid-template-columns:26px 1fr 52px 52px 52px 56px 60px 28px;
+    align-items:center;gap:6px;padding:8px 6px;border-bottom:1px solid var(--border);
+    cursor:pointer;transition:background .12s;border-radius:4px;
+  }
+  .item-row:hover{background:var(--surface2);}
+  .item-row.open{background:var(--surface3);}
+  .item-row.filtered-out{display:none;}
+  .item-rank{font-size:10px;font-weight:800;color:var(--faint);width:22px;height:22px;display:flex;align-items:center;justify-content:center;background:var(--surface3);border-radius:5px;}
+  .item-name{font-size:12px;font-weight:600;line-height:1.3;}
+  .item-score{font-size:11px;font-weight:800;text-align:center;}
+  .item-score.sc-hi{color:var(--red);}
+  .item-score.sc-mh{color:var(--orange);}
+  .item-score.sc-md{color:var(--yellow);}
+  .item-score.sc-lo{color:var(--green);}
+  .item-sub-score{font-size:10px;font-weight:600;text-align:center;color:var(--dim);}
+  .item-trend{font-size:13px;text-align:center;}
+  .trend-up{color:var(--red);}
+  .trend-flat{color:var(--yellow);}
+  .trend-down{color:var(--green);}
+  .trend-new{color:var(--pink);}
+  .item-sev{font-size:8px;font-weight:700;text-transform:uppercase;letter-spacing:.3px;padding:3px 6px;border-radius:100px;text-align:center;white-space:nowrap;}
+  .sev-c{background:rgba(255,77,106,.12);color:var(--red);}
+  .sev-h{background:rgba(255,140,66,.12);color:var(--orange);}
+  .sev-m{background:rgba(255,197,61,.12);color:var(--yellow);}
+  .sev-l{background:rgba(52,211,153,.12);color:var(--green);}
+  .item-arrow{font-size:13px;color:var(--faint);transition:transform .15s;text-align:center;}
+  .item-row.open .item-arrow{transform:rotate(90deg);color:var(--accent);}
+
+  /* ── DETAIL DRAWER ── */
+  .item-detail{display:none;padding:10px 6px 14px 38px;border-bottom:1px solid var(--border);}
+  .item-detail.open{display:block;}
+  .detail-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:10px;}
+  .detail-left{}
+  .detail-right{background:var(--surface2);border-radius:8px;padding:12px;border:1px solid var(--border);}
+  .detail-sum{font-size:11.5px;color:var(--dim);line-height:1.55;margin-bottom:8px;}
+  .detail-tags{display:flex;flex-wrap:wrap;gap:4px;margin-bottom:10px;}
+  .tg{font-size:9.5px;padding:2px 6px;border-radius:4px;background:var(--surface3);color:var(--dim);border:1px solid var(--border);}
+  .tg-r{background:rgba(255,77,106,.08);color:var(--red);border-color:rgba(255,77,106,.15);}
+  .tg-p{background:rgba(124,92,252,.08);color:var(--accent2);border-color:rgba(124,92,252,.15);}
+  .tg-seg{background:rgba(56,189,248,.08);color:var(--blue);border-color:rgba(56,189,248,.15);}
+  .qbox{background:var(--surface2);border-left:3px solid var(--accent);padding:9px 12px;border-radius:0 6px 6px 0;margin-bottom:6px;position:relative;}
+  .qtxt{font-size:11.5px;font-style:italic;color:var(--text);line-height:1.5;}
+  .qsrc{font-size:10px;color:var(--faint);font-style:normal;margin-top:3px;display:flex;align-items:center;gap:6px;}
+  .acct-tier{font-size:8px;font-weight:700;padding:2px 5px;border-radius:3px;text-transform:uppercase;letter-spacing:.3px;}
+  .tier-ent{background:rgba(255,77,106,.12);color:var(--red);}
+  .tier-plat{background:rgba(124,92,252,.12);color:var(--accent2);}
+  .tier-gold{background:rgba(255,197,61,.12);color:var(--yellow);}
+  .tier-trial{background:rgba(104,104,128,.2);color:var(--faint);}
+  .tier-cx{background:rgba(56,189,248,.12);color:var(--blue);}
+
+  /* ── ACTION BOX ── */
+  .action-box{background:rgba(124,92,252,.06);border:1px solid rgba(124,92,252,.15);border-radius:8px;padding:10px 12px;margin-top:8px;}
+  .action-box h5{font-size:10px;font-weight:700;color:var(--accent2);text-transform:uppercase;letter-spacing:.5px;margin-bottom:6px;}
+  .action-row{display:flex;gap:12px;flex-wrap:wrap;align-items:center;}
+  .action-chip{font-size:10px;padding:3px 8px;border-radius:4px;font-weight:600;}
+  .ac-owner{background:rgba(56,189,248,.1);color:var(--blue);border:1px solid rgba(56,189,248,.2);}
+  .ac-effort{background:rgba(255,197,61,.1);color:var(--yellow);border:1px solid rgba(255,197,61,.2);}
+  .ac-rev{background:rgba(255,77,106,.1);color:var(--red);border:1px solid rgba(255,77,106,.2);}
+  .ac-next{font-size:10.5px;color:var(--dim);line-height:1.4;margin-top:6px;}
+
+  /* ── RIGHT: SCORING METHODOLOGY ── */
+  .method-box{background:var(--surface2);border:1px solid var(--border);border-radius:8px;padding:12px;margin-bottom:10px;}
+  .method-box h5{font-size:10px;font-weight:700;color:var(--accent2);text-transform:uppercase;letter-spacing:.5px;margin-bottom:6px;}
+  .method-row{display:flex;justify-content:space-between;align-items:center;padding:3px 0;font-size:10.5px;border-bottom:1px solid rgba(255,255,255,.03);}
+  .method-row:last-child{border-bottom:none;}
+  .method-label{color:var(--dim);}
+  .method-val{font-weight:700;}
+
+  /* ── RIGHT: WIN/LOSS MATRIX ── */
+  .matrix-wrap{overflow-x:auto;}
+  .matrix{width:100%;border-collapse:collapse;font-size:9.5px;}
+  .matrix th{padding:5px 4px;text-align:center;font-weight:700;color:var(--faint);text-transform:uppercase;letter-spacing:.3px;border-bottom:1px solid var(--border);position:sticky;top:0;background:var(--surface);}
+  .matrix th:first-child{text-align:left;min-width:90px;}
+  .matrix td{padding:4px;text-align:center;border-bottom:1px solid rgba(255,255,255,.03);}
+  .matrix td:first-child{text-align:left;font-weight:600;color:var(--dim);font-size:10px;}
+  .mx-lost{color:var(--red);font-weight:700;}
+  .mx-risk{color:var(--orange);font-weight:600;}
+  .mx-gap{color:var(--yellow);}
+  .mx-ok{color:var(--green);font-size:8px;}
+
+  /* ── RIGHT: SEGMENTS (clickable) ── */
+  .seg-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px;}
+  .seg-col h4{font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.5px;margin-bottom:6px;cursor:pointer;transition:color .15s;}
+  .seg-col h4.th{color:var(--orange);}
+  .seg-col h4.sh{color:var(--blue);}
+  .seg-col h4:hover{text-decoration:underline;}
+  .seg-item{display:flex;align-items:center;gap:5px;font-size:10.5px;color:var(--dim);padding:4px 0;border-bottom:1px solid rgba(255,255,255,.03);cursor:pointer;transition:color .15s;}
+  .seg-item:hover{color:var(--text);}
+  .seg-item.seg-active{color:var(--accent2);font-weight:600;}
+  .seg-dot{width:4px;height:4px;border-radius:50%;flex-shrink:0;}
+
+  /* ── RIGHT: CHANNELS ── */
+  .ch-row{display:flex;align-items:center;gap:6px;padding:3px 0;}
+  .ch-nm{font-size:10.5px;font-weight:600;min-width:140px;color:var(--dim);}
+  .ch-bg{flex:1;height:12px;background:var(--surface3);border-radius:3px;overflow:hidden;}
+  .ch-fill{height:100%;border-radius:3px;}
+
+  /* ── BOTTOM: TAKEAWAYS + METHODOLOGY ── */
+  .bottom-bar{border-top:1px solid var(--border);background:var(--surface);}
+  .take-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin-bottom:16px;}
+  .take{background:var(--surface2);border-radius:8px;padding:14px;border-left:3px solid;}
+  .take h5{font-size:11px;font-weight:700;margin-bottom:4px;}
+  .take p{font-size:10.5px;color:var(--dim);line-height:1.5;}
+  .rrow{display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:8px;}
+  .rc{background:var(--surface2);border:1px solid var(--border);border-radius:8px;padding:12px;}
+  .rc-d{font-size:9px;color:var(--faint);text-transform:uppercase;letter-spacing:.5px;margin-bottom:3px;}
+  .rc-t{font-size:11.5px;font-weight:700;margin-bottom:4px;}
+  .rc-b{font-size:10.5px;color:var(--dim);line-height:1.45;}
+  .sc{display:inline-block;background:rgba(124,92,252,.1);color:var(--accent2);padding:1px 5px;border-radius:3px;font-weight:600;font-size:10.5px;}
+
+  .r-divider{border-top:1px solid var(--border);margin:12px 0;}
+
+  /* ── METHODOLOGY FOOTER ── */
+  .methodology{background:var(--surface2);border-top:1px solid var(--border);padding:20px 24px;}
+  .methodology h4{font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:1px;color:var(--accent2);margin-bottom:10px;}
+  .meth-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;}
+  .meth-section h5{font-size:10px;font-weight:700;color:var(--dim);text-transform:uppercase;letter-spacing:.5px;margin-bottom:6px;}
+  .meth-section p{font-size:10.5px;color:var(--faint);line-height:1.55;}
+  .meth-section .meth-formula{font-family:monospace;font-size:10px;color:var(--accent2);background:var(--surface3);padding:4px 8px;border-radius:4px;display:inline-block;margin:4px 0;}
+
+  @media(max-width:1100px){
+    .dash{grid-template-columns:1fr;}
+    .left-col,.right-col{max-height:none;}
+    .take-grid{grid-template-columns:1fr 1fr;}
+    .kpi-strip{grid-template-columns:repeat(3,1fr);}
+    .meth-grid{grid-template-columns:1fr;}
+    .item-row,.col-header{grid-template-columns:26px 1fr 44px 44px 44px 50px 52px 24px;}
+  }
+</style>
+</head>
+<body>
+
+<!-- TOPBAR -->
+<div class="topbar">
+  <div class="topbar-left">
+    <div class="topbar-logo">Customer Voice Dashboard</div>
+    <div class="topbar-badge">Slack Roundup v2</div>
+  </div>
+  <div style="display:flex;align-items:center;gap:12px;">
+    <div class="topbar-refresh">Next refresh: May 5, 2026</div>
+    <div class="topbar-date">GlossGenius · Data through Apr 21, 2026 · N=128 signals from 5 channels</div>
+  </div>
+</div>
+
+<!-- KPI STRIP -->
+<div class="kpi-strip">
+  <div class="kpi"><div class="kpi-v gv">128</div><div class="kpi-l">Total Signals</div></div>
+  <div class="kpi"><div class="kpi-v rv">14</div><div class="kpi-l">CX Problems</div></div>
+  <div class="kpi"><div class="kpi-v ov">17</div><div class="kpi-l">Features Requested</div></div>
+  <div class="kpi"><div class="kpi-v bv">12</div><div class="kpi-l">Experiences Requested</div></div>
+  <div class="kpi"><div class="kpi-v pv">~$480K</div><div class="kpi-l">Est. Monthly GPV at Risk</div></div>
+  <div class="kpi"><div class="kpi-v gv">9</div><div class="kpi-l">Competitors Cited</div></div>
+</div>
+
+<!-- CATEGORY TABS -->
+<div class="cat-tabs">
+  <div class="cat-tab active" data-cat="problems">
+    <span class="tab-icon">&#x1F534;</span> CX Problems
+    <span class="tab-count">14</span>
+  </div>
+  <div class="cat-tab" data-cat="features">
+    <span class="tab-icon">&#x1F527;</span> Features to Build
+    <span class="tab-count">17</span>
+  </div>
+  <div class="cat-tab" data-cat="experiences">
+    <span class="tab-icon">&#x2728;</span> Experiences to Polish
+    <span class="tab-count">12</span>
+  </div>
+</div>
+
+<!-- FILTER BAR -->
+<div class="filter-bar">
+  <span class="filter-bar-label">Filter:</span>
+  <span class="filter-pill" data-filter="segment" data-val="teams">Teams 10+</span>
+  <span class="filter-pill" data-filter="segment" data-val="solo">Solos & Small</span>
+  <span class="filter-pill" data-filter="segment" data-val="medspa">Medspa</span>
+  <span class="filter-pill" data-filter="type" data-val="deal-breaker">Deal Breakers Only</span>
+  <span class="filter-pill" data-filter="type" data-val="churn">Churn Drivers</span>
+  <span class="filter-pill" data-filter="type" data-val="quick-win">Quick Wins</span>
+  <span class="filter-clear" id="clearFilters">Clear filters</span>
+</div>
+
+<!-- MAIN -->
+<div class="dash">
+
+<!-- LEFT: ITEMS -->
+<div class="left-col">
+
+  <!-- SCORING LEGEND -->
+  <div class="score-legend">
+    <span style="font-size:9px;font-weight:700;color:var(--faint);text-transform:uppercase;letter-spacing:.5px;">Priority Score =</span>
+    <div class="score-legend-item"><div class="score-legend-dot" style="background:var(--orange)"></div>Frequency (1-5)</div>
+    <span style="color:var(--faint);font-size:9px;">&times;</span>
+    <div class="score-legend-item"><div class="score-legend-dot" style="background:var(--red)"></div>Churn Signal (1-5)</div>
+    <span style="color:var(--faint);font-size:9px;">&times;</span>
+    <div class="score-legend-item"><div class="score-legend-dot" style="background:var(--pink)"></div>Revenue Impact (1-5)</div>
+    <span style="font-size:9px;color:var(--faint);margin-left:12px;">Trend: <span class="trend-up">&#9650;</span> worsening <span class="trend-flat">&#9654;</span> stable <span class="trend-down">&#9660;</span> improving <span class="trend-new">&#9733;</span> new</span>
+  </div>
+
+  <!-- ── TAB 1: CX PROBLEMS ── -->
+  <div class="cat-section active" id="problems">
+    <div class="panel">
+      <div class="panel-hd">
+        <div><div class="panel-t">CX Issues & UX Pains</div><div class="panel-sub">Current experience problems causing frustration, churn, and trust erosion</div></div>
+      </div>
+
+      <div class="col-header">
+        <div>#</div><div>Issue</div><div title="Frequency: How often mentioned (1-5)">FRQ</div><div title="Churn Signal: Explicitly cited as churn/deal-breaker reason (1-5)">CHR</div><div title="Revenue Impact: Based on account sizes affected (1-5)">REV</div><div title="Priority Score = FRQ × CHR × REV">Score</div><div>Trend</div><div></div>
+      </div>
+
+      <!-- P1: Card Reader -->
+      <div class="item-row" data-id="p1" data-segments="teams,solo" data-types="churn,deal-breaker">
+        <div class="item-rank">1</div>
+        <div class="item-name">Card Reader Failures (Tap & Go)</div>
+        <div class="item-sub-score">5</div><div class="item-sub-score">5</div><div class="item-sub-score">5</div>
+        <div class="item-score sc-hi">125</div>
+        <div class="item-trend trend-up" title="Worsening — Combs actively targeting GG members citing this">&#9650;</div>
+        <div class="item-arrow">&#x203A;</div>
+      </div>
+      <div class="item-detail" data-id="p1">
+        <div class="detail-grid">
+          <div class="detail-left">
+            <div class="detail-sum">Ongoing connectivity issues across solos and teams. New salons with 10+ providers unable to get readers connected. Causes early distrust, 30+ min support calls, and cancellations. More than half of recent cancellations cited this. Combs actively targeting GG members on this pain point.</div>
+            <div class="detail-tags">
+              <span class="tg tg-r">Churn Driver</span><span class="tg tg-r">Deal Breaker</span>
+              <span class="tg tg-p">vs Combs</span>
+              <span class="tg tg-seg">Teams 10+</span><span class="tg tg-seg">Solos</span>
+              <span class="tg">Hardware</span><span class="tg">Onboarding</span>
+            </div>
+            <div class="qbox"><div class="qtxt">"Two new salons with over 10 professionals each were unable to get any readers connected, despite following all troubleshooting steps. This causes early distrust, 30+ minute support calls, and in many cases subscription cancellations."</div><div class="qsrc">— Deniece Inda, May 2025 <span class="acct-tier tier-cx">CX Lead</span></div></div>
+            <div class="qbox"><div class="qtxt">"Combs is actively targeting GlossGenius members with demos and is marketing zero bugs or outages. Reviews from former GG members cite card reader unreliability as reasons for switching."</div><div class="qsrc">— Deniece Inda, May 2025 <span class="acct-tier tier-cx">CX Lead</span></div></div>
+          </div>
+          <div class="detail-right">
+            <div class="action-box">
+              <h5>Recommended Action</h5>
+              <div class="action-row">
+                <span class="action-chip ac-owner">Owner: Hardware + Eng</span>
+                <span class="action-chip ac-effort">Effort: L</span>
+                <span class="action-chip ac-rev">~$150K/mo GPV at risk</span>
+              </div>
+              <div class="ac-next"><strong>Next step:</strong> Root-cause audit of BLE/NFC failure modes across reader models. Immediate: improve first-reader-connect onboarding flow with guided diagnostics. Track "time to first successful swipe" as activation metric.</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- P2: Payout Delays -->
+      <div class="item-row" data-id="p2" data-segments="teams,solo" data-types="churn">
+        <div class="item-rank">2</div>
+        <div class="item-name">Payout Delays & Account Pauses</div>
+        <div class="item-sub-score">4</div><div class="item-sub-score">5</div><div class="item-sub-score">5</div>
+        <div class="item-score sc-hi">100</div>
+        <div class="item-trend trend-up" title="Worsening — instant deposit removal driving explicit churn threats">&#9650;</div>
+        <div class="item-arrow">&#x203A;</div>
+      </div>
+      <div class="item-detail" data-id="p2">
+        <div class="detail-grid">
+          <div class="detail-left">
+            <div class="detail-sum">Delayed payouts, paused accounts with no explanation, Stripe denial opacity, broken promises on timelines from support. Instant deposit removal triggers explicit churn threats. 12 of 127 signals (9.4%) relate to payment trust issues.</div>
+            <div class="detail-tags"><span class="tg tg-r">Churn Driver</span><span class="tg tg-seg">All Segments</span><span class="tg">Trust & Safety</span><span class="tg">Payments</span></div>
+            <div class="qbox"><div class="qtxt">"I want answers to why my account is no longer allowing instant deposit... I will no longer be using Gloss... You will continue to lose customers over this."</div><div class="qsrc">— Dixa ticket VOC analysis, Dec 2025 <span class="acct-tier tier-gold">Gold</span></div></div>
+            <div class="qbox"><div class="qtxt">"Told I would hear back in 24 hours... called 3 days later to learn the escalation never happened."</div><div class="qsrc">— Dixa ticket #1334496 <span class="acct-tier tier-gold">Gold</span></div></div>
+          </div>
+          <div class="detail-right">
+            <div class="action-box">
+              <h5>Recommended Action</h5>
+              <div class="action-row">
+                <span class="action-chip ac-owner">Owner: Payments + CX</span>
+                <span class="action-chip ac-effort">Effort: M</span>
+                <span class="action-chip ac-rev">~$120K/mo GPV at risk</span>
+              </div>
+              <div class="ac-next"><strong>Next step:</strong> Add proactive "payout status" in-app with clear Stripe-denial reasoning. SLA escalation path for payment holds > 48hrs. Track first-payout-time as retention leading indicator.</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- P3: Commission Confusion -->
+      <div class="item-row" data-id="p3" data-segments="teams" data-types="churn">
+        <div class="item-rank">3</div>
+        <div class="item-name">Commission Report Confusion (Packages)</div>
+        <div class="item-sub-score">3</div><div class="item-sub-score">4</div><div class="item-sub-score">4</div>
+        <div class="item-score sc-mh">48</div>
+        <div class="item-trend trend-flat" title="Stable — recurring issue, not worsening">&#9654;</div>
+        <div class="item-arrow">&#x203A;</div>
+      </div>
+      <div class="item-detail" data-id="p3">
+        <div class="detail-grid">
+          <div class="detail-left">
+            <div class="detail-sum">Confusion around whether commissions are calculated pre- or post-discount for packages. Some owners expect pro-rated commissions; system uses catalog price. Causing repeated FB complaints and salon confusion. 5 of 127 signals (3.9%).</div>
+            <div class="detail-tags"><span class="tg tg-r">Churn Driver</span><span class="tg tg-seg">Teams 10+</span><span class="tg">Reporting</span><span class="tg">Packages</span><span class="tg">Payroll</span></div>
+            <div class="qbox"><div class="qtxt">"A stylist would get 100% commission if client pays with card, but 83% if user pays with a package credit. That a stylist can get different commission based on the client's payment method feels unethical."</div><div class="qsrc">— Justin Budlow, Apr 2026 <span class="acct-tier tier-plat">Platinum</span></div></div>
+          </div>
+          <div class="detail-right">
+            <div class="action-box">
+              <h5>Recommended Action</h5>
+              <div class="action-row">
+                <span class="action-chip ac-owner">Owner: Product (Payments)</span>
+                <span class="action-chip ac-effort">Effort: M</span>
+                <span class="action-chip ac-rev">~$60K/mo GPV at risk</span>
+              </div>
+              <div class="ac-next"><strong>Next step:</strong> Define clear commission calculation spec (pre vs post discount). Add in-app tooltip explaining how package commissions work. Long-term: configurable commission rules per service type.</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- P4: Processing Blocks -->
+      <div class="item-row" data-id="p4" data-segments="teams,solo" data-types="">
+        <div class="item-rank">4</div>
+        <div class="item-name">Processing Blocks Confusing on Mobile</div>
+        <div class="item-sub-score">3</div><div class="item-sub-score">3</div><div class="item-sub-score">3</div>
+        <div class="item-score sc-md">27</div>
+        <div class="item-trend trend-new" title="New signal — Apr 2026">&#9733;</div>
+        <div class="item-arrow">&#x203A;</div>
+      </div>
+      <div class="item-detail" data-id="p4">
+        <div class="detail-grid">
+          <div class="detail-left">
+            <div class="detail-sum">Mobile view of processing blocks is confusing for salons using iPads/phones exclusively. Desktop view is preferred but most businesses are mobile-first. 3 of 127 signals (2.4%).</div>
+            <div class="detail-tags"><span class="tg tg-seg">Teams 10+</span><span class="tg tg-seg">Solos</span><span class="tg">Calendar</span><span class="tg">Mobile UX</span></div>
+            <div class="qbox"><div class="qtxt">"The mobile view of processing blocks is confusing. I showed her what it looked like from the desktop view and she said she prefers that much more, but they are exclusively using iPad/phones."</div><div class="qsrc">— Jonna Ramos, Apr 2026 <span class="acct-tier tier-ent">Enterprise (new)</span></div></div>
+          </div>
+          <div class="detail-right">
+            <div class="action-box">
+              <h5>Recommended Action</h5>
+              <div class="action-row">
+                <span class="action-chip ac-owner">Owner: Product (Calendar)</span>
+                <span class="action-chip ac-effort">Effort: M</span>
+                <span class="action-chip ac-rev">~$25K/mo GPV at risk</span>
+              </div>
+              <div class="ac-next"><strong>Next step:</strong> Audit mobile calendar rendering for processing blocks. Consider collapsed/grouped view matching desktop. Validate with 3-5 mobile-primary salons.</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- P5: Calendar Clutter -->
+      <div class="item-row" data-id="p5" data-segments="teams,solo" data-types="deal-breaker">
+        <div class="item-rank">5</div>
+        <div class="item-name">Calendar Clutter (Multi-Service Blocks)</div>
+        <div class="item-sub-score">3</div><div class="item-sub-score">4</div><div class="item-sub-score">3</div>
+        <div class="item-score sc-md">36</div>
+        <div class="item-trend trend-flat" title="Stable — reported since Aug 2024">&#9654;</div>
+        <div class="item-arrow">&#x203A;</div>
+      </div>
+      <div class="item-detail" data-id="p5">
+        <div class="detail-grid">
+          <div class="detail-left">
+            <div class="detail-sum">When multiple services are booked together, each shows separately on the calendar. Users find this cluttered and hard to parse. Explicitly called a "deal breaker" by at least one account. 4 of 127 signals (3.1%).</div>
+            <div class="detail-tags"><span class="tg tg-r">Deal Breaker</span><span class="tg tg-seg">Teams 10+</span><span class="tg tg-seg">Solos</span><span class="tg">Calendar</span><span class="tg">Visual</span></div>
+            <div class="qbox"><div class="qtxt">"When services are booked together, it creates separate blocks on the calendar. Users find this layout confusing and visually cluttered. She notes this is a deal breaker."</div><div class="qsrc">— Adam Hughes, Aug 2024 <span class="acct-tier tier-gold">Gold</span></div></div>
+          </div>
+          <div class="detail-right">
+            <div class="action-box">
+              <h5>Recommended Action</h5>
+              <div class="action-row">
+                <span class="action-chip ac-owner">Owner: Product (Calendar)</span>
+                <span class="action-chip ac-effort">Effort: M</span>
+                <span class="action-chip ac-rev">~$20K/mo GPV at risk</span>
+              </div>
+              <div class="ac-next"><strong>Next step:</strong> Group multi-service bookings into single visual block with service breakdown on tap. Ship with existing calendar redesign work.</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- P6: AI/UX Disruption -->
+      <div class="item-row" data-id="p6" data-segments="solo" data-types="churn">
+        <div class="item-rank">6</div>
+        <div class="item-name">AI/UX Changes Disrupting Workflows</div>
+        <div class="item-sub-score">3</div><div class="item-sub-score">3</div><div class="item-sub-score">3</div>
+        <div class="item-score sc-md">27</div>
+        <div class="item-trend trend-up" title="Worsening — second detailed complaint in 2 days, Product investigating">&#9650;</div>
+        <div class="item-arrow">&#x203A;</div>
+      </div>
+      <div class="item-detail" data-id="p6">
+        <div class="detail-grid">
+          <div class="detail-left">
+            <div class="detail-sum">Long-time users feel AI additions and frequent UI changes made the platform harder to navigate. Multiple customers report disrupted workflows. One switched FROM Comb to GG to avoid AI clutter, now feels GG is "all different and similar to Comb." Product team (Sharon Xiang) actively investigating. 3 of 128 signals (2.3%) — trending up.</div>
+            <div class="detail-tags"><span class="tg tg-r">Churn Driver</span><span class="tg tg-seg">Solos</span><span class="tg">Retention Risk</span><span class="tg">UX</span></div>
+            <div class="qbox"><div class="qtxt">"I switched back from Comb because I didn't want all of the AI generated things. I liked how it was simple and easy to find things — now it's all different and similar to Comb."</div><div class="qsrc">— Customer via Chrissie Dolfo, Apr 2026 <span class="acct-tier tier-gold">Gold</span></div></div>
+            <div class="qbox"><div class="qtxt">"The frequency of these changes has made it difficult to maintain an efficient workflow. Each time I become comfortable with the interface, a new update significantly alters the experience. As a hairstylist, my time is extremely valuable, and these disruptions have been slowing me down during appointments."</div><div class="qsrc">— Cyrus (stylist) via Chrissie Dolfo, Apr 20, 2026 <span class="acct-tier tier-gold">Gold</span></div></div>
+          </div>
+          <div class="detail-right">
+            <div class="action-box">
+              <h5>Recommended Action</h5>
+              <div class="action-row">
+                <span class="action-chip ac-owner">Owner: Product (Design)</span>
+                <span class="action-chip ac-effort">Effort: S</span>
+                <span class="action-chip ac-rev">~$10K/mo GPV at risk</span>
+              </div>
+              <div class="ac-next"><strong>Next step:</strong> Audit AI feature discoverability vs. clutter. Consider "classic mode" toggle or progressive disclosure. Monitor NPS by tenure cohort for AI-related dips.</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- P7: Payment Pending Bug -->
+      <div class="item-row" data-id="p7" data-segments="solo" data-types="quick-win">
+        <div class="item-rank">7</div>
+        <div class="item-name">Payment Setup Shows "Pending" After Done</div>
+        <div class="item-sub-score">2</div><div class="item-sub-score">2</div><div class="item-sub-score">3</div>
+        <div class="item-score sc-lo">12</div>
+        <div class="item-trend trend-new" title="New signal — Apr 2026">&#9733;</div>
+        <div class="item-arrow">&#x203A;</div>
+      </div>
+      <div class="item-detail" data-id="p7">
+        <div class="detail-grid">
+          <div class="detail-left">
+            <div class="detail-sum">Get Started page still says payment setup is pending even after completion. Confusing for new businesses during onboarding. Likely a bug on desktop. 2 of 127 signals (1.6%).</div>
+            <div class="detail-tags"><span class="tg tg-seg">Solos</span><span class="tg">Bug</span><span class="tg">Onboarding</span><span class="tg">Quick Win</span></div>
+            <div class="qbox"><div class="qtxt">"They have completed payment setup and are verified and active but on their 'Get Started' page it still says payment setup is pending."</div><div class="qsrc">— Meghan Berke, Apr 2026 <span class="acct-tier tier-cx">CX Agent</span></div></div>
+          </div>
+          <div class="detail-right">
+            <div class="action-box">
+              <h5>Recommended Action</h5>
+              <div class="action-row">
+                <span class="action-chip ac-owner">Owner: Eng (Onboarding)</span>
+                <span class="action-chip ac-effort">Effort: S</span>
+                <span class="action-chip ac-rev">Low direct rev risk</span>
+              </div>
+              <div class="ac-next"><strong>Next step:</strong> Bug fix — sync Get Started checklist with actual Stripe verification state. Quick win for onboarding NPS.</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- P8: Sales Reporting -->
+      <div class="item-row" data-id="p8" data-segments="teams,solo" data-types="">
+        <div class="item-rank">8</div>
+        <div class="item-name">Sales Reporting Inaccuracies</div>
+        <div class="item-sub-score">2</div><div class="item-sub-score">3</div><div class="item-sub-score">3</div>
+        <div class="item-score sc-md">18</div>
+        <div class="item-trend trend-flat" title="Stable — reported since Oct 2025">&#9654;</div>
+        <div class="item-arrow">&#x203A;</div>
+      </div>
+      <div class="item-detail" data-id="p8">
+        <div class="detail-grid">
+          <div class="detail-left">
+            <div class="detail-sum">Discrepancies in daily sales totals. Net service vs net retail not broken out for tax reporting. 3 of 127 signals (2.4%).</div>
+            <div class="detail-tags"><span class="tg tg-seg">Teams 10+</span><span class="tg tg-seg">Solos</span><span class="tg">Reporting</span><span class="tg">Tax</span></div>
+            <div class="qbox"><div class="qtxt">"Sales figures are not displaying accurately at the end of the day."</div><div class="qsrc">— Heileigh Falls, Oct 2025 <span class="acct-tier tier-gold">Gold</span></div></div>
+          </div>
+          <div class="detail-right">
+            <div class="action-box">
+              <h5>Recommended Action</h5>
+              <div class="action-row">
+                <span class="action-chip ac-owner">Owner: Product (Reporting)</span>
+                <span class="action-chip ac-effort">Effort: M</span>
+                <span class="action-chip ac-rev">~$15K/mo GPV at risk</span>
+              </div>
+              <div class="ac-next"><strong>Next step:</strong> Audit EOD reconciliation logic. Add net service / net retail / tax breakdown view. Validate against Stripe payout records.</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- P9: Gift Card Bad Data -->
+      <div class="item-row" data-id="p9" data-segments="solo" data-types="">
+        <div class="item-rank">9</div>
+        <div class="item-name">Gift Card Purchase Flow Creates Bad Data</div>
+        <div class="item-sub-score">2</div><div class="item-sub-score">2</div><div class="item-sub-score">2</div>
+        <div class="item-score sc-lo">8</div>
+        <div class="item-trend trend-flat" title="Stable">&#9654;</div>
+        <div class="item-arrow">&#x203A;</div>
+      </div>
+      <div class="item-detail" data-id="p9">
+        <div class="detail-grid">
+          <div class="detail-left">
+            <div class="detail-sum">Requiring email/phone at purchase means buyers enter their own info (since it's a gift), creating inaccurate client records. 2 of 127 signals (1.6%).</div>
+            <div class="detail-tags"><span class="tg tg-seg">Solos</span><span class="tg">Data Quality</span><span class="tg">Gift Cards</span></div>
+            <div class="qbox"><div class="qtxt">"Purchasing a gift card currently requires an email/phone number, which often leads buyers to enter their own contact info — creating inaccurate client records."</div><div class="qsrc">— Deniece Inda, May 2025 <span class="acct-tier tier-cx">CX Lead</span></div></div>
+          </div>
+          <div class="detail-right">
+            <div class="action-box">
+              <h5>Recommended Action</h5>
+              <div class="action-row">
+                <span class="action-chip ac-owner">Owner: Product (Gift Cards)</span>
+                <span class="action-chip ac-effort">Effort: S</span>
+                <span class="action-chip ac-rev">Low direct rev risk</span>
+              </div>
+              <div class="ac-next"><strong>Next step:</strong> Add "buying for someone else?" toggle that captures recipient vs buyer info separately. Quick UX win.</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- P10: Text Tone -->
+      <div class="item-row" data-id="p10" data-segments="solo" data-types="">
+        <div class="item-rank">10</div>
+        <div class="item-name">Text Tone Too Casual / Unprofessional</div>
+        <div class="item-sub-score">2</div><div class="item-sub-score">2</div><div class="item-sub-score">2</div>
+        <div class="item-score sc-lo">8</div>
+        <div class="item-trend trend-flat" title="Stable — reported since Oct 2025">&#9654;</div>
+        <div class="item-arrow">&#x203A;</div>
+      </div>
+      <div class="item-detail" data-id="p10">
+        <div class="detail-grid">
+          <div class="detail-left">
+            <div class="detail-sum">Default SMS tone ("Hey boss," "Hi there") feels unprofessional. Can edit email but not texts. 2 of 127 signals (1.6%).</div>
+            <div class="detail-tags"><span class="tg tg-seg">Solos</span><span class="tg">Notifications</span><span class="tg">Professionalism</span></div>
+            <div class="qbox"><div class="qtxt">"Current tone ('Hey boss,' 'Hi there') feels too casual. Request: 'Good morning [Name]' or 'Hi [Mr./Ms. Last Name].'"</div><div class="qsrc">— Aubry Bratcher, Oct 2025 <span class="acct-tier tier-gold">Gold</span></div></div>
+          </div>
+          <div class="detail-right">
+            <div class="action-box">
+              <h5>Recommended Action</h5>
+              <div class="action-row">
+                <span class="action-chip ac-owner">Owner: Product (Notifications)</span>
+                <span class="action-chip ac-effort">Effort: S</span>
+                <span class="action-chip ac-rev">Low direct rev risk</span>
+              </div>
+              <div class="ac-next"><strong>Next step:</strong> Extend email customization to SMS templates. Ship with SMS Customization experience (E4). Low effort, high perceived value.</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- P11: Cancellation Flow -->
+      <div class="item-row" data-id="p11" data-segments="solo" data-types="">
+        <div class="item-rank">11</div>
+        <div class="item-name">Subscription Cancellation Flow</div>
+        <div class="item-sub-score">2</div><div class="item-sub-score">2</div><div class="item-sub-score">1</div>
+        <div class="item-score sc-lo">4</div>
+        <div class="item-trend trend-flat" title="Stable">&#9654;</div>
+        <div class="item-arrow">&#x203A;</div>
+      </div>
+      <div class="item-detail" data-id="p11">
+        <div class="detail-grid">
+          <div class="detail-left">
+            <div class="detail-sum">Cancellation happens outside the app via form. Members expect in-app cancellation. 1 of 127 signals (0.8%). Low frequency but UX friction.</div>
+            <div class="detail-tags"><span class="tg tg-seg">Solos</span><span class="tg">UX</span><span class="tg">Retention</span></div>
+          </div>
+          <div class="detail-right">
+            <div class="action-box">
+              <h5>Recommended Action</h5>
+              <div class="action-row">
+                <span class="action-chip ac-owner">Owner: Product (Billing)</span>
+                <span class="action-chip ac-effort">Effort: S</span>
+                <span class="action-chip ac-rev">Low (but retention opp)</span>
+              </div>
+              <div class="ac-next"><strong>Next step:</strong> In-app cancel flow with save offers. Dual purpose: better UX + retention intervention point.</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- P12: Trial Transparency -->
+      <div class="item-row" data-id="p12" data-segments="solo" data-types="quick-win">
+        <div class="item-rank">12</div>
+        <div class="item-name">Trial Plan Transparency</div>
+        <div class="item-sub-score">2</div><div class="item-sub-score">2</div><div class="item-sub-score">1</div>
+        <div class="item-score sc-lo">4</div>
+        <div class="item-trend trend-flat" title="Stable">&#9654;</div>
+        <div class="item-arrow">&#x203A;</div>
+      </div>
+      <div class="item-detail" data-id="p12">
+        <div class="detail-grid">
+          <div class="detail-left">
+            <div class="detail-sum">Users don't realize trial starts on Gold plan, leading to confusion and unexpected charges. 1 of 127 signals (0.8%).</div>
+            <div class="detail-tags"><span class="tg tg-seg">Solos</span><span class="tg">Onboarding</span><span class="tg">Pricing</span><span class="tg">Quick Win</span></div>
+          </div>
+          <div class="detail-right">
+            <div class="action-box">
+              <h5>Recommended Action</h5>
+              <div class="action-row">
+                <span class="action-chip ac-owner">Owner: Growth</span>
+                <span class="action-chip ac-effort">Effort: S</span>
+                <span class="action-chip ac-rev">Low direct</span>
+              </div>
+              <div class="ac-next"><strong>Next step:</strong> Add clear "You're on Gold trial — $X/mo after Day 14" banner during onboarding. Quick copy fix.</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- P13: Year Missing -->
+      <div class="item-row" data-id="p13" data-segments="teams,solo" data-types="quick-win">
+        <div class="item-rank">13</div>
+        <div class="item-name">Year Missing from Appointment Dates</div>
+        <div class="item-sub-score">1</div><div class="item-sub-score">1</div><div class="item-sub-score">1</div>
+        <div class="item-score sc-lo">1</div>
+        <div class="item-trend trend-flat" title="Stable">&#9654;</div>
+        <div class="item-arrow">&#x203A;</div>
+      </div>
+      <div class="item-detail" data-id="p13">
+        <div class="detail-grid">
+          <div class="detail-left">
+            <div class="detail-sum">Client profiles and past checkout queue don't include the year. 1 of 127 signals (0.8%).</div>
+            <div class="detail-tags"><span class="tg tg-seg">Teams 10+</span><span class="tg tg-seg">Solos</span><span class="tg">UI</span><span class="tg">Quick Win</span></div>
+            <div class="qbox"><div class="qtxt">"Appointments do not include the year, making it difficult to determine which specific appointment they're looking at."</div><div class="qsrc">— Michelle Perez Rodriguez, Apr 2026 <span class="acct-tier tier-cx">CX Agent</span></div></div>
+          </div>
+          <div class="detail-right">
+            <div class="action-box">
+              <h5>Recommended Action</h5>
+              <div class="action-row">
+                <span class="action-chip ac-owner">Owner: Eng</span>
+                <span class="action-chip ac-effort">Effort: XS</span>
+                <span class="action-chip ac-rev">Zero rev risk</span>
+              </div>
+              <div class="ac-next"><strong>Next step:</strong> Add year to date display. Ship in next sprint — zero-risk, zero-effort quick win.</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- P14: Legal Structure -->
+      <div class="item-row" data-id="p14" data-segments="solo" data-types="quick-win">
+        <div class="item-rank">14</div>
+        <div class="item-name">Legal Structure Dropdown Confusing</div>
+        <div class="item-sub-score">1</div><div class="item-sub-score">1</div><div class="item-sub-score">1</div>
+        <div class="item-score sc-lo">1</div>
+        <div class="item-trend trend-flat" title="Stable">&#9654;</div>
+        <div class="item-arrow">&#x203A;</div>
+      </div>
+      <div class="item-detail" data-id="p14">
+        <div class="detail-grid">
+          <div class="detail-left">
+            <div class="detail-sum">LLC owners don't know whether to select "private profit." 1 of 127 signals (0.8%).</div>
+            <div class="detail-tags"><span class="tg tg-seg">Solos</span><span class="tg">Onboarding</span><span class="tg">Quick Win</span></div>
+          </div>
+          <div class="detail-right">
+            <div class="action-box">
+              <h5>Recommended Action</h5>
+              <div class="action-row">
+                <span class="action-chip ac-owner">Owner: Eng</span>
+                <span class="action-chip ac-effort">Effort: XS</span>
+                <span class="action-chip ac-rev">Zero rev risk</span>
+              </div>
+              <div class="ac-next"><strong>Next step:</strong> Relabel dropdown options with plain-language descriptions (e.g., "LLC — most small businesses"). Copy change only.</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- ── TAB 2: FEATURES TO BUILD ── -->
+  <div class="cat-section" id="features">
+    <div class="panel">
+      <div class="panel-hd">
+        <div><div class="panel-t">Features to Build</div><div class="panel-sub">Functional capabilities that don't exist yet — what customers need the product to DO</div></div>
+      </div>
+
+      <div class="col-header">
+        <div>#</div><div>Feature</div><div title="Frequency">FRQ</div><div title="Churn Signal">CHR</div><div title="Revenue Impact">REV</div><div>Score</div><div>Trend</div><div></div>
+      </div>
+
+      <!-- F1: Add-Ons -->
+      <div class="item-row" data-id="f1" data-segments="teams,solo,medspa" data-types="deal-breaker">
+        <div class="item-rank">1</div>
+        <div class="item-name">Add-Ons / Service Options</div>
+        <div class="item-sub-score">5</div><div class="item-sub-score">5</div><div class="item-sub-score">5</div>
+        <div class="item-score sc-hi">125</div>
+        <div class="item-trend trend-up" title="Worsening — cited in every competitive loss review">&#9650;</div>
+        <div class="item-arrow">&#x203A;</div>
+      </div>
+      <div class="item-detail" data-id="f1">
+        <div class="detail-grid">
+          <div class="detail-left">
+            <div class="detail-sum">True add-on dropdown with flexible durations, multi-select, independent pricing. Currently must create separate services. #1 deal breaker across all segments. 30+ of 127 signals (24%). Cited in every competitive loss review.</div>
+            <div class="detail-tags"><span class="tg tg-r">Deal Breaker</span><span class="tg tg-p">vs Vagaro</span><span class="tg tg-p">vs Boulevard</span><span class="tg tg-seg">All Segments</span><span class="tg">Booking</span></div>
+            <div class="qbox"><div class="qtxt">"This is a real deal breaker for a lot of my clients or a non starter."</div><div class="qsrc">— Shaina Joffe, Mar 2026 <span class="acct-tier tier-plat">Platinum (from Vagaro)</span></div></div>
+            <div class="qbox"><div class="qtxt">"The add-ons seem like a no brainer to have, every other booking system is doing that and it's such an upsell opportunity."</div><div class="qsrc">— Laura Brennan, May 2024 <span class="acct-tier tier-gold">Gold</span></div></div>
+          </div>
+          <div class="detail-right">
+            <div class="action-box">
+              <h5>Recommended Action</h5>
+              <div class="action-row">
+                <span class="action-chip ac-owner">Owner: Product (Booking)</span>
+                <span class="action-chip ac-effort">Effort: L</span>
+                <span class="action-chip ac-rev">~$150K/mo GPV at risk</span>
+              </div>
+              <div class="ac-next"><strong>Next step:</strong> This is the single highest-leverage feature. PRD exists — accelerate timeline. MVP: simple add-on dropdown at booking with +time/+price. Ship before MSMP since it unblocks smaller accounts too.</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- F2: MSMP -->
+      <div class="item-row" data-id="f2" data-segments="teams" data-types="deal-breaker">
+        <div class="item-rank">2</div>
+        <div class="item-name">Multi-Service / Multi-Provider (MSMP)</div>
+        <div class="item-sub-score">5</div><div class="item-sub-score">5</div><div class="item-sub-score">5</div>
+        <div class="item-score sc-hi">125</div>
+        <div class="item-trend trend-up" title="Worsening — accelerating as GG pushes upmarket">&#9650;</div>
+        <div class="item-arrow">&#x203A;</div>
+      </div>
+      <div class="item-detail" data-id="f2">
+        <div class="detail-grid">
+          <div class="detail-left">
+            <div class="detail-sum">Split tickets across providers, add multiple of the same service, single-ticket checkout. #1 reason large teams don't adopt. 25+ of 127 signals (20%). Every $100K+/mo GPV loss mentions this.</div>
+            <div class="detail-tags"><span class="tg tg-r">Deal Breaker</span><span class="tg tg-p">vs Mangomint</span><span class="tg tg-p">vs Meevo</span><span class="tg tg-seg">Teams 10+</span><span class="tg">Checkout</span></div>
+            <div class="qbox"><div class="qtxt">"When a couple comes in for two pedicures and wants to pay together, I can't select two of the same service. I had a wedding party and had to manually create a custom service."</div><div class="qsrc">— Ashna Kapoor, Jun 2025 <span class="acct-tier tier-ent">$120K/mo GPV</span></div></div>
+          </div>
+          <div class="detail-right">
+            <div class="action-box">
+              <h5>Recommended Action</h5>
+              <div class="action-row">
+                <span class="action-chip ac-owner">Owner: Product (Checkout)</span>
+                <span class="action-chip ac-effort">Effort: XL</span>
+                <span class="action-chip ac-rev">~$200K/mo GPV at risk</span>
+              </div>
+              <div class="ac-next"><strong>Next step:</strong> Prerequisite for upmarket push. Phase 1: same-service duplication + single ticket. Phase 2: multi-provider split. Coordinate with commissions work (F3).</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- F3: Commissions -->
+      <div class="item-row" data-id="f3" data-segments="teams" data-types="deal-breaker,churn">
+        <div class="item-rank">3</div>
+        <div class="item-name">Commissions: Backbar, Parts & Labor, Tiers</div>
+        <div class="item-sub-score">4</div><div class="item-sub-score">5</div><div class="item-sub-score">5</div>
+        <div class="item-score sc-hi">100</div>
+        <div class="item-trend trend-up" title="Worsening — teams churning specifically on this">&#9650;</div>
+        <div class="item-arrow">&#x203A;</div>
+      </div>
+      <div class="item-detail" data-id="f3">
+        <div class="detail-grid">
+          <div class="detail-left">
+            <div class="detail-sum">Auto backbar cost deductions, parts & labor tracking, customizable tiered commissions per service. Teams downgrade/churn without this. 20+ of 127 signals (16%). Direct cancellations traced to this gap.</div>
+            <div class="detail-tags"><span class="tg tg-r">Deal Breaker</span><span class="tg tg-r">Churn Driver</span><span class="tg tg-p">vs Vagaro</span><span class="tg tg-p">vs Mangomint</span><span class="tg tg-seg">Teams 10+</span></div>
+            <div class="qbox"><div class="qtxt">"Parts & labor is foundational for commission-based salons, not an edge case. They have decided to cancel."</div><div class="qsrc">— Alesia Wilson, Jan 2026 <span class="acct-tier tier-ent">Enterprise</span></div></div>
+          </div>
+          <div class="detail-right">
+            <div class="action-box">
+              <h5>Recommended Action</h5>
+              <div class="action-row">
+                <span class="action-chip ac-owner">Owner: Product (Payments)</span>
+                <span class="action-chip ac-effort">Effort: L</span>
+                <span class="action-chip ac-rev">~$100K/mo GPV at risk</span>
+              </div>
+              <div class="ac-next"><strong>Next step:</strong> Ship tiered commissions first (highest frequency). Then backbar deductions. Parts & labor = Phase 2. Bundle with MSMP for "Teams Package" launch.</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- F4: Smart Booking -->
+      <div class="item-row" data-id="f4" data-segments="teams,solo" data-types="deal-breaker">
+        <div class="item-rank">4</div>
+        <div class="item-name">Smart Booking / Gap Prevention</div>
+        <div class="item-sub-score">4</div><div class="item-sub-score">4</div><div class="item-sub-score">4</div>
+        <div class="item-score sc-mh">64</div>
+        <div class="item-trend trend-up" title="Worsening — raised 3x in one week by one AE">&#9650;</div>
+        <div class="item-arrow">&#x203A;</div>
+      </div>
+      <div class="item-detail" data-id="f4">
+        <div class="detail-grid">
+          <div class="detail-left">
+            <div class="detail-sum">Force appointments flush to minimize dead time. Client books 9:30 and kills both 9:00 and 10:00 slots. Vagaro, Square, Acuity all have this. 18 of 127 signals (14%).</div>
+            <div class="detail-tags"><span class="tg tg-r">Deal Breaker</span><span class="tg tg-p">vs Vagaro</span><span class="tg tg-p">vs Acuity</span><span class="tg tg-seg">Teams 10+</span><span class="tg tg-seg">Solos</span></div>
+            <div class="qbox"><div class="qtxt">"A client books 9:30 AM and inadvertently kills two potential appointment times. Vagaro, Square and Acuity currently offer this."</div><div class="qsrc">— Jack Dunbar, Jan 2026 <span class="acct-tier tier-cx">AE (raised 3x in 1 week)</span></div></div>
+          </div>
+          <div class="detail-right">
+            <div class="action-box">
+              <h5>Recommended Action</h5>
+              <div class="action-row">
+                <span class="action-chip ac-owner">Owner: Product (Scheduling)</span>
+                <span class="action-chip ac-effort">Effort: M</span>
+                <span class="action-chip ac-rev">~$50K/mo GPV at risk</span>
+              </div>
+              <div class="ac-next"><strong>Next step:</strong> Implement "next available slot" logic that snaps bookings to edges of existing appointments. Toggle-able per provider. Standard feature at competitors — table stakes, not differentiator.</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- F5: Check-In -->
+      <div class="item-row" data-id="f5" data-segments="teams" data-types="deal-breaker">
+        <div class="item-rank">5</div>
+        <div class="item-name">Client Check-In Status</div>
+        <div class="item-sub-score">3</div><div class="item-sub-score">4</div><div class="item-sub-score">4</div>
+        <div class="item-score sc-mh">48</div>
+        <div class="item-trend trend-flat" title="Stable — consistent ask from large teams">&#9654;</div>
+        <div class="item-arrow">&#x203A;</div>
+      </div>
+      <div class="item-detail" data-id="f5">
+        <div class="detail-grid">
+          <div class="detail-left">
+            <div class="detail-sum">Visual status indicator for arrived / checked-in / no-show. "Basic feature missing" for 10+ provider salons. 12 of 127 signals (9.4%).</div>
+            <div class="detail-tags"><span class="tg tg-r">Deal Breaker</span><span class="tg tg-p">vs Meevo</span><span class="tg tg-p">vs DaySmart</span><span class="tg tg-seg">Teams 10+</span></div>
+            <div class="qbox"><div class="qtxt">"Operating a salon of their size, it would be a disruption to make the receptionist flag down providers for each appointment."</div><div class="qsrc">— Jonna Ramos, Sep 2025 <span class="acct-tier tier-ent">34-provider salon</span></div></div>
+          </div>
+          <div class="detail-right">
+            <div class="action-box">
+              <h5>Recommended Action</h5>
+              <div class="action-row">
+                <span class="action-chip ac-owner">Owner: Product (Calendar)</span>
+                <span class="action-chip ac-effort">Effort: M</span>
+                <span class="action-chip ac-rev">~$40K/mo GPV at risk</span>
+              </div>
+              <div class="ac-next"><strong>Next step:</strong> Add status badge to calendar appointments (arrived → in-service → complete). Bundle with self-service checkout (E3) for "Spa Flow" package.</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- F6: Custom Domains -->
+      <div class="item-row" data-id="f6" data-segments="solo" data-types="">
+        <div class="item-rank">6</div>
+        <div class="item-name">Custom Domain Names</div>
+        <div class="item-sub-score">3</div><div class="item-sub-score">3</div><div class="item-sub-score">3</div>
+        <div class="item-score sc-md">27</div>
+        <div class="item-trend trend-flat" title="Stable">&#9654;</div>
+        <div class="item-arrow">&#x203A;</div>
+      </div>
+      <div class="item-detail" data-id="f6">
+        <div class="detail-grid">
+          <div class="detail-left">
+            <div class="detail-sum">Allow businesses to use their own domain instead of .glossgenius.com subdomain. Current subdomain "makes me look like a booth renter." 12 of 127 signals (9.4%).</div>
+            <div class="detail-tags"><span class="tg tg-seg">Solos</span><span class="tg">Brand Identity</span><span class="tg">Website</span></div>
+            <div class="qbox"><div class="qtxt">"Going from hairbyisi.com → hairbyisi.glossgenius.com 'makes me look like a booth renter' and 'disqualifies' his personal brand."</div><div class="qsrc">— Karlo Antalan, Apr 2026 <span class="acct-tier tier-cx">Product</span></div></div>
+          </div>
+          <div class="detail-right">
+            <div class="action-box">
+              <h5>Recommended Action</h5>
+              <div class="action-row">
+                <span class="action-chip ac-owner">Owner: Product (Website)</span>
+                <span class="action-chip ac-effort">Effort: M</span>
+                <span class="action-chip ac-rev">~$15K/mo GPV at risk</span>
+              </div>
+              <div class="ac-next"><strong>Next step:</strong> DNS CNAME + SSL provisioning (Let's Encrypt). Could be a premium/Gold feature. Revenue opportunity, not just retention.</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- F7: Audit Trail -->
+      <div class="item-row" data-id="f7" data-segments="teams" data-types="deal-breaker">
+        <div class="item-rank">7</div>
+        <div class="item-name">Scheduling Audit Trail</div>
+        <div class="item-sub-score">2</div><div class="item-sub-score">4</div><div class="item-sub-score">4</div>
+        <div class="item-score sc-md">32</div>
+        <div class="item-trend trend-flat" title="Stable">&#9654;</div>
+        <div class="item-arrow">&#x203A;</div>
+      </div>
+      <div class="item-detail" data-id="f7">
+        <div class="detail-grid">
+          <div class="detail-left">
+            <div class="detail-sum">Log who booked, edited, checked out each appointment. Critical for coaching and front desk accountability. 7 of 127 signals (5.5%).</div>
+            <div class="detail-tags"><span class="tg tg-r">Deal Breaker</span><span class="tg tg-p">vs DaySmart</span><span class="tg tg-seg">Teams 10+</span><span class="tg">Management</span></div>
+            <div class="qbox"><div class="qtxt">"No way to see who booked an appointment or when it was edited. This eliminates accountability entirely."</div><div class="qsrc">— Meghan Berke, Jan 2026 <span class="acct-tier tier-cx">CX Agent</span></div></div>
+          </div>
+          <div class="detail-right">
+            <div class="action-box">
+              <h5>Recommended Action</h5>
+              <div class="action-row">
+                <span class="action-chip ac-owner">Owner: Eng (Backend)</span>
+                <span class="action-chip ac-effort">Effort: M</span>
+                <span class="action-chip ac-rev">~$30K/mo GPV at risk</span>
+              </div>
+              <div class="ac-next"><strong>Next step:</strong> Event sourcing likely already captures this data. Surface it in UI as appointment activity log. Backend work = low, UI = moderate.</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- F8: Level Tiering -->
+      <div class="item-row" data-id="f8" data-segments="teams" data-types="deal-breaker">
+        <div class="item-rank">8</div>
+        <div class="item-name">Level Stylist / Service Tiering</div>
+        <div class="item-sub-score">2</div><div class="item-sub-score">4</div><div class="item-sub-score">3</div>
+        <div class="item-score sc-md">24</div>
+        <div class="item-trend trend-flat" title="Stable">&#9654;</div>
+        <div class="item-arrow">&#x203A;</div>
+      </div>
+      <div class="item-detail" data-id="f8">
+        <div class="detail-grid">
+          <div class="detail-left">
+            <div class="detail-sum">Associate experience level to stylists with auto-adjusted pricing/duration. Essential for 10+ provider salons. 6 of 127 signals (4.7%).</div>
+            <div class="detail-tags"><span class="tg tg-r">Deal Breaker</span><span class="tg tg-p">vs Spa Salon Mgr</span><span class="tg tg-seg">Teams 10+</span></div>
+          </div>
+          <div class="detail-right">
+            <div class="action-box">
+              <h5>Recommended Action</h5>
+              <div class="action-row">
+                <span class="action-chip ac-owner">Owner: Product (Scheduling)</span>
+                <span class="action-chip ac-effort">Effort: M</span>
+                <span class="action-chip ac-rev">~$25K/mo GPV at risk</span>
+              </div>
+              <div class="ac-next"><strong>Next step:</strong> Provider-level service price overrides. Ship as part of "Teams Package" alongside commissions. Data model: service_provider_override table.</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- F9: Multi-Language -->
+      <div class="item-row" data-id="f9" data-segments="solo" data-types="deal-breaker">
+        <div class="item-rank">9</div>
+        <div class="item-name">Multi-Language Support (Spanish)</div>
+        <div class="item-sub-score">2</div><div class="item-sub-score">5</div><div class="item-sub-score">3</div>
+        <div class="item-score sc-md">30</div>
+        <div class="item-trend trend-up" title="Worsening — firm deal breaker, growing demand">&#9650;</div>
+        <div class="item-arrow">&#x203A;</div>
+      </div>
+      <div class="item-detail" data-id="f9">
+        <div class="detail-grid">
+          <div class="detail-left">
+            <div class="detail-sum">App/dashboard language toggle and notification translations. Firm deal breaker for Spanish-speaking staff/clients. 8 of 127 signals (6.3%). Entire market segment locked out.</div>
+            <div class="detail-tags"><span class="tg tg-r">Deal Breaker</span><span class="tg tg-seg">Solos</span><span class="tg">Accessibility</span></div>
+            <div class="qbox"><div class="qtxt">"The only thing holding her back is not being able to change the app/dashboard language to Spanish as her partner is exclusively a Spanish speaker."</div><div class="qsrc">— Andrew LaRose, Apr 2026 <span class="acct-tier tier-trial">Trial</span></div></div>
+          </div>
+          <div class="detail-right">
+            <div class="action-box">
+              <h5>Recommended Action</h5>
+              <div class="action-row">
+                <span class="action-chip ac-owner">Owner: Product (Platform)</span>
+                <span class="action-chip ac-effort">Effort: XL</span>
+                <span class="action-chip ac-rev">~$30K/mo GPV blocked + TAM expansion</span>
+              </div>
+              <div class="ac-next"><strong>Next step:</strong> i18n framework first, Spanish locale second. High effort but unlocks entirely new customer segment. Beauty industry demographics make this strategically important — the addressable market is much larger than 8 mentions suggest.</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- F10: GC Balance -->
+      <div class="item-row" data-id="f10" data-segments="teams,solo" data-types="deal-breaker">
+        <div class="item-rank">10</div>
+        <div class="item-name">Gift Card Balance Transfers</div>
+        <div class="item-sub-score">2</div><div class="item-sub-score">4</div><div class="item-sub-score">3</div>
+        <div class="item-score sc-md">24</div>
+        <div class="item-trend trend-flat" title="Stable — persistent migration blocker">&#9654;</div>
+        <div class="item-arrow">&#x203A;</div>
+      </div>
+      <div class="item-detail" data-id="f10">
+        <div class="detail-grid">
+          <div class="detail-left">
+            <div class="detail-sum">Import existing GC balances from other platforms during migration. Major blocker — customers will pay 2x more to stay on Vagaro for this alone. Part of the "3 strikes" migration trio.</div>
+            <div class="detail-tags"><span class="tg tg-r">Deal Breaker</span><span class="tg tg-seg">Teams 10+</span><span class="tg tg-seg">Solos</span><span class="tg">Migration</span></div>
+          </div>
+          <div class="detail-right">
+            <div class="action-box">
+              <h5>Recommended Action</h5>
+              <div class="action-row">
+                <span class="action-chip ac-owner">Owner: Eng (Migration)</span>
+                <span class="action-chip ac-effort">Effort: M</span>
+                <span class="action-chip ac-rev">~$25K/mo GPV blocked</span>
+              </div>
+              <div class="ac-next"><strong>Next step:</strong> CSV import tool for GC balances with code mapping. Ship with migration experience overhaul (E1). Critical for every competitive switch.</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- F11: 2-Way Texting -->
+      <div class="item-row" data-id="f11" data-segments="teams" data-types="">
+        <div class="item-rank">11</div>
+        <div class="item-name">2-Way Texting</div>
+        <div class="item-sub-score">2</div><div class="item-sub-score">3</div><div class="item-sub-score">3</div>
+        <div class="item-score sc-md">18</div>
+        <div class="item-trend trend-flat" title="Stable">&#9654;</div>
+        <div class="item-arrow">&#x203A;</div>
+      </div>
+      <div class="item-detail" data-id="f11">
+        <div class="detail-grid">
+          <div class="detail-left">
+            <div class="detail-sum">Back-and-forth text conversations with clients through the platform. Key gap for larger teams. 5 of 127 signals (3.9%).</div>
+            <div class="detail-tags"><span class="tg tg-seg">Teams 10+</span><span class="tg">Communication</span></div>
+          </div>
+          <div class="detail-right">
+            <div class="action-box">
+              <h5>Recommended Action</h5>
+              <div class="action-row">
+                <span class="action-chip ac-owner">Owner: Product (Messaging)</span>
+                <span class="action-chip ac-effort">Effort: L</span>
+                <span class="action-chip ac-rev">~$15K/mo GPV at risk</span>
+              </div>
+              <div class="ac-next"><strong>Next step:</strong> Twilio 2-way SMS integration. Could be premium feature. Validate willingness-to-pay before building.</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- F12: Per-Service Tax Control (NEW Apr 21) -->
+      <div class="item-row" data-id="f12" data-segments="teams,solo" data-types="deal-breaker" style="border-left:3px solid var(--pink);">
+        <div class="item-rank" style="background:var(--pink);color:#fff;">N</div>
+        <div class="item-name">Per-Service Tax Control at Checkout</div>
+        <div class="item-sub-score">1</div><div class="item-sub-score">5</div><div class="item-sub-score">3</div>
+        <div class="item-score sc-md">15</div>
+        <div class="item-trend trend-new" title="New signal — Apr 20, 2026">&#9733;</div>
+        <div class="item-arrow">&#x203A;</div>
+      </div>
+      <div class="item-detail" data-id="f12">
+        <div class="detail-grid">
+          <div class="detail-left">
+            <div class="detail-sum">Ability to apply different tax rates per service within the same checkout cart. Ohio salons don't tax hair services but do tax other services — currently GG only allows removing tax for the entire cart. Killed an Acuity-to-GG switch. 1 of 128 signals (0.8%) but a hard compliance blocker — any multi-service salon in states with service-specific tax rules hits this.</div>
+            <div class="detail-tags"><span class="tg tg-r">Deal Breaker</span><span class="tg tg-p">vs Acuity</span><span class="tg tg-seg">Teams 10+</span><span class="tg tg-seg">Solos</span><span class="tg">Tax Compliance</span><span class="tg">Checkout</span></div>
+            <div class="qbox"><div class="qtxt">"They don't charge sales tax on hair services in Ohio but do tax all other services, so when a client books multiple services (e.g. hair and makeup), they need the ability to apply tax only to the taxable service. Currently the only option is to remove sales tax for the entire cart, which doesn't meet their compliance needs."</div><div class="qsrc">— Jonna Ramos, Apr 20, 2026 <span class="acct-tier tier-trial">Trial (from Acuity)</span></div></div>
+          </div>
+          <div class="detail-right">
+            <div class="action-box">
+              <h5>Recommended Action</h5>
+              <div class="action-row">
+                <span class="action-chip ac-owner">Owner: Product (Checkout)</span>
+                <span class="action-chip ac-effort">Effort: M</span>
+                <span class="action-chip ac-rev">~$15K/mo GPV blocked</span>
+              </div>
+              <div class="ac-next"><strong>Next step:</strong> Add tax category field per service (taxable/exempt). Apply tax rules per line item at checkout instead of cart-level toggle. This is a compliance issue, not a preference — businesses in states with mixed-tax rules literally cannot use GG legally. Scope impact: OH, NY, NJ, CA all have service-specific tax rules.</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- F13: SOAP Notes (was F12) -->
+      <div class="item-row" data-id="f13" data-segments="medspa" data-types="">
+        <div class="item-rank">13</div>
+        <div class="item-name">SOAP Notes</div>
+        <div class="item-sub-score">2</div><div class="item-sub-score">3</div><div class="item-sub-score">3</div>
+        <div class="item-score sc-md">18</div>
+        <div class="item-trend trend-up" title="Growing — medspa vertical expanding">&#9650;</div>
+        <div class="item-arrow">&#x203A;</div>
+      </div>
+      <div class="item-detail" data-id="f13">
+        <div class="detail-grid">
+          <div class="detail-left">
+            <div class="detail-sum">Clinical notes for medspas and estheticians. Key for EMR vertical expansion. Strategic importance exceeds mention count.</div>
+            <div class="detail-tags"><span class="tg tg-seg">Medspa</span><span class="tg">Clinical</span></div>
+          </div>
+          <div class="detail-right">
+            <div class="action-box">
+              <h5>Recommended Action</h5>
+              <div class="action-row">
+                <span class="action-chip ac-owner">Owner: Product (EMR)</span>
+                <span class="action-chip ac-effort">Effort: L</span>
+                <span class="action-chip ac-rev">TAM expansion — new vertical</span>
+              </div>
+              <div class="ac-next"><strong>Next step:</strong> Part of EMR MVP roadmap. See Aug 2025 "Core Medspa EMR" research drop for workflow themes and strategic takeaways.</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- F14: Provider Links -->
+      <div class="item-row" data-id="f14" data-segments="teams" data-types="">
+        <div class="item-rank">14</div>
+        <div class="item-name">Provider-Specific Booking Links</div>
+        <div class="item-sub-score">2</div><div class="item-sub-score">2</div><div class="item-sub-score">2</div>
+        <div class="item-score sc-lo">8</div>
+        <div class="item-trend trend-flat" title="Stable">&#9654;</div>
+        <div class="item-arrow">&#x203A;</div>
+      </div>
+      <div class="item-detail" data-id="f14">
+        <div class="detail-grid">
+          <div class="detail-left">
+            <div class="detail-sum">Individual booking URLs per provider for QR codes on business cards. Common competitor feature. 3 of 127 signals (2.4%).</div>
+            <div class="detail-tags"><span class="tg tg-seg">Teams 10+</span><span class="tg">Booking</span><span class="tg">Marketing</span></div>
+          </div>
+          <div class="detail-right">
+            <div class="action-box">
+              <h5>Recommended Action</h5>
+              <div class="action-row">
+                <span class="action-chip ac-owner">Owner: Eng (Website)</span>
+                <span class="action-chip ac-effort">Effort: S</span>
+                <span class="action-chip ac-rev">Low direct</span>
+              </div>
+              <div class="ac-next"><strong>Next step:</strong> Generate /book/[provider-slug] URL per team member. Low effort — routing change + provider filter preset. Quick win for teams.</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- F15: Outside Payments -->
+      <div class="item-row" data-id="f15" data-segments="solo" data-types="">
+        <div class="item-rank">15</div>
+        <div class="item-name">Outside Payment Method Tracking</div>
+        <div class="item-sub-score">2</div><div class="item-sub-score">2</div><div class="item-sub-score">2</div>
+        <div class="item-score sc-lo">8</div>
+        <div class="item-trend trend-flat" title="Stable">&#9654;</div>
+        <div class="item-arrow">&#x203A;</div>
+      </div>
+      <div class="item-detail" data-id="f15">
+        <div class="detail-grid">
+          <div class="detail-left">
+            <div class="detail-sum">Record Zelle, Venmo, Cash App, Groupon payments for accurate financial reporting. 5 of 127 signals (3.9%).</div>
+            <div class="detail-tags"><span class="tg tg-seg">Solos</span><span class="tg">Reporting</span></div>
+          </div>
+          <div class="detail-right">
+            <div class="action-box">
+              <h5>Recommended Action</h5>
+              <div class="action-row">
+                <span class="action-chip ac-owner">Owner: Product (Checkout)</span>
+                <span class="action-chip ac-effort">Effort: S</span>
+                <span class="action-chip ac-rev">Low direct</span>
+              </div>
+              <div class="ac-next"><strong>Next step:</strong> Add "other payment" type at checkout with label field. Simple dropdown: Zelle/Venmo/Cash/Other. No payment processing — recording only.</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- F16: Client Time Memory -->
+      <div class="item-row" data-id="f16" data-segments="solo" data-types="">
+        <div class="item-rank">16</div>
+        <div class="item-name">Client-Specific Service Time Memory</div>
+        <div class="item-sub-score">1</div><div class="item-sub-score">1</div><div class="item-sub-score">2</div>
+        <div class="item-score sc-lo">2</div>
+        <div class="item-trend trend-new" title="New signal — Apr 2026">&#9733;</div>
+        <div class="item-arrow">&#x203A;</div>
+      </div>
+      <div class="item-detail" data-id="f16">
+        <div class="detail-grid">
+          <div class="detail-left">
+            <div class="detail-sum">Auto-remember custom durations per client. 1 of 127 signals (0.8%).</div>
+            <div class="detail-tags"><span class="tg tg-seg">Solos</span><span class="tg">Scheduling</span><span class="tg">Automation</span></div>
+            <div class="qbox"><div class="qtxt">"When Patty books a haircut it automatically books 30mins vs when Jane books it automatically books 45min."</div><div class="qsrc">— Taylor Schulze, Apr 2026 <span class="acct-tier tier-gold">Gold</span></div></div>
+          </div>
+          <div class="detail-right">
+            <div class="action-box">
+              <h5>Recommended Action</h5>
+              <div class="action-row">
+                <span class="action-chip ac-owner">Owner: Product (Scheduling)</span>
+                <span class="action-chip ac-effort">Effort: M</span>
+                <span class="action-chip ac-rev">Zero direct</span>
+              </div>
+              <div class="ac-next"><strong>Next step:</strong> Client-service duration override in client profile. Nice AI/ML opportunity — auto-learn from past appointment durations. Lower priority, future roadmap.</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- F17: Bulk Profiles -->
+      <div class="item-row" data-id="f17" data-segments="teams" data-types="quick-win">
+        <div class="item-rank">17</div>
+        <div class="item-name">Bulk Client Profile Management</div>
+        <div class="item-sub-score">1</div><div class="item-sub-score">1</div><div class="item-sub-score">1</div>
+        <div class="item-score sc-lo">1</div>
+        <div class="item-trend trend-flat" title="Stable">&#9654;</div>
+        <div class="item-arrow">&#x203A;</div>
+      </div>
+      <div class="item-detail" data-id="f17">
+        <div class="detail-grid">
+          <div class="detail-left">
+            <div class="detail-sum">Delete or archive multiple client profiles at once. 1 of 127 signals (0.8%).</div>
+            <div class="detail-tags"><span class="tg tg-seg">Teams 10+</span><span class="tg">Admin</span><span class="tg">Quick Win</span></div>
+          </div>
+          <div class="detail-right">
+            <div class="action-box">
+              <h5>Recommended Action</h5>
+              <div class="action-row">
+                <span class="action-chip ac-owner">Owner: Eng</span>
+                <span class="action-chip ac-effort">Effort: S</span>
+                <span class="action-chip ac-rev">Zero direct</span>
+              </div>
+              <div class="ac-next"><strong>Next step:</strong> Checkbox multi-select + bulk archive/delete. Standard admin pattern. Quick win for data hygiene.</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- ── TAB 3: EXPERIENCES TO POLISH ── -->
+  <div class="cat-section" id="experiences">
+    <div class="panel">
+      <div class="panel-hd">
+        <div><div class="panel-t">Experiences to Polish</div><div class="panel-sub">How existing flows should FEEL — reducing friction, adding delight, improving end-to-end journeys</div></div>
+      </div>
+
+      <div class="col-header">
+        <div>#</div><div>Experience</div><div title="Frequency">FRQ</div><div title="Churn Signal">CHR</div><div title="Revenue Impact">REV</div><div>Score</div><div>Trend</div><div></div>
+      </div>
+
+      <!-- E1: Migration -->
+      <div class="item-row" data-id="e1" data-segments="teams,solo" data-types="deal-breaker">
+        <div class="item-rank">1</div>
+        <div class="item-name">Seamless Data Migration Experience</div>
+        <div class="item-sub-score">4</div><div class="item-sub-score">5</div><div class="item-sub-score">4</div>
+        <div class="item-score sc-mh">80</div>
+        <div class="item-trend trend-up" title="Worsening — as GG targets switchers, this blocks more deals">&#9650;</div>
+        <div class="item-arrow">&#x203A;</div>
+      </div>
+      <div class="item-detail" data-id="e1">
+        <div class="detail-grid">
+          <div class="detail-left">
+            <div class="detail-sum">Past appointment history, forms/waivers, and GC balances all transferred seamlessly. The "3 strikes" trio. 8 of 127 signals (6.3%). Customers accept workarounds if at least 1 of 3 is handled.</div>
+            <div class="detail-tags"><span class="tg tg-r">Deal Breaker</span><span class="tg tg-seg">Teams 10+</span><span class="tg tg-seg">Solos</span><span class="tg">Onboarding</span><span class="tg">First Impression</span></div>
+            <div class="qbox"><div class="qtxt">"If we could at least do one of her 3 deal breakers — gift card balances, appointment history, forms — she'd be open to workarounds. But '3 strikes and you are out.'"</div><div class="qsrc">— Laura Horton, Feb 2026 <span class="acct-tier tier-ent">Enterprise prospect</span></div></div>
+          </div>
+          <div class="detail-right">
+            <div class="action-box">
+              <h5>Recommended Action</h5>
+              <div class="action-row">
+                <span class="action-chip ac-owner">Owner: Product (Onboarding)</span>
+                <span class="action-chip ac-effort">Effort: L</span>
+                <span class="action-chip ac-rev">~$80K/mo GPV blocked</span>
+              </div>
+              <div class="ac-next"><strong>Next step:</strong> Prioritize "1 of 3" — GC balance import is fastest to ship and most frequently cited. Then appointment history CSV import. Forms = hardest, defer to Phase 2.</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- E2: Gift Card Experience -->
+      <div class="item-row" data-id="e2" data-segments="solo" data-types="">
+        <div class="item-rank">2</div>
+        <div class="item-name">Gift Card "Real Gift" Experience</div>
+        <div class="item-sub-score">3</div><div class="item-sub-score">3</div><div class="item-sub-score">3</div>
+        <div class="item-score sc-md">27</div>
+        <div class="item-trend trend-flat" title="Stable">&#9654;</div>
+        <div class="item-arrow">&#x203A;</div>
+      </div>
+      <div class="item-detail" data-id="e2">
+        <div class="detail-grid">
+          <div class="detail-left">
+            <div class="detail-sum">Professional visual design with logo, physical card printing, minimum amounts, delivery options. Currently looks "generic." 4 of 127 signals (3.1%). Revenue driver — 10% of sales for active Package sellers.</div>
+            <div class="detail-tags"><span class="tg tg-seg">Solos</span><span class="tg">Revenue Driver</span><span class="tg">Brand</span><span class="tg">Delight</span></div>
+            <div class="qbox"><div class="qtxt">"Needs to look more presentable for in-person sales — right now looks very generic and not like a 'gift' experience from a salon."</div><div class="qsrc">— Aubry Bratcher, Oct 2025 <span class="acct-tier tier-gold">Gold</span></div></div>
+          </div>
+          <div class="detail-right">
+            <div class="action-box">
+              <h5>Recommended Action</h5>
+              <div class="action-row">
+                <span class="action-chip ac-owner">Owner: Product (Gift Cards)</span>
+                <span class="action-chip ac-effort">Effort: M</span>
+                <span class="action-chip ac-rev">Revenue growth opp</span>
+              </div>
+              <div class="ac-next"><strong>Next step:</strong> Redesign GC templates with logo upload, themed designs, delivery scheduling. This is a revenue growth play, not just a fix — better GC UX = higher GC sales.</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- E3: Self-Service Checkout -->
+      <div class="item-row" data-id="e3" data-segments="teams,medspa" data-types="deal-breaker">
+        <div class="item-rank">3</div>
+        <div class="item-name">Self-Service Checkout (Pre-Pay + Tip)</div>
+        <div class="item-sub-score">3</div><div class="item-sub-score">4</div><div class="item-sub-score">4</div>
+        <div class="item-score sc-mh">48</div>
+        <div class="item-trend trend-flat" title="Stable — consistent spa segment ask">&#9654;</div>
+        <div class="item-arrow">&#x203A;</div>
+      </div>
+      <div class="item-detail" data-id="e3">
+        <div class="detail-grid">
+          <div class="detail-left">
+            <div class="detail-sum">Collect full payment including gratuity at booking time. Clients check in, get serviced, leave — no checkout friction. Lost deal to Mangomint over this. 5 of 127 signals (3.9%).</div>
+            <div class="detail-tags"><span class="tg tg-r">Deal Breaker</span><span class="tg tg-p">vs Mangomint</span><span class="tg tg-seg">Teams 10+</span><span class="tg tg-seg">Medspa</span><span class="tg">Spa Flow</span></div>
+            <div class="qbox"><div class="qtxt">"They could not collect full payment including gratuity at the time of booking or have clients check themselves in. Professionals are booked back to back. They went with Mangomint."</div><div class="qsrc">— Meghan Berke, Jun 2025 <span class="acct-tier tier-ent">Enterprise prospect (lost)</span></div></div>
+          </div>
+          <div class="detail-right">
+            <div class="action-box">
+              <h5>Recommended Action</h5>
+              <div class="action-row">
+                <span class="action-chip ac-owner">Owner: Product (Checkout)</span>
+                <span class="action-chip ac-effort">Effort: L</span>
+                <span class="action-chip ac-rev">~$40K/mo GPV lost</span>
+              </div>
+              <div class="ac-next"><strong>Next step:</strong> Pre-pay at booking with optional gratuity. Bundle with check-in (F5) for complete "Spa Flow" package that directly competes with Mangomint for spa/medspa vertical.</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- E4: SMS Customization -->
+      <div class="item-row" data-id="e4" data-segments="solo" data-types="">
+        <div class="item-rank">4</div>
+        <div class="item-name">SMS / Text Customization</div>
+        <div class="item-sub-score">2</div><div class="item-sub-score">2</div><div class="item-sub-score">2</div>
+        <div class="item-score sc-lo">8</div>
+        <div class="item-trend trend-flat" title="Stable">&#9654;</div>
+        <div class="item-arrow">&#x203A;</div>
+      </div>
+      <div class="item-detail" data-id="e4">
+        <div class="detail-grid">
+          <div class="detail-left">
+            <div class="detail-sum">Allow customization of text message tone, wording, branding — not just email. Most clients use SMS over email. 3 of 127 signals (2.4%).</div>
+            <div class="detail-tags"><span class="tg tg-seg">Solos</span><span class="tg">Professionalism</span><span class="tg">Brand Voice</span></div>
+          </div>
+          <div class="detail-right">
+            <div class="action-box">
+              <h5>Recommended Action</h5>
+              <div class="action-row">
+                <span class="action-chip ac-owner">Owner: Product (Notifications)</span>
+                <span class="action-chip ac-effort">Effort: S</span>
+                <span class="action-chip ac-rev">Low direct</span>
+              </div>
+              <div class="ac-next"><strong>Next step:</strong> Extend existing email template editor to SMS. Quick win — same UI pattern, different channel. Ship with P10 fix.</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- E5: Forms from Profile -->
+      <div class="item-row" data-id="e5" data-segments="medspa" data-types="">
+        <div class="item-rank">5</div>
+        <div class="item-name">Forms Fillable from Client Profile</div>
+        <div class="item-sub-score">2</div><div class="item-sub-score">3</div><div class="item-sub-score">3</div>
+        <div class="item-score sc-md">18</div>
+        <div class="item-trend trend-flat" title="Stable">&#9654;</div>
+        <div class="item-arrow">&#x203A;</div>
+      </div>
+      <div class="item-detail" data-id="e5">
+        <div class="detail-grid">
+          <div class="detail-left">
+            <div class="detail-sum">Fill forms directly from client profile if not completed pre-appointment. Also: optional questions, waiver enforcement at booking. 3 of 127 signals (2.4%).</div>
+            <div class="detail-tags"><span class="tg tg-seg">Medspa</span><span class="tg">Workflow</span></div>
+            <div class="qbox"><div class="qtxt">"Members want forms fillable directly from the client profile if not completed prior to appointments."</div><div class="qsrc">— Deniece Inda, May 2025 <span class="acct-tier tier-cx">CX Lead</span></div></div>
+          </div>
+          <div class="detail-right">
+            <div class="action-box">
+              <h5>Recommended Action</h5>
+              <div class="action-row">
+                <span class="action-chip ac-owner">Owner: Product (Forms)</span>
+                <span class="action-chip ac-effort">Effort: M</span>
+                <span class="action-chip ac-rev">~$15K/mo GPV at risk</span>
+              </div>
+              <div class="ac-next"><strong>Next step:</strong> Add "fill form" action to client profile page + inline form viewer. Part of medspa/EMR package.</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- E6-E12: Remaining experiences -->
+      <div class="item-row" data-id="e6" data-segments="medspa" data-types="">
+        <div class="item-rank">6</div>
+        <div class="item-name">Post-Care Instructions Auto-Send</div>
+        <div class="item-sub-score">2</div><div class="item-sub-score">2</div><div class="item-sub-score">2</div>
+        <div class="item-score sc-lo">8</div>
+        <div class="item-trend trend-flat">&#9654;</div>
+        <div class="item-arrow">&#x203A;</div>
+      </div>
+      <div class="item-detail" data-id="e6">
+        <div class="detail-grid">
+          <div class="detail-left">
+            <div class="detail-sum">Auto-send aftercare instructions before or after visits. 2 of 127 signals (1.6%).</div>
+            <div class="detail-tags"><span class="tg tg-seg">Medspa</span><span class="tg">Automation</span></div>
+          </div>
+          <div class="detail-right">
+            <div class="action-box"><h5>Recommended Action</h5><div class="action-row"><span class="action-chip ac-owner">Owner: Product (Automation)</span><span class="action-chip ac-effort">Effort: M</span><span class="action-chip ac-rev">Low direct</span></div><div class="ac-next"><strong>Next step:</strong> Service-linked aftercare template with auto-send trigger. Part of medspa workflow package.</div></div>
+          </div>
+        </div>
+      </div>
+
+      <div class="item-row" data-id="e7" data-segments="solo" data-types="">
+        <div class="item-rank">7</div>
+        <div class="item-name">Seamless Rebooking Flow</div>
+        <div class="item-sub-score">2</div><div class="item-sub-score">2</div><div class="item-sub-score">2</div>
+        <div class="item-score sc-lo">8</div>
+        <div class="item-trend trend-flat">&#9654;</div>
+        <div class="item-arrow">&#x203A;</div>
+      </div>
+      <div class="item-detail" data-id="e7">
+        <div class="detail-grid">
+          <div class="detail-left"><div class="detail-sum">Clients re-enter information for every new appointment. Want one-tap rebooking. 2 of 127 signals (1.6%).</div><div class="detail-tags"><span class="tg tg-seg">Solos</span><span class="tg">Client UX</span><span class="tg">Retention</span></div></div>
+          <div class="detail-right"><div class="action-box"><h5>Recommended Action</h5><div class="action-row"><span class="action-chip ac-owner">Owner: Product (Booking)</span><span class="action-chip ac-effort">Effort: S</span><span class="action-chip ac-rev">Low direct</span></div><div class="ac-next"><strong>Next step:</strong> "Rebook same" button on confirmation screen + post-visit email. Pre-fills provider, service, preferred time.</div></div></div>
+        </div>
+      </div>
+
+      <div class="item-row" data-id="e8" data-segments="teams" data-types="">
+        <div class="item-rank">8</div>
+        <div class="item-name">Working Hours Only Calendar View</div>
+        <div class="item-sub-score">2</div><div class="item-sub-score">2</div><div class="item-sub-score">2</div>
+        <div class="item-score sc-lo">8</div>
+        <div class="item-trend trend-new" title="New — Apr 2026">&#9733;</div>
+        <div class="item-arrow">&#x203A;</div>
+      </div>
+      <div class="item-detail" data-id="e8">
+        <div class="detail-grid">
+          <div class="detail-left"><div class="detail-sum">Hide non-working hours from calendar view. Key for 20+ provider salons. 2 of 127 signals (1.6%).</div><div class="detail-tags"><span class="tg tg-seg">Teams 10+</span><span class="tg">Calendar</span><span class="tg">Efficiency</span></div>
+            <div class="qbox"><div class="qtxt">"Large 23+ salon looking to only view working hours on calendar and to not have to scroll through non-working hours."</div><div class="qsrc">— Meghan Berke, Apr 2026 <span class="acct-tier tier-ent">Enterprise (23+ providers)</span></div></div>
+          </div>
+          <div class="detail-right"><div class="action-box"><h5>Recommended Action</h5><div class="action-row"><span class="action-chip ac-owner">Owner: Product (Calendar)</span><span class="action-chip ac-effort">Effort: M</span><span class="action-chip ac-rev">~$15K/mo GPV at risk</span></div><div class="ac-next"><strong>Next step:</strong> "Compact view" toggle that collapses non-scheduled hours. Ship with calendar improvements batch.</div></div></div>
+        </div>
+      </div>
+
+      <div class="item-row" data-id="e9" data-segments="solo" data-types="">
+        <div class="item-rank">9</div><div class="item-name">Multi-Platform Review Options</div>
+        <div class="item-sub-score">1</div><div class="item-sub-score">1</div><div class="item-sub-score">2</div>
+        <div class="item-score sc-lo">2</div><div class="item-trend trend-flat">&#9654;</div><div class="item-arrow">&#x203A;</div>
+      </div>
+      <div class="item-detail" data-id="e9">
+        <div class="detail-grid">
+          <div class="detail-left"><div class="detail-sum">Let clients leave reviews on Google, GG, or other platforms. Multiple QR codes or selectable review links. 2 of 127 signals (1.6%).</div><div class="detail-tags"><span class="tg tg-seg">Solos</span><span class="tg">Marketing</span><span class="tg">Reviews</span></div></div>
+          <div class="detail-right"><div class="action-box"><h5>Recommended Action</h5><div class="action-row"><span class="action-chip ac-owner">Owner: Product (Marketing)</span><span class="action-chip ac-effort">Effort: S</span><span class="action-chip ac-rev">Low direct</span></div><div class="ac-next"><strong>Next step:</strong> Add Google review link field in settings. Review prompt includes both GG + Google links.</div></div></div>
+        </div>
+      </div>
+
+      <div class="item-row" data-id="e10" data-segments="solo" data-types="">
+        <div class="item-rank">10</div><div class="item-name">Package Notifications for Sales</div>
+        <div class="item-sub-score">1</div><div class="item-sub-score">1</div><div class="item-sub-score">1</div>
+        <div class="item-score sc-lo">1</div><div class="item-trend trend-flat">&#9654;</div><div class="item-arrow">&#x203A;</div>
+      </div>
+      <div class="item-detail" data-id="e10">
+        <div class="detail-grid">
+          <div class="detail-left"><div class="detail-sum">Get notified when a package is sold. Currently no alert. 1 of 127 signals (0.8%).</div><div class="detail-tags"><span class="tg tg-seg">Solos</span><span class="tg">Notifications</span><span class="tg">Packages</span></div></div>
+          <div class="detail-right"><div class="action-box"><h5>Recommended Action</h5><div class="action-row"><span class="action-chip ac-owner">Owner: Eng</span><span class="action-chip ac-effort">Effort: XS</span><span class="action-chip ac-rev">Zero direct</span></div><div class="ac-next"><strong>Next step:</strong> Push notification on package purchase event. XS effort — event already exists, add notification trigger.</div></div></div>
+        </div>
+      </div>
+
+      <div class="item-row" data-id="e11" data-segments="solo" data-types="">
+        <div class="item-rank">11</div><div class="item-name">Service Display Customization</div>
+        <div class="item-sub-score">1</div><div class="item-sub-score">1</div><div class="item-sub-score">1</div>
+        <div class="item-score sc-lo">1</div><div class="item-trend trend-flat">&#9654;</div><div class="item-arrow">&#x203A;</div>
+      </div>
+      <div class="item-detail" data-id="e11">
+        <div class="detail-grid">
+          <div class="detail-left"><div class="detail-sum">Skip required service photos, default to category view. 1 of 127 signals (0.8%).</div><div class="detail-tags"><span class="tg tg-seg">Solos</span><span class="tg">Website</span><span class="tg">Customization</span></div></div>
+          <div class="detail-right"><div class="action-box"><h5>Recommended Action</h5><div class="action-row"><span class="action-chip ac-owner">Owner: Product (Website)</span><span class="action-chip ac-effort">Effort: S</span><span class="action-chip ac-rev">Zero direct</span></div><div class="ac-next"><strong>Next step:</strong> Toggle: "show photos" vs "list view" for service menu. Quick settings change.</div></div></div>
+        </div>
+      </div>
+
+      <div class="item-row" data-id="e12" data-segments="solo" data-types="">
+        <div class="item-rank">12</div><div class="item-name">Inventory "Gifted Product" Tracking</div>
+        <div class="item-sub-score">1</div><div class="item-sub-score">1</div><div class="item-sub-score">1</div>
+        <div class="item-score sc-lo">1</div><div class="item-trend trend-flat">&#9654;</div><div class="item-arrow">&#x203A;</div>
+      </div>
+      <div class="item-detail" data-id="e12">
+        <div class="detail-grid">
+          <div class="detail-left"><div class="detail-sum">Optional "gifted" checkmark so complimentary products don't affect inventory/tax. 1 of 127 signals (0.8%).</div><div class="detail-tags"><span class="tg tg-seg">Solos</span><span class="tg">Inventory</span><span class="tg">Tax</span></div></div>
+          <div class="detail-right"><div class="action-box"><h5>Recommended Action</h5><div class="action-row"><span class="action-chip ac-owner">Owner: Eng</span><span class="action-chip ac-effort">Effort: S</span><span class="action-chip ac-rev">Zero direct</span></div><div class="ac-next"><strong>Next step:</strong> "Mark as gifted" toggle at product checkout. Excludes from revenue, adjusts inventory count.</div></div></div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+</div>
+
+<!-- RIGHT SIDEBAR -->
+<div class="right-col">
+
+  <!-- Scoring Methodology -->
+  <div class="panel">
+    <div class="panel-hd"><div class="panel-t">Scoring Methodology</div></div>
+    <div class="method-box">
+      <h5>Priority Score Formula</h5>
+      <div class="method-row"><span class="method-label">Formula</span><span class="method-val" style="color:var(--accent2);font-family:monospace;font-size:10px;">FRQ × CHR × REV</span></div>
+      <div class="method-row"><span class="method-label">FRQ (Frequency)</span><span class="method-val">Mention count: 1=1-2, 2=3-5, 3=6-12, 4=13-20, 5=21+</span></div>
+      <div class="method-row"><span class="method-label">CHR (Churn Signal)</span><span class="method-val">1=none, 2=frustration, 3=threat, 4=canceled, 5=multiple cancels</span></div>
+      <div class="method-row"><span class="method-label">REV (Revenue Impact)</span><span class="method-val">1=none, 2=&lt;$10K, 3=$10-50K, 4=$50-100K, 5=$100K+ GPV/mo</span></div>
+      <div class="method-row"><span class="method-label">Max possible</span><span class="method-val" style="color:var(--red);">125</span></div>
+    </div>
+    <div class="method-box">
+      <h5>Data Quality Notes</h5>
+      <div class="method-row"><span class="method-label">Total signals analyzed</span><span class="method-val">128</span></div>
+      <div class="method-row"><span class="method-label">Time range</span><span class="method-val">May 2024 — Apr 2026</span></div>
+      <div class="method-row"><span class="method-label">Channels scanned</span><span class="method-val">5 Slack channels</span></div>
+      <div class="method-row"><span class="method-label">Limitations</span><span class="method-val" style="font-weight:400;color:var(--faint);">Slack only — excludes Dixa tickets (except VOC summaries), NPS, Typeform, FB community, app reviews</span></div>
+    </div>
+  </div>
+
+  <div class="r-divider"></div>
+
+  <!-- Win/Loss Matrix -->
+  <div class="panel">
+    <div class="panel-hd"><div class="panel-t">Feature × Competitor Win/Loss Matrix</div></div>
+    <div class="matrix-wrap">
+      <table class="matrix">
+        <tr><th>Feature Gap</th><th>Vagaro</th><th>Mango</th><th>Blvd</th><th>Meevo</th><th>Combs</th></tr>
+        <tr><td>Add-ons</td><td class="mx-lost">3 lost</td><td class="mx-risk">1 risk</td><td class="mx-lost">2 lost</td><td class="mx-gap">gap</td><td class="mx-ok">—</td></tr>
+        <tr><td>MSMP</td><td class="mx-risk">2 risk</td><td class="mx-lost">2 lost</td><td class="mx-risk">1 risk</td><td class="mx-lost">1 lost</td><td class="mx-ok">—</td></tr>
+        <tr><td>Commissions</td><td class="mx-lost">3 lost</td><td class="mx-lost">1 lost</td><td class="mx-gap">gap</td><td class="mx-gap">gap</td><td class="mx-ok">—</td></tr>
+        <tr><td>Smart Book</td><td class="mx-lost">2 lost</td><td class="mx-ok">—</td><td class="mx-ok">—</td><td class="mx-ok">—</td><td class="mx-ok">—</td></tr>
+        <tr><td>Check-in</td><td class="mx-gap">gap</td><td class="mx-ok">—</td><td class="mx-ok">—</td><td class="mx-lost">1 lost</td><td class="mx-ok">—</td></tr>
+        <tr><td>Self-checkout</td><td class="mx-ok">—</td><td class="mx-lost">1 lost</td><td class="mx-gap">gap</td><td class="mx-ok">—</td><td class="mx-ok">—</td></tr>
+        <tr><td>Card reader</td><td class="mx-risk">risk</td><td class="mx-ok">—</td><td class="mx-ok">—</td><td class="mx-ok">—</td><td class="mx-lost">3 lost</td></tr>
+        <tr><td>Audit trail</td><td class="mx-gap">gap</td><td class="mx-ok">—</td><td class="mx-ok">—</td><td class="mx-gap">gap</td><td class="mx-ok">—</td></tr>
+      </table>
+    </div>
+    <div style="font-size:9px;color:var(--faint);margin-top:6px;"><span class="mx-lost">lost</span> = confirmed deal lost to competitor | <span class="mx-risk">risk</span> = active churn threat | <span class="mx-gap">gap</span> = competitor has it, no confirmed loss yet</div>
+  </div>
+
+  <div class="r-divider"></div>
+
+  <!-- Segments (clickable) -->
+  <div class="panel">
+    <div class="panel-hd"><div class="panel-t">Pain by Segment</div><div class="panel-sub" style="font-size:9px;color:var(--accent2);">Click to filter</div></div>
+    <div class="seg-grid">
+      <div class="seg-col">
+        <h4 class="th" data-seg-filter="teams">Teams (10+)</h4>
+        <div class="seg-item" data-seg-link="teams"><span class="seg-dot" style="background:var(--red)"></span>MSMP / Split tickets</div>
+        <div class="seg-item" data-seg-link="teams"><span class="seg-dot" style="background:var(--red)"></span>Add-ons</div>
+        <div class="seg-item" data-seg-link="teams"><span class="seg-dot" style="background:var(--red)"></span>Commissions</div>
+        <div class="seg-item" data-seg-link="teams"><span class="seg-dot" style="background:var(--orange)"></span>Client check-in</div>
+        <div class="seg-item" data-seg-link="teams"><span class="seg-dot" style="background:var(--orange)"></span>Audit trail</div>
+        <div class="seg-item" data-seg-link="teams"><span class="seg-dot" style="background:var(--orange)"></span>Level tiering</div>
+      </div>
+      <div class="seg-col">
+        <h4 class="sh" data-seg-filter="solo">Solos & Small</h4>
+        <div class="seg-item" data-seg-link="solo"><span class="seg-dot" style="background:var(--red)"></span>Card readers</div>
+        <div class="seg-item" data-seg-link="solo"><span class="seg-dot" style="background:var(--red)"></span>Payout delays</div>
+        <div class="seg-item" data-seg-link="solo"><span class="seg-dot" style="background:var(--orange)"></span>Custom domain</div>
+        <div class="seg-item" data-seg-link="solo"><span class="seg-dot" style="background:var(--orange)"></span>Multi-language</div>
+        <div class="seg-item" data-seg-link="solo"><span class="seg-dot" style="background:var(--yellow)"></span>Gift cards</div>
+        <div class="seg-item" data-seg-link="solo"><span class="seg-dot" style="background:var(--yellow)"></span>Text tone</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="r-divider"></div>
+
+  <!-- Channels -->
+  <div class="panel">
+    <div class="panel-hd"><div class="panel-t">Channel Sources</div><div class="panel-sub">Signal volume by channel</div></div>
+    <div class="ch-row"><div class="ch-nm">#voiceofthecustomer</div><div class="ch-bg"><div class="ch-fill" style="width:90%;background:linear-gradient(90deg,var(--accent),var(--pink))"></div></div></div>
+    <div class="ch-row"><div class="ch-nm">#customer-experience</div><div class="ch-bg"><div class="ch-fill" style="width:65%;background:linear-gradient(90deg,var(--blue),var(--cyan))"></div></div></div>
+    <div class="ch-row"><div class="ch-nm">#research</div><div class="ch-bg"><div class="ch-fill" style="width:45%;background:linear-gradient(90deg,var(--green),var(--cyan))"></div></div></div>
+    <div class="ch-row"><div class="ch-nm">#cx-voice-of-customer</div><div class="ch-bg"><div class="ch-fill" style="width:25%;background:linear-gradient(90deg,var(--yellow),var(--orange))"></div></div></div>
+    <div class="ch-row"><div class="ch-nm">#customer-analytics</div><div class="ch-bg"><div class="ch-fill" style="width:20%;background:linear-gradient(90deg,var(--pink),var(--red))"></div></div></div>
+  </div>
+
+</div>
+</div>
+
+<!-- BOTTOM BAR -->
+<div class="bottom-bar">
+  <div class="panel">
+    <div class="panel-hd"><div class="panel-t">Key Takeaways</div></div>
+    <div class="take-grid">
+      <div class="take" style="border-color:var(--red)"><h5 style="color:var(--red)">The "Teams Gap" = ~$350K/mo GPV</h5><p>Add-ons + MSMP + commissions + check-in + audit trails cluster together. Teams 10+ conclude "great for solos, not for us." Every $100K+/mo GPV loss cites 2+ of these. Solving add-ons alone unblocks ~30% of lost deals.</p></div>
+      <div class="take" style="border-color:var(--orange)"><h5 style="color:var(--orange)">Payments Trust = Activation Gate</h5><p>Card reader failures + payout delays = ~$270K/mo GPV at risk. Combs actively targeting GG members. A trialer's first swipe and first payout are the two make-or-break moments. Fix reliability before adding features.</p></div>
+      <div class="take" style="border-color:var(--yellow)"><h5 style="color:var(--yellow)">Gift Cards = Revenue Moat</h5><p>Customers pay 2x more for platforms with GC transfers + printing. Both migration blocker and revenue driver. The "3 strikes" migration pattern (GCs + history + forms) is the #1 switch blocker.</p></div>
+      <div class="take" style="border-color:var(--green)"><h5 style="color:var(--green)">4 Quick Wins = Immediate Credibility</h5><p>Year in dates (XS), legal dropdown labels (XS), trial plan banner (S), package sale notifications (XS). Ship all 4 in one sprint to show responsiveness. Zero risk, high signal value to CX team.</p></div>
+    </div>
+
+    <div class="panel-hd"><div class="panel-t">Research Drops</div></div>
+    <div class="rrow">
+      <div class="rc"><div class="rc-d">Jan 2026</div><div class="rc-t">Onboarding Survey</div><div class="rc-b"><span class="sc">75%</span> want features, <span class="sc">52.5%</span> can't use them. New persona: <span class="sc">Experienced Switcher</span> (32.5%).</div></div>
+      <div class="rc"><div class="rc-d">Jan 2026</div><div class="rc-t">AI Marketer Validation</div><div class="rc-b">Quant validation of AI marketer POC with EAP members. High interest in AI marketing.</div></div>
+      <div class="rc"><div class="rc-d">Nov 2025</div><div class="rc-t">Marketing Needs</div><div class="rc-b">Deep dive into marketing workflows + pain points. Available in Condens repo.</div></div>
+      <div class="rc"><div class="rc-d">Oct 2025</div><div class="rc-t">Teams Survey (~120)</div><div class="rc-b">Early findings from Teams customers. Personas + buyer journey maps.</div></div>
+      <div class="rc"><div class="rc-d">Aug 2025</div><div class="rc-t">Core Medspa EMR</div><div class="rc-b">EMR workflow themes. Strategic takeaways for Gloss EMR MVP.</div></div>
+      <div class="rc"><div class="rc-d">Jan 2026</div><div class="rc-t">CX-VOC Initiative</div><div class="rc-b">New product-CX model. Hex dashboard + Claude theme extraction.</div></div>
+    </div>
+  </div>
+</div>
+
+<!-- METHODOLOGY FOOTER -->
+<div class="methodology">
+  <h4>Methodology & Refresh Plan</h4>
+  <div class="meth-grid">
+    <div class="meth-section">
+      <h5>How This Was Built</h5>
+      <p>127 feedback signals extracted from 5 customer-facing Slack channels (#voiceofthecustomer, #customer-experience, #research, #cx-voice-of-customer, #customer-analytics) spanning May 2024 through April 17, 2026. Each signal was coded for frequency, churn correlation, and revenue impact using the composite scoring formula:</p>
+      <div class="meth-formula">Priority = Frequency(1-5) × Churn Signal(1-5) × Revenue Impact(1-5)</div>
+      <p>Revenue estimates are based on GPV figures explicitly mentioned in Slack posts and Dixa VOC summaries. Where no GPV was stated, estimates use segment median GPV ($8K/mo solo, $45K/mo small team, $120K/mo enterprise).</p>
+    </div>
+    <div class="meth-section">
+      <h5>Known Limitations</h5>
+      <p><strong>Slack-only scope.</strong> This excludes Dixa raw tickets (~15K/mo), NPS verbatims, Typeform feature requests, Facebook community (~50K members), App Store reviews, and Gong call transcripts. Slack over-indexes on AE/CX-reported feedback, which skews toward larger accounts and louder voices.</p>
+      <p><strong>Selection bias.</strong> What gets posted to Slack ≠ what matters most. High-frequency small-account issues may be underrepresented. Cross-reference with Dixa ticket volume data (Hex dashboard) before making roadmap decisions.</p>
+      <p><strong>Revenue estimates are directional,</strong> not precise. Use for relative prioritization, not financial modeling.</p>
+    </div>
+    <div class="meth-section">
+      <h5>Refresh Cadence</h5>
+      <p><strong>Bi-weekly refresh recommended</strong> (every other Monday). Each refresh: re-scan channels for new signals, update frequency counts, re-score items where evidence changed, flag newly trending items.</p>
+      <p><strong>Quarterly deep dive:</strong> Cross-reference with Dixa ticket data, NPS results, and competitive intel to validate or challenge Slack-based rankings.</p>
+      <p><strong>Next refresh:</strong> May 5, 2026</p>
+      <p><strong>Owner:</strong> Product Strategy / CX Insights</p>
+      <p style="margin-top:8px;color:var(--accent2);font-weight:600;font-size:10px;">To expand coverage, connect additional data sources: Dixa API, Typeform export, NPS platform, Facebook community scrape.</p>
+    </div>
+  </div>
+</div>
+
+<script>
+// Tab switching
+document.querySelectorAll('.cat-tab').forEach(tab => {
+  tab.addEventListener('click', () => {
+    document.querySelectorAll('.cat-tab').forEach(t => t.classList.remove('active'));
+    document.querySelectorAll('.cat-section').forEach(s => s.classList.remove('active'));
+    tab.classList.add('active');
+    document.getElementById(tab.dataset.cat).classList.add('active');
+    document.querySelectorAll('.item-row').forEach(r => r.classList.remove('open'));
+    document.querySelectorAll('.item-detail').forEach(d => d.classList.remove('open'));
+    applyFilters();
+  });
+});
+
+// Row expand/collapse
+document.querySelectorAll('.item-row').forEach(row => {
+  row.addEventListener('click', () => {
+    const id = row.dataset.id;
+    const detail = document.querySelector(`.item-detail[data-id="${id}"]`);
+    const wasOpen = row.classList.contains('open');
+    row.closest('.cat-section').querySelectorAll('.item-row').forEach(r => r.classList.remove('open'));
+    row.closest('.cat-section').querySelectorAll('.item-detail').forEach(d => d.classList.remove('open'));
+    if (!wasOpen) {
+      row.classList.add('open');
+      detail.classList.add('open');
+      setTimeout(() => detail.scrollIntoView({behavior:'smooth',block:'nearest'}), 50);
+    }
+  });
+});
+
+// Filter system
+let activeFilters = {};
+
+function applyFilters() {
+  const hasFilters = Object.keys(activeFilters).length > 0;
+  document.getElementById('clearFilters').style.display = hasFilters ? 'inline' : 'none';
+
+  document.querySelectorAll('.item-row').forEach(row => {
+    if (!hasFilters) {
+      row.classList.remove('filtered-out');
+      return;
+    }
+    const segments = (row.dataset.segments || '').split(',');
+    const types = (row.dataset.types || '').split(',');
+    let show = true;
+
+    if (activeFilters.segment) {
+      show = segments.includes(activeFilters.segment);
+    }
+    if (show && activeFilters.type) {
+      show = types.includes(activeFilters.type);
+    }
+    row.classList.toggle('filtered-out', !show);
+    if (!show) {
+      row.classList.remove('open');
+      const detail = document.querySelector(`.item-detail[data-id="${row.dataset.id}"]`);
+      if (detail) detail.classList.remove('open');
+    }
+  });
+}
+
+document.querySelectorAll('.filter-pill').forEach(pill => {
+  pill.addEventListener('click', () => {
+    const filterType = pill.dataset.filter;
+    const filterVal = pill.dataset.val;
+
+    if (activeFilters[filterType] === filterVal) {
+      delete activeFilters[filterType];
+      pill.classList.remove('active', 'active-red');
+    } else {
+      // Remove active from same filter type
+      document.querySelectorAll(`.filter-pill[data-filter="${filterType}"]`).forEach(p => {
+        p.classList.remove('active', 'active-red');
+      });
+      activeFilters[filterType] = filterVal;
+      pill.classList.add(filterType === 'type' ? 'active-red' : 'active');
+    }
+    applyFilters();
+  });
+});
+
+document.getElementById('clearFilters').addEventListener('click', () => {
+  activeFilters = {};
+  document.querySelectorAll('.filter-pill').forEach(p => p.classList.remove('active', 'active-red'));
+  applyFilters();
+});
+
+// Segment sidebar filtering
+document.querySelectorAll('[data-seg-filter]').forEach(el => {
+  el.addEventListener('click', () => {
+    const seg = el.dataset.segFilter;
+    // Clear existing segment filters
+    document.querySelectorAll('.filter-pill[data-filter="segment"]').forEach(p => p.classList.remove('active'));
+
+    if (activeFilters.segment === seg) {
+      delete activeFilters.segment;
+    } else {
+      activeFilters.segment = seg;
+      const pill = document.querySelector(`.filter-pill[data-val="${seg}"]`);
+      if (pill) pill.classList.add('active');
+    }
+    applyFilters();
+  });
+});
+</script>
+</body>
+</html>
