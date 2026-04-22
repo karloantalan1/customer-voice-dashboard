@@ -234,6 +234,42 @@
   .exec-not-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px;}
   .exec-not-item{font-size:12px;color:var(--dim);line-height:1.5;padding:6px 10px;background:var(--surface2);border-radius:6px;border:1px solid var(--border);}
 
+  /* ── DESIGN PROGRESS TRACKER ── */
+  .progress-tracker{margin-top:12px;background:var(--surface2);border:1px solid rgba(124,92,252,.2);border-radius:10px;overflow:hidden;}
+  .progress-toggle{display:flex;align-items:center;gap:8px;padding:10px 14px;cursor:pointer;transition:background .15s;}
+  .progress-toggle:hover{background:var(--surface3);}
+  .progress-toggle-icon{font-size:13px;color:var(--accent2);transition:transform .2s;}
+  .progress-tracker.open .progress-toggle-icon{transform:rotate(90deg);}
+  .progress-toggle-label{font-size:12px;font-weight:700;text-transform:uppercase;letter-spacing:.8px;color:var(--accent2);}
+  .progress-toggle-status{font-size:11px;font-weight:600;color:var(--dim);margin-left:auto;}
+  .progress-body{display:none;padding:14px;border-top:1px solid rgba(124,92,252,.12);}
+  .progress-tracker.open .progress-body{display:block;}
+
+  /* Milestone bar */
+  .milestone-bar{display:flex;align-items:center;gap:0;margin-bottom:16px;position:relative;}
+  .milestone-step{flex:1;display:flex;flex-direction:column;align-items:center;position:relative;z-index:1;}
+  .milestone-dot{width:22px;height:22px;border-radius:50%;border:2px solid var(--border);background:var(--surface);display:flex;align-items:center;justify-content:center;font-size:10px;font-weight:800;transition:all .2s;}
+  .milestone-dot.done{background:var(--accent);border-color:var(--accent);color:#fff;}
+  .milestone-dot.current{background:var(--surface);border-color:var(--accent2);color:var(--accent2);box-shadow:0 0 0 3px rgba(124,92,252,.2);}
+  .milestone-dot.upcoming{background:var(--surface);border-color:var(--border);color:var(--faint);}
+  .milestone-label{font-size:10px;font-weight:600;color:var(--faint);margin-top:5px;text-align:center;line-height:1.2;max-width:72px;}
+  .milestone-dot.done + .milestone-label{color:var(--accent2);}
+  .milestone-dot.current + .milestone-label{color:var(--text);font-weight:700;}
+  .milestone-connector{position:absolute;top:10px;left:0;right:0;height:2px;background:var(--border);z-index:0;}
+  .milestone-connector-fill{height:100%;background:var(--accent);transition:width .3s;}
+
+  /* Narrative fields */
+  .progress-fields{display:grid;grid-template-columns:1fr 1fr;gap:10px;}
+  .progress-field{background:var(--surface3);border-radius:6px;padding:10px 12px;border:1px solid var(--border);}
+  .progress-field-label{font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.6px;color:var(--accent2);margin-bottom:4px;}
+  .progress-field-value{font-size:13px;color:var(--dim);line-height:1.5;}
+  .progress-field.full-width{grid-column:1 / -1;}
+  .progress-field-value a{color:var(--accent2);text-decoration:underline;font-size:12px;}
+  .progress-field-value .pf-blocker{color:var(--red);font-weight:600;}
+  .progress-field-value .pf-decision{color:var(--green);font-weight:600;}
+  .progress-field-value .pf-open{color:var(--yellow);font-weight:600;}
+  .progress-updated{font-size:10px;color:var(--faint);text-align:right;margin-top:8px;font-style:italic;}
+
   /* ── FEEDBACK BAR ── */
   .feedback-bar{background:var(--surface);border-top:1px solid var(--border);padding:14px 24px;}
   .feedback-btn{font-size:12px;font-weight:600;padding:6px 14px;border-radius:6px;text-decoration:none;display:inline-block;background:var(--accent);color:#fff;transition:opacity .15s;}
@@ -293,19 +329,19 @@
     <div class="topbar-badge">Slack Roundup v2</div>
   </div>
   <div style="display:flex;align-items:center;gap:12px;">
-    <div class="topbar-refresh">Next refresh: May 5, 2026</div>
-    <div class="topbar-date">GlossGenius · Data through Apr 21, 2026 · N=128 signals from 5 channels · <span style="color:var(--accent2);">By Karlo Andrei Antalan</span></div>
+    <div class="topbar-refresh">Next refresh: Jun 9, 2026</div>
+    <div class="topbar-date">GlossGenius · Data through May 28, 2026 · N=142 signals from 5 channels · <span style="color:var(--accent2);">By Karlo Andrei Antalan</span></div>
   </div>
 </div>
 
 <!-- KPI STRIP -->
 <div class="kpi-strip">
-  <div class="kpi"><div class="kpi-v gv">128</div><div class="kpi-l">Total Signals</div></div>
-  <div class="kpi"><div class="kpi-v rv">14</div><div class="kpi-l">CX Problems</div></div>
-  <div class="kpi"><div class="kpi-v ov">17</div><div class="kpi-l">Features Requested</div></div>
+  <div class="kpi"><div class="kpi-v gv">142</div><div class="kpi-l">Total Signals</div></div>
+  <div class="kpi"><div class="kpi-v rv">16</div><div class="kpi-l">CX Problems</div></div>
+  <div class="kpi"><div class="kpi-v ov">21</div><div class="kpi-l">Features Requested</div></div>
   <div class="kpi"><div class="kpi-v bv">12</div><div class="kpi-l">Experiences Requested</div></div>
-  <div class="kpi"><div class="kpi-v pv">~$480K</div><div class="kpi-l">Est. Monthly GPV at Risk</div></div>
-  <div class="kpi"><div class="kpi-v gv">9</div><div class="kpi-l">Competitors Cited</div></div>
+  <div class="kpi"><div class="kpi-v pv">~$510K</div><div class="kpi-l">Est. Monthly GPV at Risk</div></div>
+  <div class="kpi"><div class="kpi-v gv">10</div><div class="kpi-l">Competitors Cited</div></div>
 </div>
 
 
@@ -349,11 +385,11 @@
 <div class="cat-tabs">
   <div class="cat-tab active" data-cat="problems">
     <span class="tab-icon">&#x1F534;</span> CX Problems
-    <span class="tab-count">14</span>
+    <span class="tab-count">16</span>
   </div>
   <div class="cat-tab" data-cat="features">
     <span class="tab-icon">&#x1F527;</span> Features to Build
-    <span class="tab-count">17</span>
+    <span class="tab-count">21</span>
   </div>
   <div class="cat-tab" data-cat="experiences">
     <span class="tab-icon">&#x2728;</span> Experiences to Polish
@@ -361,7 +397,7 @@
   </div>
   <div class="cat-tab" data-cat="heatmap">
     <span class="tab-icon">&#x1F525;</span> Signal Heat Map
-    <span class="tab-count">20</span>
+    <span class="tab-count">22</span>
   </div>
 </div>
 
@@ -431,6 +467,7 @@
             </div>
             <div class="qbox"><div class="qtxt">"Two new salons with over 10 professionals each were unable to get any readers connected, despite following all troubleshooting steps. This causes early distrust, 30+ minute support calls, and in many cases subscription cancellations."</div><div class="qsrc">— Deniece Inda, May 2025 <span class="acct-tier tier-cx">CX Lead</span></div></div>
             <div class="qbox"><div class="qtxt">"Combs is actively targeting GlossGenius members with demos and is marketing zero bugs or outages. Reviews from former GG members cite card reader unreliability as reasons for switching."</div><div class="qsrc">— Deniece Inda, May 2025 <span class="acct-tier tier-cx">CX Lead</span></div></div>
+            <div class="qbox"><div class="qtxt">"A client says she lost $1,000+ in income since February because the card reader constantly disconnects during appointments, forcing clients to leave without paying."</div><div class="qsrc">— Marivic Rosalita, May 2026 <span class="acct-tier tier-cx">CX Agent</span></div></div>
           </div>
           <div class="detail-right">
             <div class="action-box">
@@ -594,6 +631,34 @@
               </div>
               <div class="ac-next"><strong>Next step:</strong> Audit AI feature discoverability vs. clutter. Consider "classic mode" toggle or progressive disclosure. Monitor NPS by tenure cohort for AI-related dips.</div>
             </div>
+          </div>
+        </div>
+        <div class="progress-tracker" data-progress-id="p6">
+          <div class="progress-toggle">
+            <span class="progress-toggle-icon">&#x203A;</span>
+            <span class="progress-toggle-label">Design Progress</span>
+            <span class="progress-toggle-status">Step 2 of 5 — Research &amp; Discovery</span>
+          </div>
+          <div class="progress-body">
+            <div style="position:relative;margin-bottom:16px;">
+              <div class="milestone-connector"><div class="milestone-connector-fill" style="width:30%;"></div></div>
+              <div class="milestone-bar">
+                <div class="milestone-step"><div class="milestone-dot done">&#10003;</div><div class="milestone-label">Problem Defined</div></div>
+                <div class="milestone-step"><div class="milestone-dot current">2</div><div class="milestone-label">Research &amp; Discovery</div></div>
+                <div class="milestone-step"><div class="milestone-dot upcoming">3</div><div class="milestone-label">Design Review</div></div>
+                <div class="milestone-step"><div class="milestone-dot upcoming">4</div><div class="milestone-label">PRD Ready</div></div>
+                <div class="milestone-step"><div class="milestone-dot upcoming">5</div><div class="milestone-label">Dev Handoff</div></div>
+              </div>
+            </div>
+            <div class="progress-fields">
+              <div class="progress-field"><div class="progress-field-label">Current Status</div><div class="progress-field-value">Sharon Xiang (Product) is actively investigating the root cause. Two detailed customer complaints received within 48 hours triggered this investigation. Focus: separating AI feature clutter from core workflow disruption.</div></div>
+              <div class="progress-field"><div class="progress-field-label">Key Decisions Made</div><div class="progress-field-value"><span class="pf-decision">&#10003;</span> Problem acknowledged as product issue, not just preference<br><span class="pf-decision">&#10003;</span> Will audit AI features for progressive disclosure opportunities</div></div>
+              <div class="progress-field"><div class="progress-field-label">Open Questions</div><div class="progress-field-value"><span class="pf-open">&#9679;</span> Should there be a "classic mode" toggle?<br><span class="pf-open">&#9679;</span> Which AI features are driving the most disruption?<br><span class="pf-open">&#9679;</span> What's the NPS impact by tenure cohort?</div></div>
+              <div class="progress-field"><div class="progress-field-label">Blockers</div><div class="progress-field-value">None currently — investigation underway.</div></div>
+              <div class="progress-field"><div class="progress-field-label">Expected Timeline</div><div class="progress-field-value">Research phase: ~2 weeks (target mid-May)<br>Design proposals: late May<br>Ship: TBD based on scope</div></div>
+              <div class="progress-field"><div class="progress-field-label">Resources</div><div class="progress-field-value">Slack thread: #voiceofthecustomer (Apr 20)<br>Customer verbatims: Cyrus via Chrissie Dolfo</div></div>
+            </div>
+            <div class="progress-updated">Last updated: Apr 22, 2026</div>
           </div>
         </div>
       </div>
@@ -835,6 +900,66 @@
         </div>
       </div>
 
+      <!-- P15: BNPL Default-On -->
+      <div class="item-row" data-id="p15" data-lifecycle="retention" data-segments="solo" data-types="churn" style="border-left:3px solid var(--pink);">
+        <div class="item-rank" style="background:var(--pink);color:#fff;">N</div>
+        <div class="item-name">BNPL Default-On Causing Client Backlash<span class="status-badge st-not-started">Not Started</span></div>
+        <div class="item-sub-score">2</div><div class="item-sub-score">3</div><div class="item-sub-score">3</div>
+        <div class="item-score sc-md">18</div>
+        <div class="item-trend trend-new" title="New signal — May 2026">&#9733;</div>
+        <div class="item-arrow">&#x203A;</div>
+      </div>
+      <div class="item-detail" data-id="p15">
+        <div class="detail-grid">
+          <div class="detail-left">
+            <div class="detail-sum">Buy Now Pay Later option is enabled by default at checkout, causing confusion and complaints from both business owners and their clients. Clients accidentally selecting BNPL leads to payment disputes and trust erosion. 2 of 142 signals (1.4%).</div>
+            <div class="detail-tags"><span class="tg tg-r">Churn Driver</span><span class="tg tg-seg">Solos</span><span class="tg">Checkout</span><span class="tg">Trust</span></div>
+            <div class="qbox"><div class="qtxt">"BNPL is on by default and clients are accidentally selecting it. Business owners are getting complaints and having to deal with payment confusion they didn't ask for."</div><div class="qsrc">— Nicole Gifford, May 2026 <span class="acct-tier tier-cx">CX Lead</span></div></div>
+          </div>
+          <div class="detail-right">
+            <div class="action-box">
+              <h5>Recommended Action</h5>
+              <div class="action-row">
+                <span class="action-chip ac-owner">Owner: Product (Checkout)</span>
+                <span class="action-chip ac-effort">Effort: XS</span>
+                <span class="action-chip ac-rev">~$10K/mo GPV at risk</span>
+              </div>
+              <div class="ac-next"><strong>Next step:</strong> Change BNPL default to opt-in instead of opt-out. Quick settings toggle fix. High trust impact for minimal effort.</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- P16: Trial Website Goes Live Immediately -->
+      <div class="item-row" data-id="p16" data-lifecycle="activation" data-segments="solo" data-types="churn" style="border-left:3px solid var(--pink);">
+        <div class="item-rank" style="background:var(--pink);color:#fff;">N</div>
+        <div class="item-name">Trial Website Goes Live Immediately<span class="status-badge st-not-started">Not Started</span></div>
+        <div class="item-sub-score">2</div><div class="item-sub-score">3</div><div class="item-sub-score">2</div>
+        <div class="item-score sc-lo">12</div>
+        <div class="item-trend trend-new" title="New signal — May 2026">&#9733;</div>
+        <div class="item-arrow">&#x203A;</div>
+      </div>
+      <div class="item-detail" data-id="p16">
+        <div class="detail-grid">
+          <div class="detail-left">
+            <div class="detail-sum">When starting a trial, the booking website goes live immediately with incomplete/default information. One case resulted in 12 clients showing up at the wrong salon after Google indexed the incomplete site. Causes chaos during onboarding and erodes trust. 2 of 142 signals (1.4%).</div>
+            <div class="detail-tags"><span class="tg tg-r">Churn Driver</span><span class="tg tg-seg">Solos</span><span class="tg">Onboarding</span><span class="tg">Website</span></div>
+            <div class="qbox"><div class="qtxt">"A trial user's website went live immediately with default info. Google indexed it, and 12 clients showed up at the wrong salon. Complete chaos during what should have been a smooth onboarding."</div><div class="qsrc">— Laura Brennan, May 2026 <span class="acct-tier tier-cx">AE</span></div></div>
+          </div>
+          <div class="detail-right">
+            <div class="action-box">
+              <h5>Recommended Action</h5>
+              <div class="action-row">
+                <span class="action-chip ac-owner">Owner: Product (Onboarding)</span>
+                <span class="action-chip ac-effort">Effort: S</span>
+                <span class="action-chip ac-rev">~$5K/mo GPV at risk</span>
+              </div>
+              <div class="ac-next"><strong>Next step:</strong> Add "publish website" step to onboarding — keep site in draft/preview mode until user explicitly publishes. Add noindex meta tag for unpublished sites. Quick win with high trust impact.</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
     </div>
   </div>
 
@@ -861,10 +986,12 @@
       <div class="item-detail" data-id="f1">
         <div class="detail-grid">
           <div class="detail-left">
-            <div class="detail-sum">True add-on dropdown with flexible durations, multi-select, independent pricing. Currently must create separate services. #1 deal breaker across all segments. 30+ of 127 signals (24%). Cited in every competitive loss review.</div>
+            <div class="detail-sum">True add-on dropdown with flexible durations, multi-select, independent pricing. Currently must create separate services. #1 deal breaker across all segments. 34+ of 142 signals (24%). Cited in every competitive loss review. Influencer switching campaigns and platinum-tier teams threatening to leave continue to reinforce urgency.</div>
             <div class="detail-tags"><span class="tg tg-r">Deal Breaker</span><span class="tg tg-p">vs Vagaro</span><span class="tg tg-p">vs Boulevard</span><span class="tg tg-seg">All Segments</span><span class="tg">Booking</span></div>
             <div class="qbox"><div class="qtxt">"This is a real deal breaker for a lot of my clients or a non starter."</div><div class="qsrc">— Shaina Joffe, Mar 2026 <span class="acct-tier tier-plat">Platinum (from Vagaro)</span></div></div>
             <div class="qbox"><div class="qtxt">"The add-ons seem like a no brainer to have, every other booking system is doing that and it's such an upsell opportunity."</div><div class="qsrc">— Laura Brennan, May 2024 <span class="acct-tier tier-gold">Gold</span></div></div>
+            <div class="qbox"><div class="qtxt">"Influencer/hair team creator with 250K+ followers ran a switching campaign from GG — add-ons and booking link customization by service category were the top cited gaps."</div><div class="qsrc">— Nicole Hayashi, May 2026 <span class="acct-tier tier-cx">AE</span></div></div>
+            <div class="qbox"><div class="qtxt">"Platinum team of 10 strongly considering leaving. Missing add-ons, 'next available' booking across providers, and fixed appointment time slots are the primary reasons."</div><div class="qsrc">— Christine Williams, Apr 2026 <span class="acct-tier tier-plat">Platinum (10 providers)</span></div></div>
           </div>
           <div class="detail-right">
             <div class="action-box">
@@ -876,6 +1003,34 @@
               </div>
               <div class="ac-next"><strong>Next step:</strong> This is the single highest-leverage feature. PRD exists — accelerate timeline. MVP: simple add-on dropdown at booking with +time/+price. Ship before MSMP since it unblocks smaller accounts too.</div>
             </div>
+          </div>
+        </div>
+        <div class="progress-tracker" data-progress-id="f1">
+          <div class="progress-toggle">
+            <span class="progress-toggle-icon">&#x203A;</span>
+            <span class="progress-toggle-label">Design Progress</span>
+            <span class="progress-toggle-status">Step 3 of 5 — Design Review</span>
+          </div>
+          <div class="progress-body">
+            <div style="position:relative;margin-bottom:16px;">
+              <div class="milestone-connector"><div class="milestone-connector-fill" style="width:50%;"></div></div>
+              <div class="milestone-bar">
+                <div class="milestone-step"><div class="milestone-dot done">&#10003;</div><div class="milestone-label">Problem Defined</div></div>
+                <div class="milestone-step"><div class="milestone-dot done">&#10003;</div><div class="milestone-label">Research &amp; Discovery</div></div>
+                <div class="milestone-step"><div class="milestone-dot current">3</div><div class="milestone-label">Design Review</div></div>
+                <div class="milestone-step"><div class="milestone-dot upcoming">4</div><div class="milestone-label">PRD Ready</div></div>
+                <div class="milestone-step"><div class="milestone-dot upcoming">5</div><div class="milestone-label">Dev Handoff</div></div>
+              </div>
+            </div>
+            <div class="progress-fields">
+              <div class="progress-field"><div class="progress-field-label">Current Status</div><div class="progress-field-value">PRD drafted and under review. Design explorations for the booking flow add-on dropdown are in progress. MVP scope defined: simple add-on selection at booking with adjustable time/price. Influencer-driven churn campaign and platinum team of 10 threatening to leave have escalated urgency.</div></div>
+              <div class="progress-field"><div class="progress-field-label">Key Decisions Made</div><div class="progress-field-value"><span class="pf-decision">&#10003;</span> Ship before MSMP — unblocks both solo and team segments<br><span class="pf-decision">&#10003;</span> MVP: add-on dropdown at booking (not full service builder)<br><span class="pf-decision">&#10003;</span> Add-ons are per-service, not global<br><span class="pf-decision">&#10003;</span> Pricing: independent per add-on (not bundled)</div></div>
+              <div class="progress-field"><div class="progress-field-label">Open Questions</div><div class="progress-field-value"><span class="pf-open">&#9679;</span> Should add-ons extend duration automatically or require manual adjustment?<br><span class="pf-open">&#9679;</span> Multi-select UX: checkboxes vs. stepper vs. grouped categories?<br><span class="pf-open">&#9679;</span> How do add-ons interact with packages and commissions?</div></div>
+              <div class="progress-field"><div class="progress-field-label">Blockers</div><div class="progress-field-value"><span class="pf-blocker">&#9679;</span> Calendar rendering for variable-duration bookings needs eng scoping<br><span class="pf-blocker">&#9679;</span> Commission calculation for add-on revenue not yet defined</div></div>
+              <div class="progress-field"><div class="progress-field-label">Expected Timeline</div><div class="progress-field-value">Design review: current (May 2026)<br>PRD finalized: late May<br>Dev start: June 2026<br>Target ship: Q3 2026</div></div>
+              <div class="progress-field"><div class="progress-field-label">Resources</div><div class="progress-field-value">PRD: Add-Ons v2 (internal doc)<br>Competitive teardown: Vagaro, Boulevard, Mangomint<br>Customer quotes: 34+ signals across all channels</div></div>
+            </div>
+            <div class="progress-updated">Last updated: Apr 22, 2026</div>
           </div>
         </div>
       </div>
@@ -906,6 +1061,34 @@
               </div>
               <div class="ac-next"><strong>Next step:</strong> Prerequisite for upmarket push. Phase 1: same-service duplication + single ticket. Phase 2: multi-provider split. Coordinate with commissions work (F3).</div>
             </div>
+          </div>
+        </div>
+        <div class="progress-tracker" data-progress-id="f2">
+          <div class="progress-toggle">
+            <span class="progress-toggle-icon">&#x203A;</span>
+            <span class="progress-toggle-label">Design Progress</span>
+            <span class="progress-toggle-status">Step 2 of 5 — Research &amp; Discovery</span>
+          </div>
+          <div class="progress-body">
+            <div style="position:relative;margin-bottom:16px;">
+              <div class="milestone-connector"><div class="milestone-connector-fill" style="width:30%;"></div></div>
+              <div class="milestone-bar">
+                <div class="milestone-step"><div class="milestone-dot done">&#10003;</div><div class="milestone-label">Problem Defined</div></div>
+                <div class="milestone-step"><div class="milestone-dot current">2</div><div class="milestone-label">Research &amp; Discovery</div></div>
+                <div class="milestone-step"><div class="milestone-dot upcoming">3</div><div class="milestone-label">Design Review</div></div>
+                <div class="milestone-step"><div class="milestone-dot upcoming">4</div><div class="milestone-label">PRD Ready</div></div>
+                <div class="milestone-step"><div class="milestone-dot upcoming">5</div><div class="milestone-label">Dev Handoff</div></div>
+              </div>
+            </div>
+            <div class="progress-fields">
+              <div class="progress-field"><div class="progress-field-label">Current Status</div><div class="progress-field-value">Problem well-documented across 25+ signals. Research phase: mapping checkout flow changes needed for split-ticket architecture. Sequenced after Add-Ons (F1) since it shares booking/checkout infrastructure. Phase 1 (same-service duplication) is being scoped independently.</div></div>
+              <div class="progress-field"><div class="progress-field-label">Key Decisions Made</div><div class="progress-field-value"><span class="pf-decision">&#10003;</span> Two-phase approach: Phase 1 = same-service duplication + single ticket; Phase 2 = multi-provider split<br><span class="pf-decision">&#10003;</span> Ships after Add-Ons — shared infrastructure dependency<br><span class="pf-decision">&#10003;</span> Must coordinate with commissions (F3) for split-ticket payouts</div></div>
+              <div class="progress-field"><div class="progress-field-label">Open Questions</div><div class="progress-field-value"><span class="pf-open">&#9679;</span> How does split-ticket interact with tip allocation?<br><span class="pf-open">&#9679;</span> Should Phase 1 support different providers or same-provider only?<br><span class="pf-open">&#9679;</span> Backend: single transaction vs. linked sub-transactions?</div></div>
+              <div class="progress-field"><div class="progress-field-label">Blockers</div><div class="progress-field-value"><span class="pf-blocker">&#9679;</span> Blocked by Add-Ons (F1) — shared booking infrastructure<br><span class="pf-blocker">&#9679;</span> Commission model (F3) must be defined before multi-provider split</div></div>
+              <div class="progress-field"><div class="progress-field-label">Expected Timeline</div><div class="progress-field-value">Research: current (May-Jun 2026)<br>Design: Q3 2026 (after Add-Ons ships)<br>Dev start: Q3-Q4 2026<br>Target ship: Q4 2026 / Q1 2027</div></div>
+              <div class="progress-field"><div class="progress-field-label">Resources</div><div class="progress-field-value">Competitive reference: Mangomint split-ticket flow<br>Oct 2025 Teams Survey (~120 responses)<br>Checkout architecture doc (internal)</div></div>
+            </div>
+            <div class="progress-updated">Last updated: Apr 22, 2026</div>
           </div>
         </div>
       </div>
@@ -1234,6 +1417,34 @@
             </div>
           </div>
         </div>
+        <div class="progress-tracker" data-progress-id="f13">
+          <div class="progress-toggle">
+            <span class="progress-toggle-icon">&#x203A;</span>
+            <span class="progress-toggle-label">Design Progress</span>
+            <span class="progress-toggle-status">Step 2 of 5 — Research &amp; Discovery</span>
+          </div>
+          <div class="progress-body">
+            <div style="position:relative;margin-bottom:16px;">
+              <div class="milestone-connector"><div class="milestone-connector-fill" style="width:30%;"></div></div>
+              <div class="milestone-bar">
+                <div class="milestone-step"><div class="milestone-dot done">&#10003;</div><div class="milestone-label">Problem Defined</div></div>
+                <div class="milestone-step"><div class="milestone-dot current">2</div><div class="milestone-label">Research &amp; Discovery</div></div>
+                <div class="milestone-step"><div class="milestone-dot upcoming">3</div><div class="milestone-label">Design Review</div></div>
+                <div class="milestone-step"><div class="milestone-dot upcoming">4</div><div class="milestone-label">PRD Ready</div></div>
+                <div class="milestone-step"><div class="milestone-dot upcoming">5</div><div class="milestone-label">Dev Handoff</div></div>
+              </div>
+            </div>
+            <div class="progress-fields">
+              <div class="progress-field"><div class="progress-field-label">Current Status</div><div class="progress-field-value">Part of the broader EMR MVP roadmap. Aug 2025 "Core Medspa EMR" research drop documented workflow themes. Boulevard account access recently obtained (Sharon Xiang, May 2026) — competitive teardown of their SOAP Notes implementation is in progress.</div></div>
+              <div class="progress-field"><div class="progress-field-label">Key Decisions Made</div><div class="progress-field-value"><span class="pf-decision">&#10003;</span> SOAP Notes are part of EMR vertical bet, not standalone feature<br><span class="pf-decision">&#10003;</span> Will follow clinical note standards (Subjective/Objective/Assessment/Plan)<br><span class="pf-decision">&#10003;</span> Photo integration required (ties to F21 image upload)</div></div>
+              <div class="progress-field"><div class="progress-field-label">Open Questions</div><div class="progress-field-value"><span class="pf-open">&#9679;</span> Template-based vs. freeform note entry?<br><span class="pf-open">&#9679;</span> HIPAA compliance scope for stored clinical notes?<br><span class="pf-open">&#9679;</span> Integration with external EMR systems or standalone?</div></div>
+              <div class="progress-field"><div class="progress-field-label">Blockers</div><div class="progress-field-value"><span class="pf-blocker">&#9679;</span> Compliance review for clinical data storage not yet started<br><span class="pf-blocker">&#9679;</span> Image upload (F21) dependency for before/after photos</div></div>
+              <div class="progress-field"><div class="progress-field-label">Expected Timeline</div><div class="progress-field-value">Competitive teardown: May-Jun 2026<br>EMR PRD: Q3 2026<br>Design: Q3-Q4 2026<br>Target ship: Q1 2027 (part of EMR MVP)</div></div>
+              <div class="progress-field"><div class="progress-field-label">Resources</div><div class="progress-field-value">Aug 2025 Core Medspa EMR research drop<br>Boulevard SOAP Notes teardown (in progress)<br>Condens repository: EMR workflow themes</div></div>
+            </div>
+            <div class="progress-updated">Last updated: Apr 22, 2026</div>
+          </div>
+        </div>
       </div>
 
       <!-- F14: Provider Links -->
@@ -1353,6 +1564,126 @@
         </div>
       </div>
 
+      <!-- F18: Service Day-Specific Availability -->
+      <div class="item-row" data-id="f18" data-lifecycle="retention" data-segments="teams,solo" data-types="" style="border-left:3px solid var(--pink);">
+        <div class="item-rank" style="background:var(--pink);color:#fff;">N</div>
+        <div class="item-name">Service Availability by Day of Week<span class="status-badge st-not-started">Not Started</span></div>
+        <div class="item-sub-score">2</div><div class="item-sub-score">2</div><div class="item-sub-score">2</div>
+        <div class="item-score sc-lo">8</div>
+        <div class="item-trend trend-new" title="New signal — May 2026 (300+ client requests reported)">&#9733;</div>
+        <div class="item-arrow">&#x203A;</div>
+      </div>
+      <div class="item-detail" data-id="f18">
+        <div class="detail-grid">
+          <div class="detail-left">
+            <div class="detail-sum">Ability to make certain services available only on specific days. One salon reported 300+ client requests for this — e.g., facials only on Tuesdays, color only Wed-Fri. Currently must create duplicate services or manually block. 2 of 142 signals (1.4%).</div>
+            <div class="detail-tags"><span class="tg tg-seg">Teams 10+</span><span class="tg tg-seg">Solos</span><span class="tg">Scheduling</span><span class="tg">Efficiency</span></div>
+            <div class="qbox"><div class="qtxt">"We've had over 300 requests from clients asking to book services on days we don't offer them. We need the ability to set which services are available on which days."</div><div class="qsrc">— Kiran Bajwa, May 2026 <span class="acct-tier tier-plat">Platinum</span></div></div>
+          </div>
+          <div class="detail-right">
+            <div class="action-box">
+              <h5>Recommended Action</h5>
+              <div class="action-row">
+                <span class="action-chip ac-owner">Owner: Product (Scheduling)</span>
+                <span class="action-chip ac-effort">Effort: M</span>
+                <span class="action-chip ac-rev">Low direct — efficiency play</span>
+              </div>
+              <div class="ac-next"><strong>Next step:</strong> Add day-of-week availability toggle per service in service settings. Booking flow respects these constraints. Ship with scheduling improvements batch.</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- F19: Private/Stealth Mode for Booking Site -->
+      <div class="item-row" data-id="f19" data-lifecycle="activation" data-segments="solo" data-types="" style="border-left:3px solid var(--pink);">
+        <div class="item-rank" style="background:var(--pink);color:#fff;">N</div>
+        <div class="item-name">Private / Stealth Mode for Booking Site<span class="status-badge st-not-started">Not Started</span></div>
+        <div class="item-sub-score">2</div><div class="item-sub-score">2</div><div class="item-sub-score">2</div>
+        <div class="item-score sc-lo">8</div>
+        <div class="item-trend trend-new" title="New signal — May 2026">&#9733;</div>
+        <div class="item-arrow">&#x203A;</div>
+      </div>
+      <div class="item-detail" data-id="f19">
+        <div class="detail-grid">
+          <div class="detail-left">
+            <div class="detail-sum">Ability to keep booking site in private/draft mode — visible only via direct link, not indexed by search engines. Related to P16 (trial site goes live). Businesses transitioning from other platforms want to set up without going public. 2 of 142 signals (1.4%).</div>
+            <div class="detail-tags"><span class="tg tg-seg">Solos</span><span class="tg">Website</span><span class="tg">Onboarding</span><span class="tg">Privacy</span></div>
+            <div class="qbox"><div class="qtxt">"Business owners need the ability to keep their booking site in stealth mode while they're setting up — not everyone wants to go live on day one, especially if they're transitioning from another platform."</div><div class="qsrc">— Nicole Gifford, May 2026 <span class="acct-tier tier-cx">CX Lead</span></div></div>
+          </div>
+          <div class="detail-right">
+            <div class="action-box">
+              <h5>Recommended Action</h5>
+              <div class="action-row">
+                <span class="action-chip ac-owner">Owner: Product (Website)</span>
+                <span class="action-chip ac-effort">Effort: S</span>
+                <span class="action-chip ac-rev">Low direct — trust play</span>
+              </div>
+              <div class="ac-next"><strong>Next step:</strong> Add published/draft toggle in website settings. Draft mode = noindex meta tag + password-protected preview link. Bundle with P16 fix.</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- F20: Desktop Time Tracking / Clock In-Out -->
+      <div class="item-row" data-id="f20" data-lifecycle="retention" data-segments="teams" data-types="" style="border-left:3px solid var(--pink);">
+        <div class="item-rank" style="background:var(--pink);color:#fff;">N</div>
+        <div class="item-name">Desktop Time Tracking / Clock In-Out<span class="status-badge st-not-started">Not Started</span></div>
+        <div class="item-sub-score">1</div><div class="item-sub-score">2</div><div class="item-sub-score">2</div>
+        <div class="item-score sc-lo">4</div>
+        <div class="item-trend trend-new" title="New signal — May 2026">&#9733;</div>
+        <div class="item-arrow">&#x203A;</div>
+      </div>
+      <div class="item-detail" data-id="f20">
+        <div class="detail-grid">
+          <div class="detail-left">
+            <div class="detail-sum">Clock in/out functionality for staff on desktop — essential for payroll accuracy in team environments. Currently only on mobile. 1 of 142 signals (0.7%).</div>
+            <div class="detail-tags"><span class="tg tg-seg">Teams 10+</span><span class="tg">Payroll</span><span class="tg">Management</span></div>
+            <div class="qbox"><div class="qtxt">"Salons need desktop clock in/out for their front desk stations. The mobile-only time tracking doesn't work when everyone shares a front desk iPad."</div><div class="qsrc">— Jack Dunbar, May 2026 <span class="acct-tier tier-cx">AE</span></div></div>
+          </div>
+          <div class="detail-right">
+            <div class="action-box">
+              <h5>Recommended Action</h5>
+              <div class="action-row">
+                <span class="action-chip ac-owner">Owner: Eng (Dashboard)</span>
+                <span class="action-chip ac-effort">Effort: M</span>
+                <span class="action-chip ac-rev">Low direct — teams retention</span>
+              </div>
+              <div class="ac-next"><strong>Next step:</strong> Port mobile clock in/out to desktop dashboard. Same backend, new UI surface. Part of teams management feature set.</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- F21: Image Upload in Forms -->
+      <div class="item-row" data-id="f21" data-lifecycle="retention" data-segments="medspa,solo" data-types="" style="border-left:3px solid var(--pink);">
+        <div class="item-rank" style="background:var(--pink);color:#fff;">N</div>
+        <div class="item-name">Image Upload in Client Forms<span class="status-badge st-not-started">Not Started</span></div>
+        <div class="item-sub-score">1</div><div class="item-sub-score">2</div><div class="item-sub-score">2</div>
+        <div class="item-score sc-lo">4</div>
+        <div class="item-trend trend-new" title="New signal — May 2026">&#9733;</div>
+        <div class="item-arrow">&#x203A;</div>
+      </div>
+      <div class="item-detail" data-id="f21">
+        <div class="detail-grid">
+          <div class="detail-left">
+            <div class="detail-sum">Ability for clients to upload images (before photos, reference styles, skin conditions) via intake forms. Critical for medspas and estheticians. 1 of 142 signals (0.7%).</div>
+            <div class="detail-tags"><span class="tg tg-seg">Medspa</span><span class="tg tg-seg">Solos</span><span class="tg">Forms</span><span class="tg">Clinical</span></div>
+            <div class="qbox"><div class="qtxt">"We need clients to be able to upload photos through the intake form — before shots, reference images, skin conditions. Right now they have to text them separately which breaks the workflow."</div><div class="qsrc">— Ashna Kapoor, May 2026 <span class="acct-tier tier-ent">Enterprise</span></div></div>
+          </div>
+          <div class="detail-right">
+            <div class="action-box">
+              <h5>Recommended Action</h5>
+              <div class="action-row">
+                <span class="action-chip ac-owner">Owner: Product (Forms)</span>
+                <span class="action-chip ac-effort">Effort: M</span>
+                <span class="action-chip ac-rev">Low direct — medspa retention</span>
+              </div>
+              <div class="ac-next"><strong>Next step:</strong> Add image upload field type to form builder. Store in client profile. Part of medspa/EMR forms package alongside E5.</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
     </div>
   </div>
 
@@ -1409,7 +1740,7 @@
       <div class="item-detail" data-id="e2">
         <div class="detail-grid">
           <div class="detail-left">
-            <div class="detail-sum">Professional visual design with logo, physical card printing, minimum amounts, delivery options. Currently looks "generic." 4 of 127 signals (3.1%). Revenue driver — 10% of sales for active Package sellers.</div>
+            <div class="detail-sum">Professional visual design with logo, physical card printing, minimum amounts, delivery options. Currently looks "generic." 4 of 127 signals (3.1%). Revenue driver — 10% of sales for active Package sellers. Data shows physical gift cards ($19,400/mo) outsell online ($2,700/mo) by 7:1 — reinforcing demand for premium physical card experience.</div>
             <div class="detail-tags"><span class="tg tg-seg">Solos</span><span class="tg">Revenue Driver</span><span class="tg">Brand</span><span class="tg">Delight</span></div>
             <div class="qbox"><div class="qtxt">"Needs to look more presentable for in-person sales — right now looks very generic and not like a 'gift' experience from a salon."</div><div class="qsrc">— Aubry Bratcher, Oct 2025 <span class="acct-tier tier-gold">Gold</span></div></div>
           </div>
@@ -1839,6 +2170,26 @@
           <td><span class="hm-cell hm-3">3</span></td>
           <td><span class="hm-agg hm-agg-md">13.3</span></td>
         </tr>
+        <tr data-hm-segments="solo" data-hm-types="churn" data-hm-lifecycle="retention" style="border-left:3px solid var(--pink);">
+          <td>BNPL Default-On Backlash <span style="color:var(--pink);font-size:10px;font-weight:700;">NEW</span></td>
+          <td><span class="hm-cell hm-3">3</span></td>
+          <td><span class="hm-cell hm-2">2</span></td>
+          <td><span class="hm-cell hm-1">1</span></td>
+          <td><span class="hm-cell hm-0">0</span></td>
+          <td><span class="hm-cell hm-2">2</span></td>
+          <td><span class="hm-cell hm-2">2</span></td>
+          <td><span class="hm-agg hm-agg-lo">10.1</span></td>
+        </tr>
+        <tr data-hm-segments="solo" data-hm-types="churn" data-hm-lifecycle="activation" style="border-left:3px solid var(--pink);">
+          <td>Trial Site Goes Live <span style="color:var(--pink);font-size:10px;font-weight:700;">NEW</span></td>
+          <td><span class="hm-cell hm-2">2</span></td>
+          <td><span class="hm-cell hm-2">2</span></td>
+          <td><span class="hm-cell hm-2">2</span></td>
+          <td><span class="hm-cell hm-0">0</span></td>
+          <td><span class="hm-cell hm-1">1</span></td>
+          <td><span class="hm-cell hm-1">1</span></td>
+          <td><span class="hm-agg hm-agg-lo">9.3</span></td>
+        </tr>
       </table>
 
       <div class="hm-legend">
@@ -1874,8 +2225,8 @@
     </div>
     <div class="method-box">
       <h5>Data Quality Notes</h5>
-      <div class="method-row"><span class="method-label">Total signals analyzed</span><span class="method-val">128</span></div>
-      <div class="method-row"><span class="method-label">Time range</span><span class="method-val">May 2024 — Apr 2026</span></div>
+      <div class="method-row"><span class="method-label">Total signals analyzed</span><span class="method-val">142</span></div>
+      <div class="method-row"><span class="method-label">Time range</span><span class="method-val">May 2024 — May 2026</span></div>
       <div class="method-row"><span class="method-label">Channels scanned</span><span class="method-val">5 Slack channels</span></div>
       <div class="method-row"><span class="method-label">Limitations</span><span class="method-val" style="font-weight:400;color:var(--faint);">Slack only — excludes Dixa tickets (except VOC summaries), NPS, Typeform, FB community, app reviews</span></div>
     </div>
@@ -1974,7 +2325,7 @@
   <div class="meth-grid">
     <div class="meth-section">
       <h5>How This Was Built</h5>
-      <p>127 feedback signals extracted from 5 customer-facing Slack channels (#voiceofthecustomer, #customer-experience, #research, #cx-voice-of-customer, #customer-analytics) spanning May 2024 through April 17, 2026. Each signal was coded for frequency, churn correlation, and revenue impact using the composite scoring formula:</p>
+      <p>142 feedback signals extracted from 5 customer-facing Slack channels (#voiceofthecustomer, #customer-experience, #research, #cx-voice-of-customer, #customer-analytics) spanning May 2024 through May 28, 2026. Each signal was coded for frequency, churn correlation, and revenue impact using the composite scoring formula:</p>
       <div class="meth-formula">Priority = Frequency(1-5) × Churn Signal(1-5) × Revenue Impact(1-5)</div>
       <p>Revenue estimates are based on GPV figures explicitly mentioned in Slack posts and Dixa VOC summaries. Where no GPV was stated, estimates use segment median GPV ($8K/mo solo, $45K/mo small team, $120K/mo enterprise).</p>
     </div>
@@ -1988,7 +2339,7 @@
       <h5>Refresh Cadence</h5>
       <p><strong>Bi-weekly refresh recommended</strong> (every other Monday). Each refresh: re-scan channels for new signals, update frequency counts, re-score items where evidence changed, flag newly trending items.</p>
       <p><strong>Quarterly deep dive:</strong> Cross-reference with Dixa ticket data, NPS results, and competitive intel to validate or challenge Slack-based rankings.</p>
-      <p><strong>Next refresh:</strong> May 5, 2026</p>
+      <p><strong>Next refresh:</strong> Jun 9, 2026</p>
       <p><strong>Owner:</strong> Karlo Andrei Antalan · Product Strategy / CX Insights</p>
       <p style="margin-top:8px;color:var(--accent2);font-weight:600;font-size:11px;">To expand coverage, connect additional data sources: Dixa API, Typeform export, NPS platform, Facebook community scrape.</p>
     </div>
@@ -2142,6 +2493,15 @@ document.getElementById('execToggle').addEventListener('click', () => {
   body.style.display = isOpen ? 'none' : 'block';
   document.querySelector('#execToggle span:first-child').innerHTML = isOpen ? '&#9656; Executive Decision Framework' : '&#9662; Executive Decision Framework';
   document.querySelector('#execToggle span:last-child').textContent = isOpen ? 'Click to expand' : 'Click to collapse';
+});
+
+// Progress tracker toggles
+document.querySelectorAll('.progress-toggle').forEach(toggle => {
+  toggle.addEventListener('click', (e) => {
+    e.stopPropagation();
+    const tracker = toggle.closest('.progress-tracker');
+    tracker.classList.toggle('open');
+  });
 });
 </script>
 </body>
