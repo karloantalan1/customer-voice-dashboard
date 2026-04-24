@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Customer Voice Dashboard — GlossGenius</title>
+<title>Sales × Product Dashboard — GlossGenius</title>
 <style>
   @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap');
   :root {
@@ -17,7 +17,7 @@
   body{font-family:'Inter',-apple-system,sans-serif;background:var(--bg);color:var(--text);overflow-x:hidden;}
 
   /* ── TOPBAR ── */
-  .topbar{display:flex;align-items:center;justify-content:space-between;padding:12px 24px;background:var(--surface);border-bottom:1px solid var(--border);position:sticky;top:0;z-index:100;}
+  .topbar{display:flex;align-items:center;justify-content:space-between;padding:12px 24px;background:var(--surface);border-bottom:1px solid var(--border);position:sticky;top:0;z-index:100;flex-wrap:wrap;gap:8px;}
   .topbar-left{display:flex;align-items:center;gap:12px;}
   .topbar-logo{font-size:19px;font-weight:800;background:linear-gradient(135deg,#fff,#aaa);-webkit-background-clip:text;-webkit-text-fill-color:transparent;}
   .topbar-badge{font-size:12px;font-weight:700;letter-spacing:1.2px;text-transform:uppercase;background:linear-gradient(135deg,var(--accent),var(--pink));color:#fff;padding:3px 10px;border-radius:100px;}
@@ -318,30 +318,154 @@
     .meth-grid{grid-template-columns:1fr;}
     .item-row,.col-header{grid-template-columns:26px 1fr 44px 44px 44px 50px 52px 24px;}
   }
+
+  /* ── SPLASH OVERLAY ── */
+  .splash-overlay{position:fixed;top:0;left:0;width:100%;height:100%;background:rgba(11,11,16,.95);z-index:1000;display:flex;align-items:center;justify-content:center;backdrop-filter:blur(12px);}
+  .splash-overlay.hidden{display:none;}
+  .splash-box{text-align:center;max-width:560px;}
+  .splash-title{font-size:32px;font-weight:800;background:linear-gradient(135deg,#fff,#aaa);-webkit-background-clip:text;-webkit-text-fill-color:transparent;margin-bottom:8px;}
+  .splash-sub{font-size:15px;color:var(--dim);margin-bottom:32px;line-height:1.5;}
+  .splash-roles{display:flex;gap:20px;justify-content:center;}
+  .splash-role{background:var(--surface2);border:2px solid var(--border);border-radius:16px;padding:36px 32px;cursor:pointer;transition:all .2s;width:280px;text-align:center;}
+  .splash-role:hover{border-color:var(--accent);background:var(--surface3);transform:translateY(-2px);}
+  .splash-role-icon{font-size:44px;margin-bottom:14px;}
+  .splash-role-name{font-size:20px;font-weight:700;color:var(--text);margin-bottom:8px;}
+  .splash-role-desc{font-size:14px;color:var(--dim);line-height:1.55;}
+
+  /* ── ROLE TOGGLE IN TOPBAR ── */
+  .role-toggle{display:flex;background:var(--surface3);border-radius:100px;padding:3px;border:1px solid var(--border);flex-shrink:0;}
+  .role-toggle-btn{font-size:13px;font-weight:600;padding:6px 16px;border-radius:100px;cursor:pointer;color:var(--dim);transition:all .15s;border:none;background:transparent;white-space:nowrap;}
+  .role-toggle-btn.active{background:var(--accent);color:#fff;}
+
+  /* ── SALES VIEW ── */
+  .view-sales{display:none;}
+  .view-exec{display:block;}
+  body.mode-sales .view-sales{display:block;}
+  body.mode-sales .view-exec{display:none;}
+
+  /* Sales: Competitive Battlecards */
+  .sales-section{padding:20px 24px;}
+  .sales-section-hd{font-size:14px;font-weight:800;text-transform:uppercase;letter-spacing:1px;color:var(--accent2);margin-bottom:14px;display:flex;align-items:center;gap:8px;}
+  .sales-intro{font-size:14px;color:var(--dim);line-height:1.6;margin-bottom:16px;max-width:800px;}
+
+  /* Gap Matrix (Sales) */
+  .sales-matrix{width:100%;border-collapse:collapse;font-size:13px;margin-bottom:24px;}
+  .sales-matrix th{padding:8px 6px;text-align:center;font-weight:700;color:var(--faint);text-transform:uppercase;letter-spacing:.3px;border-bottom:2px solid var(--border);font-size:11px;}
+  .sales-matrix th:first-child{text-align:left;min-width:160px;}
+  .sales-matrix td{padding:6px 8px;text-align:center;border-bottom:1px solid rgba(255,255,255,.04);}
+  .sales-matrix td:first-child{text-align:left;font-weight:600;color:var(--text);font-size:13px;}
+  .sales-matrix tr:hover{background:var(--surface2);}
+  .sm-win{color:var(--green);font-weight:700;}
+  .sm-lose{color:var(--red);font-weight:700;}
+  .sm-gap{color:var(--yellow);}
+  .sm-even{color:var(--faint);}
+
+  /* Battlecards */
+  .battlecard-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(320px,1fr));gap:14px;margin-bottom:24px;}
+  .battlecard{background:var(--surface2);border:1px solid var(--border);border-radius:10px;overflow:hidden;cursor:pointer;transition:border-color .15s;}
+  .battlecard:hover{border-color:var(--accent);}
+  .battlecard-header{padding:14px 16px;display:flex;align-items:center;justify-content:space-between;border-bottom:1px solid var(--border);}
+  .battlecard-name{font-size:16px;font-weight:700;}
+  .battlecard-price{font-size:12px;color:var(--faint);}
+  .battlecard-body{display:none;padding:14px 16px;}
+  .battlecard.open .battlecard-body{display:block;}
+  .battlecard-section{margin-bottom:12px;}
+  .battlecard-section h6{font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.5px;margin-bottom:6px;}
+  .bc-win h6{color:var(--green);}
+  .bc-lose h6{color:var(--red);}
+  .bc-talk h6{color:var(--accent2);}
+  .bc-item{font-size:13px;color:var(--dim);line-height:1.5;padding:4px 0;border-bottom:1px solid rgba(255,255,255,.03);}
+  .bc-item:last-child{border-bottom:none;}
+
+  /* Deal Intel Feed */
+  .deal-feed{display:grid;gap:10px;margin-bottom:20px;}
+  .deal-card{background:var(--surface2);border-radius:8px;padding:14px 16px;border-left:3px solid;display:grid;grid-template-columns:1fr auto;gap:8px;align-items:start;}
+  .deal-card.deal-won{border-color:var(--green);}
+  .deal-card.deal-lost{border-color:var(--red);}
+  .deal-card.deal-risk{border-color:var(--orange);}
+  .deal-label{font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.5px;margin-bottom:3px;}
+  .deal-won .deal-label{color:var(--green);}
+  .deal-lost .deal-label{color:var(--red);}
+  .deal-risk .deal-label{color:var(--orange);}
+  .deal-biz{font-size:14px;font-weight:600;margin-bottom:4px;}
+  .deal-detail{font-size:13px;color:var(--dim);line-height:1.5;}
+  .deal-meta{font-size:11px;color:var(--faint);text-align:right;white-space:nowrap;}
+
+  /* Sales: Feature Status Cards */
+  .status-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-bottom:20px;}
+  .status-card{background:var(--surface2);border-radius:8px;padding:14px;border:1px solid var(--border);}
+  .status-card h6{font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.5px;margin-bottom:8px;}
+  .status-card.sc-shipped h6{color:var(--green);}
+  .status-card.sc-coming h6{color:var(--accent2);}
+  .status-card.sc-not-planned h6{color:var(--faint);}
+  .status-item{font-size:13px;color:var(--dim);padding:3px 0;border-bottom:1px solid rgba(255,255,255,.03);}
+  .status-item:last-child{border-bottom:none;}
+
+  /* Sales: Where We Win / Where We Struggle */
+  .win-lose-grid{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-bottom:24px;}
+  .win-box,.lose-box{background:var(--surface2);border-radius:10px;padding:16px;border:1px solid var(--border);}
+  .win-box{border-left:3px solid var(--green);}
+  .lose-box{border-left:3px solid var(--red);}
+  .win-box h5{color:var(--green);font-size:13px;font-weight:700;text-transform:uppercase;letter-spacing:.5px;margin-bottom:10px;}
+  .lose-box h5{color:var(--red);font-size:13px;font-weight:700;text-transform:uppercase;letter-spacing:.5px;margin-bottom:10px;}
+  .wl-item{font-size:13px;color:var(--dim);line-height:1.55;padding:6px 0;border-bottom:1px solid rgba(255,255,255,.03);}
+  .wl-item:last-child{border-bottom:none;}
+  .wl-item strong{color:var(--text);}
 </style>
 </head>
 <body>
 
-<!-- TOPBAR -->
-<div class="topbar">
-  <div class="topbar-left">
-    <div class="topbar-logo">Customer Voice Dashboard</div>
-    <div class="topbar-badge">Slack Roundup v2</div>
-  </div>
-  <div style="display:flex;align-items:center;gap:12px;">
-    <div class="topbar-refresh">Next refresh: May 7, 2026</div>
-    <div class="topbar-date">GlossGenius · Data through Apr 22, 2026 · N=179 signals from 5 channels · <span style="color:var(--accent2);">By Karlo Andrei Antalan</span></div>
+<!-- SPLASH: Role Selector -->
+<div class="splash-overlay" id="splashOverlay">
+  <div class="splash-box">
+    <div class="splash-title">Sales × Product Dashboard</div>
+    <div class="splash-sub">Powered by the customer's voice — 206 real signals from 7 Slack channels, deal intel, and competitive research.<br>Choose your view below.</div>
+    <div class="splash-roles">
+      <div class="splash-role" data-role="sales">
+        <div class="splash-role-icon">&#x1F4BC;</div>
+        <div class="splash-role-name">Sales Team</div>
+        <div class="splash-role-desc">Competitive battlecards, where we win &amp; lose, deal intel, feature status for prospect conversations</div>
+      </div>
+      <div class="splash-role" data-role="exec">
+        <div class="splash-role-icon">&#x1F4CA;</div>
+        <div class="splash-role-name">Product / Manager / Exec</div>
+        <div class="splash-role-desc">Full signal analysis, priority scoring, trend data, heat maps, and methodology</div>
+      </div>
+    </div>
   </div>
 </div>
 
+<!-- TOPBAR -->
+<div class="topbar">
+  <div class="topbar-left">
+    <div class="topbar-logo">Sales × Product Dashboard</div>
+    <div class="topbar-badge">Powered by Customer Voice</div>
+  </div>
+  <div style="display:flex;align-items:center;gap:14px;">
+    <div class="role-toggle" id="roleToggle">
+      <button class="role-toggle-btn" data-role="sales">Sales View</button>
+      <button class="role-toggle-btn active" data-role="exec">Product / Exec View</button>
+    </div>
+    <div style="display:flex;flex-direction:column;gap:3px;align-items:flex-end;">
+      <div style="display:flex;align-items:center;gap:10px;">
+        <div class="topbar-refresh">Next refresh: May 7, 2026</div>
+        <div style="font-size:12px;color:var(--accent2);font-weight:600;">By Karlo Andrei Antalan</div>
+      </div>
+      <div class="topbar-date">GlossGenius · Data through Apr 24, 2026 · N=206 signals from 7 channels</div>
+    </div>
+  </div>
+</div>
+
+<div class="view-exec" id="viewExec">
+
 <!-- KPI STRIP -->
 <div class="kpi-strip">
-  <div class="kpi"><div class="kpi-v gv">179</div><div class="kpi-l">Total Signals</div></div>
-  <div class="kpi"><div class="kpi-v rv">19</div><div class="kpi-l">CX Problems</div></div>
-  <div class="kpi"><div class="kpi-v ov">26</div><div class="kpi-l">Features Requested</div></div>
+  <div class="kpi"><div class="kpi-v gv">206</div><div class="kpi-l">Total Signals</div></div>
+  <div class="kpi"><div class="kpi-v rv">21</div><div class="kpi-l">CX Problems</div></div>
+  <div class="kpi"><div class="kpi-v ov">29</div><div class="kpi-l">Features Requested</div></div>
   <div class="kpi"><div class="kpi-v bv">12</div><div class="kpi-l">Experiences Requested</div></div>
-  <div class="kpi"><div class="kpi-v pv">~$580K</div><div class="kpi-l">Est. Monthly GPV at Risk</div></div>
-  <div class="kpi"><div class="kpi-v gv">11</div><div class="kpi-l">Competitors Cited</div></div>
+  <div class="kpi"><div class="kpi-v pv">~$640K</div><div class="kpi-l">Est. Monthly GPV at Risk</div></div>
+  <div class="kpi"><div class="kpi-v gv">14</div><div class="kpi-l">Competitors Cited</div></div>
 </div>
 
 
@@ -385,11 +509,11 @@
 <div class="cat-tabs">
   <div class="cat-tab active" data-cat="problems">
     <span class="tab-icon">&#x1F534;</span> CX Problems
-    <span class="tab-count">19</span>
+    <span class="tab-count">21</span>
   </div>
   <div class="cat-tab" data-cat="features">
     <span class="tab-icon">&#x1F527;</span> Features to Build
-    <span class="tab-count">26</span>
+    <span class="tab-count">29</span>
   </div>
   <div class="cat-tab" data-cat="experiences">
     <span class="tab-icon">&#x2728;</span> Experiences to Polish
@@ -609,18 +733,20 @@
       <div class="item-row" data-id="p6" data-lifecycle="retention" data-segments="solo" data-types="churn">
         <div class="item-rank">6</div>
         <div class="item-name">AI/UX Changes Disrupting Workflows<span class="status-badge st-in-design">Investigating</span></div>
-        <div class="item-sub-score">3</div><div class="item-sub-score">3</div><div class="item-sub-score">3</div>
-        <div class="item-score sc-md">27</div>
+        <div class="item-sub-score">4</div><div class="item-sub-score">3</div><div class="item-sub-score">3</div>
+        <div class="item-score sc-md">36</div>
         <div class="item-trend trend-up" title="Worsening — second detailed complaint in 2 days, Product investigating | 3 signals this month, 1 prev month">&#9650;</div>
         <div class="item-arrow">&#x203A;</div>
       </div>
       <div class="item-detail" data-id="p6">
         <div class="detail-grid">
           <div class="detail-left">
-            <div class="detail-sum">Long-time users feel AI additions and frequent UI changes made the platform harder to navigate. Multiple customers report disrupted workflows. One switched FROM Comb to GG to avoid AI clutter, now feels GG is "all different and similar to Comb." Product team (Sharon Xiang) actively investigating. 3 of 128 signals (2.3%) — trending up.</div>
+            <div class="detail-sum">Long-time users feel AI additions and frequent UI changes made the platform harder to navigate. Multiple customers report disrupted workflows. One switched FROM Comb to GG to avoid AI clutter, now feels GG is "all different and similar to Comb." Product team (Sharon Xiang) actively investigating. Now escalating: one of GG's highest-grossing team businesses and an EAP user have both flagged this in the last 48 hours. 5 of 206 signals (2.7%) — trending up sharply.</div>
             <div class="detail-tags"><span class="tg tg-r">Churn Driver</span><span class="tg tg-seg">Solos</span><span class="tg">Retention Risk</span><span class="tg">UX</span></div>
             <div class="qbox"><div class="qtxt">"I switched back from Comb because I didn't want all of the AI generated things. I liked how it was simple and easy to find things — now it's all different and similar to Comb."</div><div class="qsrc">— Customer via Chrissie Dolfo, Apr 2026 <span class="acct-tier tier-gold">Gold</span></div></div>
             <div class="qbox"><div class="qtxt">"The frequency of these changes has made it difficult to maintain an efficient workflow. Each time I become comfortable with the interface, a new update significantly alters the experience. As a hairstylist, my time is extremely valuable, and these disruptions have been slowing me down during appointments."</div><div class="qsrc">— Cyrus (stylist) via Chrissie Dolfo, Apr 20, 2026 <span class="acct-tier tier-gold">Gold</span></div></div>
+            <div class="qbox"><div class="qtxt">"These new updates really are not user-friendly. They're really sloppy and awkward — you don't see the goals anymore. You have to go looking for them. I liked the way it used to be. Update the updates back."</div><div class="qsrc">— Callys Curls via Meghan Berke, Apr 24, 2026 <span class="acct-tier tier-ent">Top-Grossing Team Biz</span></div></div>
+            <div class="qbox"><div class="qtxt">"Hearing deep unhappiness from a user in EAP about the latest changes."</div><div class="qsrc">— Sharon Xiang (Product), Apr 24, 2026 <span class="acct-tier tier-cx">Product</span></div></div>
           </div>
           <div class="detail-right">
             <div class="action-box">
@@ -628,9 +754,9 @@
               <div class="action-row">
                 <span class="action-chip ac-owner">Owner: Product (Design)</span>
                 <span class="action-chip ac-effort">Effort: S</span>
-                <span class="action-chip ac-rev">~$10K/mo GPV at risk</span>
+                <span class="action-chip ac-rev">~$25K/mo GPV at risk</span>
               </div>
-              <div class="ac-next"><strong>Next step:</strong> Audit AI feature discoverability vs. clutter. Consider "classic mode" toggle or progressive disclosure. Monitor NPS by tenure cohort for AI-related dips.</div>
+              <div class="ac-next"><strong>Next step:</strong> URGENT — now affecting top-grossing accounts and EAP members. Audit AI feature discoverability vs. clutter. Consider "classic mode" toggle or progressive disclosure. Monitor NPS by tenure cohort for AI-related dips.</div>
             </div>
           </div>
         </div>
@@ -973,7 +1099,7 @@
       <div class="item-detail" data-id="p17">
         <div class="detail-grid">
           <div class="detail-left">
-            <div class="detail-sum">Password requirements during trial signup cause significant friction. Nearly every new trialer complains about needing multiple attempts to create an acceptable password. Adds unnecessary friction to activation. 4 of 179 signals (2.2%).</div>
+            <div class="detail-sum">Password requirements during trial signup cause significant friction. Nearly every new trialer complains about needing multiple attempts to create an acceptable password. Adds unnecessary friction to activation. 4 of 206 signals (2.2%).</div>
             <div class="detail-tags"><span class="tg tg-seg">All Segments</span><span class="tg">Onboarding</span><span class="tg">Activation</span></div>
             <div class="qbox"><div class="qtxt">"I have had almost everyone that signs up for a trial complain about having to create multiple versions to get us to accept a password."</div><div class="qsrc">— Quintessa Chavez, Mar 2026 <span class="acct-tier tier-cx">AE</span></div></div>
           </div>
@@ -1003,7 +1129,7 @@
       <div class="item-detail" data-id="p18">
         <div class="detail-grid">
           <div class="detail-left">
-            <div class="detail-sum">Clients are given the option to pay their deposit "later," which defeats the purpose of requiring deposits for no-show protection. Business owners cannot disable this option. 2 of 179 signals (1.1%).</div>
+            <div class="detail-sum">Clients are given the option to pay their deposit "later," which defeats the purpose of requiring deposits for no-show protection. Business owners cannot disable this option. 2 of 206 signals (1.1%).</div>
             <div class="detail-tags"><span class="tg tg-r">Churn Driver</span><span class="tg tg-seg">Teams 10+</span><span class="tg">Booking</span><span class="tg">No-Shows</span></div>
             <div class="qbox"><div class="qtxt">"Is there a way to turn off where the clients can pay their deposit later? We have clients booking and they're given the option to pay the deposit at a later date."</div><div class="qsrc">— Ashna Kapoor, Apr 2026 <span class="acct-tier tier-ent">Enterprise</span></div></div>
           </div>
@@ -1033,7 +1159,7 @@
       <div class="item-detail" data-id="p19">
         <div class="detail-grid">
           <div class="detail-left">
-            <div class="detail-sum">When creating recurring appointments, the system does not check for conflicts with existing bookings. If a provider has a client booked 2 months out, the recurring series will silently double-book that slot. 2 of 179 signals (1.1%).</div>
+            <div class="detail-sum">When creating recurring appointments, the system does not check for conflicts with existing bookings. If a provider has a client booked 2 months out, the recurring series will silently double-book that slot. 2 of 206 signals (1.1%).</div>
             <div class="detail-tags"><span class="tg tg-seg">Solos</span><span class="tg">Calendar</span><span class="tg">Bug</span></div>
             <div class="qbox"><div class="qtxt">"For repeating appointments there is not a notification that prevents double booking. If I book for every Monday at 4pm, but in 2 months another client is booked at 4pm, it will book both clients."</div><div class="qsrc">— Shaina Joffe, Mar 2026 <span class="acct-tier tier-plat">Platinum</span></div></div>
           </div>
@@ -1046,6 +1172,66 @@
                 <span class="action-chip ac-rev">~$10K/mo GPV at risk</span>
               </div>
               <div class="ac-next"><strong>Next step:</strong> Add conflict detection for recurring series. Show warning with options: skip conflict, move to next available, or cancel that instance. Standard scheduling platform feature.</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- P20: Deposit Link Missing Cancellation Policy -->
+      <div class="item-row" data-id="p20" data-lifecycle="retention" data-segments="teams,medspa" data-types="churn" style="border-left:3px solid var(--pink);">
+        <div class="item-rank" style="background:var(--pink);color:#fff;">N</div>
+        <div class="item-name">Deposit Link Missing Cancellation Policy<span class="status-badge st-not-started">Not Started</span></div>
+        <div class="item-sub-score">2</div><div class="item-sub-score">3</div><div class="item-sub-score">3</div>
+        <div class="item-score sc-md">18</div>
+        <div class="item-trend trend-new" title="New signal — Apr 2026 (Medspa Pilot)">&#9733;</div>
+        <div class="item-arrow">&#x203A;</div>
+      </div>
+      <div class="item-detail" data-id="p20">
+        <div class="detail-grid">
+          <div class="detail-left">
+            <div class="detail-sum">When sending deposit links for phone-booked appointments, there's no way to capture cancellation policy acknowledgment. Without this, chargebacks can't be disputed — deposit loses its protective value. Related to P18 (Deposit Pay Later). 2 of 206 signals (1.0%).</div>
+            <div class="detail-tags"><span class="tg tg-r">Churn Driver</span><span class="tg tg-seg">Teams 10+</span><span class="tg tg-seg">Medspa</span><span class="tg">Payments</span><span class="tg">Compliance</span></div>
+            <div class="qbox"><div class="qtxt">"If someone calls in to book and they require a deposit, you can send a deposit link but there is nothing to capture the cancellation acknowledgement. Those can get disputed without the chargeback protection."</div><div class="qsrc">— Quintessa Chavez, Apr 2026 <span class="acct-tier tier-cx">AE (Medspa Pilot)</span></div></div>
+          </div>
+          <div class="detail-right">
+            <div class="action-box">
+              <h5>Recommended Action</h5>
+              <div class="action-row">
+                <span class="action-chip ac-owner">Owner: Product (Payments)</span>
+                <span class="action-chip ac-effort">Effort: S</span>
+                <span class="action-chip ac-rev">~$15K/mo GPV at risk</span>
+              </div>
+              <div class="ac-next"><strong>Next step:</strong> Append cancellation policy acceptance checkbox to deposit link flow. Simple UI addition — policy text already exists, just needs to be surfaced on the deposit payment page.</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- P21: Client Profile Loading Slow -->
+      <div class="item-row" data-id="p21" data-lifecycle="retention" data-segments="teams,medspa" data-types="" style="border-left:3px solid var(--pink);">
+        <div class="item-rank" style="background:var(--pink);color:#fff;">N</div>
+        <div class="item-name">Client Profile Loading Very Slow<span class="status-badge st-not-started">Not Started</span></div>
+        <div class="item-sub-score">3</div><div class="item-sub-score">2</div><div class="item-sub-score">2</div>
+        <div class="item-score sc-lo">12</div>
+        <div class="item-trend trend-new" title="New signal — Apr 2026 (Medspa Pilot)">&#9733;</div>
+        <div class="item-arrow">&#x203A;</div>
+      </div>
+      <div class="item-detail" data-id="p21">
+        <div class="detail-grid">
+          <div class="detail-left">
+            <div class="detail-sum">Client profiles take 10-15 seconds to load sections (appointments, forms). Averaging 13 seconds for appointment section, 11 more seconds switching to forms. Creates friction during demos and real-world checkout. 3 of 206 signals (1.5%).</div>
+            <div class="detail-tags"><span class="tg tg-seg">Teams 10+</span><span class="tg tg-seg">Medspa</span><span class="tg">Performance</span><span class="tg">Demo Blocker</span></div>
+            <div class="qbox"><div class="qtxt">"Loading client profiles is VERY slow. I averaged 13 seconds for the appointment section and another 11 seconds when I switched to the forms section."</div><div class="qsrc">— Quintessa Chavez, Apr 2026 <span class="acct-tier tier-cx">AE (Medspa Pilot)</span></div></div>
+          </div>
+          <div class="detail-right">
+            <div class="action-box">
+              <h5>Recommended Action</h5>
+              <div class="action-row">
+                <span class="action-chip ac-owner">Owner: Eng (Performance)</span>
+                <span class="action-chip ac-effort">Effort: M</span>
+                <span class="action-chip ac-rev">Low direct — demo &amp; trust impact</span>
+              </div>
+              <div class="ac-next"><strong>Next step:</strong> Profile load time audit. Lazy-load tab sections. This is a demo-killer for sales — AEs are losing prospect attention during live walkthroughs. Target sub-3-second load for all profile tabs.</div>
             </div>
           </div>
         </div>
@@ -1201,6 +1387,7 @@
             <div class="detail-tags"><span class="tg tg-r">Deal Breaker</span><span class="tg tg-r">Churn Driver</span><span class="tg tg-p">vs Vagaro</span><span class="tg tg-p">vs Mangomint</span><span class="tg tg-seg">Teams 10+</span></div>
             <div class="qbox"><div class="qtxt">"Parts & labor is foundational for commission-based salons, not an edge case. They have decided to cancel."</div><div class="qsrc">— Alesia Wilson, Jan 2026 <span class="acct-tier tier-ent">Enterprise</span></div></div>
             <div class="qbox"><div class="qtxt">"$1.8M GPV deal blocked — they need pre-payout cost deductions for backbar and product. Without this, their commission structure doesn't work on our platform."</div><div class="qsrc">— Saanika Gupta, Mar 2026 <span class="acct-tier tier-ent">Enterprise ($1.8M GPV)</span></div></div>
+            <div class="qbox"><div class="qtxt">"There is no way to document business costs on a service such as HydraFacial. We have to account for consumable costs — this is foundational for medspas."</div><div class="qsrc">— Quintessa Chavez (Vagaro churn risk), Apr 2026 <span class="acct-tier tier-cx">AE (Medspa Pilot)</span></div></div>
           </div>
           <div class="detail-right">
             <div class="action-box">
@@ -1436,7 +1623,7 @@
       <div class="item-detail" data-id="f11">
         <div class="detail-grid">
           <div class="detail-left">
-            <div class="detail-sum">Back-and-forth text conversations with clients through the platform. Key gap for larger teams. 5 of 127 signals (3.9%).</div>
+            <div class="detail-sum">Back-and-forth text conversations with clients through the platform. Key gap for larger teams. Confirmed unlikely before Fall 2026 — tied to AI Receptionist roadmap. 5 of 206 signals (2.4%). MedSpa deal lost to Boulevard specifically over this.</div>
             <div class="detail-tags"><span class="tg tg-seg">Teams 10+</span><span class="tg">Communication</span></div>
           </div>
           <div class="detail-right">
@@ -1486,7 +1673,7 @@
       <!-- F13: SOAP Notes (was F12) -->
       <div class="item-row" data-id="f13" data-lifecycle="expansion" data-segments="medspa" data-types="">
         <div class="item-rank">13</div>
-        <div class="item-name">SOAP Notes<span class="status-badge st-in-design">In Design</span></div>
+        <div class="item-name">SOAP Notes<span class="status-badge st-shipped">In Beta</span></div>
         <div class="item-sub-score">2</div><div class="item-sub-score">3</div><div class="item-sub-score">3</div>
         <div class="item-score sc-md">18</div>
         <div class="item-trend trend-up" title="Growing — medspa vertical expanding">&#9650;</div>
@@ -1495,7 +1682,7 @@
       <div class="item-detail" data-id="f13">
         <div class="detail-grid">
           <div class="detail-left">
-            <div class="detail-sum">Clinical notes for medspas and estheticians. Key for EMR vertical expansion. Strategic importance exceeds mention count.</div>
+            <div class="detail-sum">Clinical notes for medspas and estheticians. Key for EMR vertical expansion. NOW LIVE IN BETA as of Apr 15 — available on MedSpa tiers (Practice Essentials &amp; Practice Advanced). Includes SOAP notes, product details, provider attribution, and MD sign-off. Custom chart templates targeting Q2. Photo markup also live for MedSpas in beta.</div>
             <div class="detail-tags"><span class="tg tg-seg">Medspa</span><span class="tg">Clinical</span></div>
           </div>
           <div class="detail-right">
@@ -1514,28 +1701,28 @@
           <div class="progress-toggle">
             <span class="progress-toggle-icon">&#x203A;</span>
             <span class="progress-toggle-label">Design Progress</span>
-            <span class="progress-toggle-status">Step 2 of 5 — Research &amp; Discovery</span>
+            <span class="progress-toggle-status">Step 4 of 5 — In Beta (Live Apr 15)</span>
           </div>
           <div class="progress-body">
             <div style="position:relative;margin-bottom:16px;">
-              <div class="milestone-connector"><div class="milestone-connector-fill" style="width:30%;"></div></div>
+              <div class="milestone-connector"><div class="milestone-connector-fill" style="width:80%;"></div></div>
               <div class="milestone-bar">
                 <div class="milestone-step"><div class="milestone-dot done">&#10003;</div><div class="milestone-label">Problem Defined</div></div>
-                <div class="milestone-step"><div class="milestone-dot current">2</div><div class="milestone-label">Research &amp; Discovery</div></div>
-                <div class="milestone-step"><div class="milestone-dot upcoming">3</div><div class="milestone-label">Design Review</div></div>
-                <div class="milestone-step"><div class="milestone-dot upcoming">4</div><div class="milestone-label">PRD Ready</div></div>
-                <div class="milestone-step"><div class="milestone-dot upcoming">5</div><div class="milestone-label">Dev Handoff</div></div>
+                <div class="milestone-step"><div class="milestone-dot done">&#10003;</div><div class="milestone-label">Research &amp; Discovery</div></div>
+                <div class="milestone-step"><div class="milestone-dot done">&#10003;</div><div class="milestone-label">Design Review</div></div>
+                <div class="milestone-step"><div class="milestone-dot current">4</div><div class="milestone-label">In Beta</div></div>
+                <div class="milestone-step"><div class="milestone-dot upcoming">5</div><div class="milestone-label">GA Launch</div></div>
               </div>
             </div>
             <div class="progress-fields">
-              <div class="progress-field"><div class="progress-field-label">Current Status</div><div class="progress-field-value">Part of the broader EMR MVP roadmap. Aug 2025 "Core Medspa EMR" research drop documented workflow themes. Boulevard account access recently obtained (Sharon Xiang, May 2026) — competitive teardown of their SOAP Notes implementation is in progress.</div></div>
-              <div class="progress-field"><div class="progress-field-label">Key Decisions Made</div><div class="progress-field-value"><span class="pf-decision">&#10003;</span> SOAP Notes are part of EMR vertical bet, not standalone feature<br><span class="pf-decision">&#10003;</span> Will follow clinical note standards (Subjective/Objective/Assessment/Plan)<br><span class="pf-decision">&#10003;</span> Photo integration required (ties to F21 image upload)</div></div>
-              <div class="progress-field"><div class="progress-field-label">Open Questions</div><div class="progress-field-value"><span class="pf-open">&#9679;</span> Template-based vs. freeform note entry?<br><span class="pf-open">&#9679;</span> HIPAA compliance scope for stored clinical notes?<br><span class="pf-open">&#9679;</span> Integration with external EMR systems or standalone?</div></div>
-              <div class="progress-field"><div class="progress-field-label">Blockers</div><div class="progress-field-value"><span class="pf-blocker">&#9679;</span> Compliance review for clinical data storage not yet started<br><span class="pf-blocker">&#9679;</span> Image upload (F21) dependency for before/after photos</div></div>
-              <div class="progress-field"><div class="progress-field-label">Expected Timeline</div><div class="progress-field-value">Competitive teardown: May-Jun 2026<br>EMR PRD: Q3 2026<br>Design: Q3-Q4 2026<br>Target ship: Q1 2027 (part of EMR MVP)</div></div>
-              <div class="progress-field"><div class="progress-field-label">Resources</div><div class="progress-field-value">Aug 2025 Core Medspa EMR research drop<br>Boulevard SOAP Notes teardown (in progress)<br>Condens repository: EMR workflow themes</div></div>
+              <div class="progress-field"><div class="progress-field-label">Current Status</div><div class="progress-field-value">LIVE IN BETA as of Apr 15, 2026. Available on MedSpa tiers (Practice Essentials &amp; Practice Advanced). Includes SOAP notes, product details, provider attribution, and MD sign-off. Photo markup also live for MedSpas in beta. Custom chart templates targeting Q2.</div></div>
+              <div class="progress-field"><div class="progress-field-label">Key Decisions Made</div><div class="progress-field-value"><span class="pf-decision">&#10003;</span> SOAP Notes are part of EMR vertical bet, not standalone feature<br><span class="pf-decision">&#10003;</span> Follows clinical note standards (Subjective/Objective/Assessment/Plan)<br><span class="pf-decision">&#10003;</span> Photo integration shipped (photo markup live in beta)<br><span class="pf-decision">&#10003;</span> Tiered by MedSpa plan — Practice Essentials &amp; Practice Advanced</div></div>
+              <div class="progress-field"><div class="progress-field-label">Open Questions</div><div class="progress-field-value"><span class="pf-open">&#9679;</span> Custom chart template scope for Q2?<br><span class="pf-open">&#9679;</span> GA timeline and rollout to non-MedSpa verticals?<br><span class="pf-open">&#9679;</span> Integration with external EMR systems or standalone?</div></div>
+              <div class="progress-field"><div class="progress-field-label">Blockers</div><div class="progress-field-value"><span class="pf-blocker">&#9679;</span> Custom chart templates not yet shipped (targeting Q2)<br><span class="pf-blocker">&#9679;</span> GA rollout plan pending beta feedback</div></div>
+              <div class="progress-field"><div class="progress-field-label">Expected Timeline</div><div class="progress-field-value">Beta launch: Apr 15, 2026 &#10003;<br>Custom chart templates: Q2 2026<br>GA launch: TBD pending beta feedback</div></div>
+              <div class="progress-field"><div class="progress-field-label">Resources</div><div class="progress-field-value">Aug 2025 Core Medspa EMR research drop<br>Boulevard SOAP Notes teardown (completed)<br>Condens repository: EMR workflow themes</div></div>
             </div>
-            <div class="progress-updated">Last updated: Apr 22, 2026</div>
+            <div class="progress-updated">Last updated: Apr 24, 2026</div>
           </div>
         </div>
       </div>
@@ -1554,6 +1741,7 @@
           <div class="detail-left">
             <div class="detail-sum">Individual booking URLs per provider for QR codes on business cards. Common competitor feature. 3 of 127 signals (2.4%).</div>
             <div class="detail-tags"><span class="tg tg-seg">Teams 10+</span><span class="tg">Booking</span><span class="tg">Marketing</span></div>
+            <div class="qbox"><div class="qtxt">"We LOVE the platform but unfortunately we really need individual service links for marketing and automations. This was the dealbreaker."</div><div class="qsrc">— Quintessa Chavez (lost deal), Apr 2026 <span class="acct-tier tier-cx">AE (Medspa Pilot)</span></div></div>
           </div>
           <div class="detail-right">
             <div class="action-box">
@@ -1789,7 +1977,7 @@
       <div class="item-detail" data-id="f22">
         <div class="detail-grid">
           <div class="detail-left">
-            <div class="detail-sum">Businesses want tools to attract NEW clients, not just re-engage existing ones. GG's marketing is inward-facing (email/SMS to existing clients). Barbershop chose to stay with Booksy specifically because of this gap. 3 of 179 signals (1.7%). Deal breaker for growth-focused businesses.</div>
+            <div class="detail-sum">Businesses want tools to attract NEW clients, not just re-engage existing ones. GG's marketing is inward-facing (email/SMS to existing clients). Barbershop chose to stay with Booksy specifically because of this gap. 3 of 206 signals (1.7%). Deal breaker for growth-focused businesses.</div>
             <div class="detail-tags"><span class="tg tg-r">Deal Breaker</span><span class="tg tg-p">vs Booksy</span><span class="tg tg-seg">Solos</span><span class="tg">Marketing</span><span class="tg">Growth</span></div>
             <div class="qbox"><div class="qtxt">"They liked what we had, but ultimately want a platform that is going to help them market to new clients not just internally of existing clients. This was ultimately a deal breaker for them to stay with Booksy."</div><div class="qsrc">— Shaina Joffe, Apr 2026 <span class="acct-tier tier-cx">AE</span></div></div>
           </div>
@@ -1819,7 +2007,7 @@
       <div class="item-detail" data-id="f23">
         <div class="detail-grid">
           <div class="detail-left">
-            <div class="detail-sum">Booth rental salons need provider-level data isolation: renters shouldn't see each other's transactions, reports, or client lists. Account owners still have access to all renter data. Cancellation policies can't be customized per renter. Businesses considering returning to Square. 3 of 179 signals (1.7%).</div>
+            <div class="detail-sum">Booth rental salons need provider-level data isolation: renters shouldn't see each other's transactions, reports, or client lists. Account owners still have access to all renter data. Cancellation policies can't be customized per renter. Businesses considering returning to Square. 3 of 206 signals (1.7%).</div>
             <div class="detail-tags"><span class="tg tg-r">Churn Driver</span><span class="tg tg-r">Deal Breaker</span><span class="tg tg-p">vs Square</span><span class="tg tg-seg">Teams 10+</span><span class="tg">Permissions</span><span class="tg">Booth Rental</span></div>
             <div class="qbox"><div class="qtxt">"All team members can see everyone's transactions in past checkouts. The AO still has access to renters' reports and analytics. Cancellation policies cannot be customized per renter. They're considering going back to Square."</div><div class="qsrc">— Meghan Berke, Mar 2026 <span class="acct-tier tier-plat">Platinum (booth rental model)</span></div></div>
           </div>
@@ -1849,7 +2037,7 @@
       <div class="item-detail" data-id="f24">
         <div class="detail-grid">
           <div class="detail-left">
-            <div class="detail-sum">MedSpas hitting $10K/yr membership pricing cap. Terms &amp; Conditions field limited to 500 characters. Need deeper loyalty/rewards integration. One client blocked from creating a $42K/yr membership plan. 3 of 179 signals (1.7%).</div>
+            <div class="detail-sum">MedSpas hitting $10K/yr membership pricing cap. Terms &amp; Conditions field limited to 500 characters. Need deeper loyalty/rewards integration. One client blocked from creating a $42K/yr membership plan. 3 of 206 signals (1.7%).</div>
             <div class="detail-tags"><span class="tg tg-seg">Medspa</span><span class="tg tg-seg">Teams 10+</span><span class="tg">Revenue Driver</span><span class="tg">Memberships</span></div>
             <div class="qbox"><div class="qtxt">"Client wants to create a $3,500/month membership plan but is blocked by the $10K annual cap. Their T&amp;C needs exceed the 500-character limit. These limits are blocking our highest-value medspa accounts."</div><div class="qsrc">— Tiphaine Froc, Apr 2026 <span class="acct-tier tier-ent">Enterprise (medspa)</span></div></div>
           </div>
@@ -1879,7 +2067,7 @@
       <div class="item-detail" data-id="f25">
         <div class="detail-grid">
           <div class="detail-left">
-            <div class="detail-sum">Send clients a secure link to save a card on file — critical for no-show protection and pre-authorization. Currently no way to collect card details before appointment without processing a charge. Deal breaker for larger teams. 3 of 179 signals (1.7%).</div>
+            <div class="detail-sum">Send clients a secure link to save a card on file — critical for no-show protection and pre-authorization. Currently no way to collect card details before appointment without processing a charge. Deal breaker for larger teams. 3 of 206 signals (1.7%).</div>
             <div class="detail-tags"><span class="tg tg-r">Deal Breaker</span><span class="tg tg-seg">Teams 10+</span><span class="tg tg-seg">Medspa</span><span class="tg">Payments</span><span class="tg">No-Shows</span></div>
             <div class="qbox"><div class="qtxt">"Salon Serenity flagged the lack of secure card-on-file collection as a critical blocker. For larger teams, no-show risk without a card on file is a dealbreaker."</div><div class="qsrc">— Alesia Wilson, Apr 2026 <span class="acct-tier tier-ent">Enterprise</span></div></div>
           </div>
@@ -1909,7 +2097,7 @@
       <div class="item-detail" data-id="f26">
         <div class="detail-grid">
           <div class="detail-left">
-            <div class="detail-sum">Ability to book multiple clients into the same time slot for group classes, workshops, or events. Currently requires workarounds. Firm deal breaker for fitness-adjacent beauty businesses. 3 of 179 signals (1.7%).</div>
+            <div class="detail-sum">Ability to book multiple clients into the same time slot for group classes, workshops, or events. Currently requires workarounds. Firm deal breaker for fitness-adjacent beauty businesses. 3 of 206 signals (1.7%).</div>
             <div class="detail-tags"><span class="tg tg-r">Deal Breaker</span><span class="tg tg-seg">Solos</span><span class="tg tg-seg">Teams 10+</span><span class="tg">Booking</span><span class="tg">Expansion</span></div>
             <div class="qbox"><div class="qtxt">"Waiting for your company to have the ability to sign multiple people into a room for a class. I just needed that one software fix."</div><div class="qsrc">— Meghan Berke (client quote), Mar 2026 <span class="acct-tier tier-gold">Gold</span></div></div>
           </div>
@@ -1922,6 +2110,96 @@
                 <span class="action-chip ac-rev">~$20K/mo GPV blocked</span>
               </div>
               <div class="ac-next"><strong>Next step:</strong> Group booking type: set capacity per slot, multiple clients book same time. Separate from MSMP (F2). Unlocks fitness, workshop, and class-based verticals. Strategic TAM expansion.</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- F27: Dual Appointment Notifications -->
+      <div class="item-row" data-id="f27" data-lifecycle="retention" data-segments="teams" data-types="churn" style="border-left:3px solid var(--pink);">
+        <div class="item-rank" style="background:var(--pink);color:#fff;">N</div>
+        <div class="item-name">Dual Appointment Notifications (Provider + Front Desk)<span class="status-badge st-not-started">Not Started</span></div>
+        <div class="item-sub-score">2</div><div class="item-sub-score">4</div><div class="item-sub-score">4</div>
+        <div class="item-score sc-md">32</div>
+        <div class="item-trend trend-new" title="New signal — Apr 23, 2026. 20-person team churn risk.">&#9733;</div>
+        <div class="item-arrow">&#x203A;</div>
+      </div>
+      <div class="item-detail" data-id="f27">
+        <div class="detail-grid">
+          <div class="detail-left">
+            <div class="detail-sum">Large teams need appointment notifications routed to both the provider AND the front desk/management simultaneously. Currently, if auto-approve is off, only the AO gets the approval request — but once booked, there's no way for both the therapist and front desk to be notified without manual messages. 20-person massage business at active churn risk over this. 1 of 206 signals (0.5%) but high-value account at stake.</div>
+            <div class="detail-tags"><span class="tg tg-r">Churn Driver</span><span class="tg tg-seg">Teams 10+</span><span class="tg">Notifications</span><span class="tg">Workflow</span></div>
+            <div class="qbox"><div class="qtxt">"This large 20-person massage biz is at risk of churning due to not being able to field appointment notifications to both provider and the front desk. Once the appointment is booked, the therapist and managers need to receive a notification. They were not interested in any workarounds."</div><div class="qsrc">— Meghan Berke, Apr 23, 2026 <span class="acct-tier tier-ent">Enterprise (20 providers)</span></div></div>
+          </div>
+          <div class="detail-right">
+            <div class="action-box">
+              <h5>Recommended Action</h5>
+              <div class="action-row">
+                <span class="action-chip ac-owner">Owner: Product (Notifications)</span>
+                <span class="action-chip ac-effort">Effort: M</span>
+                <span class="action-chip ac-rev">~$40K/mo GPV at risk</span>
+              </div>
+              <div class="ac-next"><strong>Next step:</strong> Add notification routing rules: configure which roles receive booking notifications (provider, front desk, AO, or any combination). Essential for spa/massage/medspa teams with front desk workflows. Pairs with check-in (F5) for complete team flow.</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- F28: Flexible Credit Card Surcharging -->
+      <div class="item-row" data-id="f28" data-lifecycle="retention" data-segments="medspa,solo" data-types="churn" style="border-left:3px solid var(--pink);">
+        <div class="item-rank" style="background:var(--pink);color:#fff;">N</div>
+        <div class="item-name">Flexible Credit Card Fee Surcharging<span class="status-badge st-not-started">Not Started</span></div>
+        <div class="item-sub-score">2</div><div class="item-sub-score">3</div><div class="item-sub-score">3</div>
+        <div class="item-score sc-md">18</div>
+        <div class="item-trend trend-new" title="New signal — Apr 2026 (Medspa Pilot)">&#9733;</div>
+        <div class="item-arrow">&#x203A;</div>
+      </div>
+      <div class="item-detail" data-id="f28">
+        <div class="detail-grid">
+          <div class="detail-left">
+            <div class="detail-sum">Businesses want to pass processing fees to clients but need control over the exact percentage and label. Current 3.5% option is too high for medspas charging 2.9%. Vagaro lets users set custom fee name and percentage. 2 of 206 signals (1.0%).</div>
+            <div class="detail-tags"><span class="tg tg-r">Churn Driver</span><span class="tg tg-p">vs Vagaro</span><span class="tg tg-seg">Medspa</span><span class="tg tg-seg">Solos</span><span class="tg">Payments</span></div>
+            <div class="qbox"><div class="qtxt">"We charge 2.9%. If we select the 3.5%, our patients would be furious. In Vagaro, we have the ability to add a 'Fee', name it whatever we wish, choose a $ or %. This flexibility is essential."</div><div class="qsrc">— Quintessa Chavez (Vagaro churn risk), Apr 2026 <span class="acct-tier tier-cx">AE (Medspa Pilot)</span></div></div>
+          </div>
+          <div class="detail-right">
+            <div class="action-box">
+              <h5>Recommended Action</h5>
+              <div class="action-row">
+                <span class="action-chip ac-owner">Owner: Product (Payments)</span>
+                <span class="action-chip ac-effort">Effort: S</span>
+                <span class="action-chip ac-rev">~$20K/mo GPV at risk</span>
+              </div>
+              <div class="ac-next"><strong>Next step:</strong> Add configurable surcharge: custom label, custom %, and $ or % toggle. Low effort settings-level change. Directly blocks Vagaro switchers who pass fees to clients.</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- F29: Loyalty / Referral Programs -->
+      <div class="item-row" data-id="f29" data-lifecycle="expansion" data-segments="medspa,solo" data-types="" style="border-left:3px solid var(--pink);">
+        <div class="item-rank" style="background:var(--pink);color:#fff;">N</div>
+        <div class="item-name">Loyalty &amp; Referral Programs<span class="status-badge st-not-started">Not Started</span></div>
+        <div class="item-sub-score">2</div><div class="item-sub-score">2</div><div class="item-sub-score">3</div>
+        <div class="item-score sc-lo">12</div>
+        <div class="item-trend trend-new" title="New signal — Apr 2026 (Medspa Pilot)">&#9733;</div>
+        <div class="item-arrow">&#x203A;</div>
+      </div>
+      <div class="item-detail" data-id="f29">
+        <div class="detail-grid">
+          <div class="detail-left">
+            <div class="detail-sum">Businesses want built-in loyalty points and referral reward programs. Boulevard offers $1,000 referral incentives. Multiple medspa prospects asked about loyalty during demos. 2 of 206 signals (1.0%).</div>
+            <div class="detail-tags"><span class="tg tg-seg">Medspa</span><span class="tg tg-seg">Solos</span><span class="tg tg-p">vs Boulevard</span><span class="tg">Revenue Driver</span><span class="tg">Retention</span></div>
+            <div class="qbox"><div class="qtxt">"We need a referral program for when a patient gives a referral, and a loyalty program for patients. Boulevard is offering $1,000 referral incentives — that's what we're competing against."</div><div class="qsrc">— Quintessa Chavez, Apr 2026 <span class="acct-tier tier-cx">AE (Medspa Pilot)</span></div></div>
+          </div>
+          <div class="detail-right">
+            <div class="action-box">
+              <h5>Recommended Action</h5>
+              <div class="action-row">
+                <span class="action-chip ac-owner">Owner: Product (Marketing)</span>
+                <span class="action-chip ac-effort">Effort: L</span>
+                <span class="action-chip ac-rev">Revenue growth opp</span>
+              </div>
+              <div class="ac-next"><strong>Next step:</strong> Points-based loyalty system + referral tracking with reward automation. Revenue growth play — drives repeat visits and word-of-mouth. Pairs with membership enhancements (F24).</div>
             </div>
           </div>
         </div>
@@ -1956,6 +2234,7 @@
             <div class="detail-sum">Past appointment history, forms/waivers, and GC balances all transferred seamlessly. The "3 strikes" trio. 8 of 127 signals (6.3%). Customers accept workarounds if at least 1 of 3 is handled.</div>
             <div class="detail-tags"><span class="tg tg-r">Deal Breaker</span><span class="tg tg-seg">Teams 10+</span><span class="tg tg-seg">Solos</span><span class="tg">Onboarding</span><span class="tg">First Impression</span></div>
             <div class="qbox"><div class="qtxt">"If we could at least do one of her 3 deal breakers — gift card balances, appointment history, forms — she'd be open to workarounds. But '3 strikes and you are out.'"</div><div class="qsrc">— Laura Horton, Feb 2026 <span class="acct-tier tier-ent">Enterprise prospect</span></div></div>
+            <div class="qbox"><div class="qtxt">"Forms and waivers being transferred isn't a deal breaker but it is a delay. Overall, this takes about 1 month on the faster side. Realistically, closer to 1.5 months for full onboarding."</div><div class="qsrc">— Quintessa Chavez, Apr 2026 <span class="acct-tier tier-cx">AE (Medspa Pilot)</span></div></div>
           </div>
           <div class="detail-right">
             <div class="action-box">
@@ -2488,9 +2767,9 @@
     </div>
     <div class="method-box">
       <h5>Data Quality Notes</h5>
-      <div class="method-row"><span class="method-label">Total signals analyzed</span><span class="method-val">179</span></div>
+      <div class="method-row"><span class="method-label">Total signals analyzed</span><span class="method-val">206</span></div>
       <div class="method-row"><span class="method-label">Time range</span><span class="method-val">May 2024 — Apr 2026</span></div>
-      <div class="method-row"><span class="method-label">Channels scanned</span><span class="method-val">5 Slack channels</span></div>
+      <div class="method-row"><span class="method-label">Channels scanned</span><span class="method-val">7 Slack channels</span></div>
       <div class="method-row"><span class="method-label">Limitations</span><span class="method-val" style="font-weight:400;color:var(--faint);">Slack only — excludes Dixa tickets (except VOC summaries), NPS, Typeform, FB community, app reviews</span></div>
     </div>
   </div>
@@ -2554,6 +2833,8 @@
     <div class="ch-row"><div class="ch-nm">#research</div><div class="ch-bg"><div class="ch-fill" style="width:45%;background:linear-gradient(90deg,var(--green),var(--cyan))"></div></div></div>
     <div class="ch-row"><div class="ch-nm">#cx-voice-of-customer</div><div class="ch-bg"><div class="ch-fill" style="width:25%;background:linear-gradient(90deg,var(--yellow),var(--orange))"></div></div></div>
     <div class="ch-row"><div class="ch-nm">#customer-analytics</div><div class="ch-bg"><div class="ch-fill" style="width:20%;background:linear-gradient(90deg,var(--pink),var(--red))"></div></div></div>
+    <div class="ch-row"><div class="ch-nm">#sales-medspa-pilot</div><div class="ch-bg"><div class="ch-fill" style="width:55%;background:linear-gradient(90deg,var(--accent),var(--cyan))"></div></div></div>
+    <div class="ch-row"><div class="ch-nm">#outbound-outlaws</div><div class="ch-bg"><div class="ch-fill" style="width:15%;background:linear-gradient(90deg,var(--orange),var(--yellow))"></div></div></div>
   </div>
 
 </div>
@@ -2588,7 +2869,7 @@
   <div class="meth-grid">
     <div class="meth-section">
       <h5>How This Was Built</h5>
-      <p>179 feedback signals extracted from 5 customer-facing Slack channels (#voiceofthecustomer, #customer-experience, #research, #cx-voice-of-customer, #customer-analytics) spanning May 2024 through April 22, 2026. Each signal was coded for frequency, churn correlation, and revenue impact using the composite scoring formula:</p>
+      <p>206 feedback signals extracted from 7 Slack channels (5 customer-facing + 2 sales pilot/team channels) (#voiceofthecustomer, #customer-experience, #research, #cx-voice-of-customer, #customer-analytics, #sales-medspa-pilot, #outbound-outlaws) spanning May 2024 through April 24, 2026, plus competitive intel from the Outbound Sales Source of Truth doc, SKO customer panel feedback (Jan 2026), and internal sales pitch resources. Each signal was coded for frequency, churn correlation, and revenue impact using the composite scoring formula:</p>
       <div class="meth-formula">Priority = Frequency(1-5) × Churn Signal(1-5) × Revenue Impact(1-5)</div>
       <p>Revenue estimates are based on GPV figures explicitly mentioned in Slack posts and Dixa VOC summaries. Where no GPV was stated, estimates use segment median GPV ($8K/mo solo, $45K/mo small team, $120K/mo enterprise).</p>
     </div>
@@ -2621,6 +2902,611 @@
       <a href="mailto:k.antalan@glossgenius.com?subject=Dashboard%20Score%20Correction&body=Item%3A%20%0ACurrent%20Score%3A%20%0ASuggested%20Score%3A%20%0AReason%3A%20" class="feedback-btn feedback-btn-sec">&#x270F;&#xFE0F; Suggest Correction</a>
     </div>
   </div>
+</div>
+
+</div><!-- END view-exec -->
+
+<!-- ══════════════════════════════════════════════ -->
+<!-- SALES TEAM VIEW                                -->
+<!-- ══════════════════════════════════════════════ -->
+<div class="view-sales" id="viewSales">
+
+  <!-- Sales KPI Strip -->
+  <div class="kpi-strip">
+    <div class="kpi"><div class="kpi-v rv">21</div><div class="kpi-l">Known Pain Points</div></div>
+    <div class="kpi"><div class="kpi-v ov">29</div><div class="kpi-l">Feature Gaps</div></div>
+    <div class="kpi"><div class="kpi-v pv">~$640K</div><div class="kpi-l">Monthly GPV at Risk</div></div>
+    <div class="kpi"><div class="kpi-v gv">17</div><div class="kpi-l">Competitors Tracked</div></div>
+    <div class="kpi"><div class="kpi-v bv">4</div><div class="kpi-l">Features In Beta</div></div>
+    <div class="kpi"><div class="kpi-v gv">206</div><div class="kpi-l">Data Points</div></div>
+  </div>
+
+  <!-- WHERE WE WIN vs WHERE WE STRUGGLE -->
+  <div class="sales-section">
+    <div class="sales-section-hd">&#x2694;&#xFE0F; Where We Win vs. Where We Struggle</div>
+    <div class="sales-intro">Be transparent with prospects. Lead with our strengths, acknowledge gaps honestly, and show the roadmap when possible. Prospects respect honesty — and dishonesty gets exposed during trials.</div>
+    <div class="win-lose-grid">
+      <div class="win-box">
+        <h5>&#x2705; Where GG Wins</h5>
+        <div class="wl-item"><strong>Price-to-value ratio</strong> — Flat 2.6% processing with next-day payouts. Vagaro charges 2.6%+10c (with higher CNP at 3.5%+15c). Standard $24/mo, Gold $48-56/mo, Platinum $148-168/mo. Boulevard ($175-410/mo) and Mangomint ($165-375/mo) cost more than even our Platinum for comparable features.</div>
+        <div class="wl-item"><strong>Client booking experience</strong> — No client login required, fastest booking flow in the industry. Prospects consistently cite this as the #1 differentiator vs. Vagaro and Square.</div>
+        <div class="wl-item"><strong>MedSpa EMR (NEW — In Beta)</strong> — SOAP Notes, charting, MD sign-off, photo markup live on Practice tiers. Mangomint charges $50/mo extra for forms+charting. Mangomint lacks MD sign-off entirely. We beat Aesthetic Record on flexibility.</div>
+        <div class="wl-item"><strong>AI Growth Analyst</strong> — Revenue insights, projected revenue, actionable metrics at a glance. No competitor matches this. "The only booking system that gives you this much info at a glance" — real customer quote.</div>
+        <div class="wl-item"><strong>Website &amp; brand builder</strong> — Best-in-class booking site for solos. Mangomint has no website builder at all. Combs and Booksy have basic ones.</div>
+        <div class="wl-item"><strong>Apple Tap to Pay</strong> — 25% higher median tips vs. cash. Card transactions = 5% higher rebooking rate. Deposits usage → 32% increase in appointments ($956/mo revenue lift).</div>
+        <div class="wl-item"><strong>BNPL built in</strong> — Up to $4K service limit. Vagaro just switched from in-house to Affirm (6%+30c fees, same as us). Square matches but others don't.</div>
+        <div class="wl-item"><strong>Deposit &amp; card-on-file enforcement</strong> — Rosy lets clients book without a card on file. Vagaro sometimes lets clients skip deposits. We enforce deposits and COF at booking — no gaps, fewer no-shows.</div>
+        <div class="wl-item"><strong>Customer support</strong> — Boulevard support reps have no-showed on calls (SKO panel feedback). Vagaro support cited as weak. GG's responsive support is a consistent differentiator.</div>
+        <div class="wl-item"><strong>No hidden fees or add-ons</strong> — Vagaro charges extra for text marketing, branded app, forms, check-in, website builder. Phorest charges $30/mo terminal fee + $1/online booking + variable deposit fees. We include everything.</div>
+        <div class="wl-item"><strong>Booth renter support (SBA)</strong> — Meevo has limited functionality for renters. Our Separate Bank Accounts let each provider accept payments independently while the business keeps full visibility, online booking, deposits, and commission tracking.</div>
+        <div class="wl-item"><strong>Google reviews (vs Phorest)</strong> — Phorest users' biggest complaint: client reviews only appear on Phorest's own site, NOT on Google. Our reviews go where they matter.</div>
+        <div class="wl-item"><strong>Chargeback protection (vs Square)</strong> — Square discontinued chargeback protection in 2019. No reimbursements. We protect our merchants.</div>
+        <div class="wl-item"><strong>Simplicity &amp; speed</strong> — Solos/small teams live in 1-2 days. Boulevard onboarding takes 2-4 weeks. "I tried the new system and went right back to GG because clients don't have to make a login" — 5-year loyal member.</div>
+        <div class="wl-item"><strong>Proven case studies</strong> — AB Aesthetics Medspa hit 6-figures monthly revenue with GG. Glamour By Gee used BNPL to 10x average booking value. Blushed! Bridal grew ticket size 500% with Smart Payments.</div>
+      </div>
+      <div class="lose-box">
+        <h5>&#x274C; Where We Struggle (Be Honest)</h5>
+        <div class="wl-item"><strong>Add-Ons / Service Options</strong> — #1 deal breaker. Lost 7-provider platinum team to Mangomint over this. Vagaro, Boulevard, Mangomint, Booksy all have it. In Design, targeting Q3 2026. <em>Workaround: create separate services.</em></div>
+        <div class="wl-item"><strong>Multi-Service / Multi-Provider Checkout</strong> — Can't split tickets across providers. Lost 25+ person salon (Jack Dunbar). Every $100K+ GPV loss cites this. Target: Q4 2026+. <em>No good workaround — be upfront.</em></div>
+        <div class="wl-item"><strong>Commissions (Backbar, Tiers)</strong> — No auto backbar deductions or tiered structures. $1.8M GPV deal blocked over missing pre-payout cost deductions. Not Started. <em>Workaround: manual spreadsheet tracking.</em></div>
+        <div class="wl-item"><strong>Card Reader Reliability</strong> — BLE/NFC connectivity issues. Combs actively poaching GG members citing reader failures — marketing "zero bugs or outages." Being investigated. <em>Acknowledge, emphasize improvement investment.</em></div>
+        <div class="wl-item"><strong>Smart Booking / Gap Prevention</strong> — No flush-to-edge scheduling. Vagaro, Square, Acuity all have this. Raised 3x in one week by one AE. <em>Workaround: manual time slot management.</em></div>
+        <div class="wl-item"><strong>2-Way Texting</strong> — Not available. Lost 6+ medspa deals to Boulevard specifically over this. Tied to AI Receptionist roadmap, unlikely before Fall 2026. <em>No workaround.</em></div>
+        <div class="wl-item"><strong>Individual Service/Provider Links</strong> — No per-stylist or per-service booking links. Lost medspa deal — "we LOVE the platform but need individual service links for marketing." Vagaro, Mangomint, Boulevard, Booksy all have this. <em>No workaround.</em></div>
+        <div class="wl-item"><strong>Data Migration</strong> — GC balances, appointment history, forms can't transfer seamlessly. Forms transfer alone takes 1-1.5 months. The "3 strikes" migration blocker. <em>CSV imports for some; manual for the rest.</em></div>
+        <div class="wl-item"><strong>Custom Domains</strong> — .glossgenius.com subdomain only. "Makes me look like a booth renter." Vagaro supports custom domains. Not Started. <em>No workaround.</em></div>
+        <div class="wl-item"><strong>Multi-Language (Spanish)</strong> — App/dashboard can't be set to Spanish. Firm deal breaker in multiple demos. XL effort, deferred. <em>No workaround.</em></div>
+        <div class="wl-item"><strong>New Client Marketing</strong> — GG only markets to existing clients. Lost barbershop to Booksy (marketplace discovery). Booksy partnering with Google on agentic booking. <em>No workaround.</em></div>
+        <div class="wl-item"><strong>Loyalty / Referral Programs</strong> — No built-in loyalty or referral rewards. Boulevard offers $1,000 referral incentives. Vagaro has loyalty. Not Started. <em>No workaround.</em></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- FEATURE GAP MATRIX -->
+  <div class="sales-section" style="border-top:1px solid var(--border);">
+    <div class="sales-section-hd">&#x1F5FA;&#xFE0F; Feature Gap Matrix — Us vs. Competitors</div>
+    <div class="sales-intro">Green = we match or beat. Red = confirmed deal losses. Yellow = gap exists but no confirmed loss yet. Use this to prep for specific competitor mentions.</div>
+    <table class="sales-matrix">
+      <tr><th>Feature</th><th>GG</th><th>Vagaro</th><th>Mangomint</th><th>Boulevard</th><th>Meevo</th><th>Combs</th><th>Booksy</th><th>Square</th><th>Phorest</th><th>Rosy</th><th>Wix</th></tr>
+      <tr><td>Add-Ons</td><td class="sm-lose">Missing</td><td class="sm-win">&#10003;</td><td class="sm-win">&#10003;</td><td class="sm-win">&#10003;</td><td class="sm-win">&#10003;</td><td class="sm-even">—</td><td class="sm-win">&#10003;</td><td class="sm-win">&#10003;</td><td class="sm-win">&#10003;</td><td class="sm-even">—</td><td class="sm-even">—</td></tr>
+      <tr><td>MSMP / Split Tickets</td><td class="sm-lose">Missing</td><td class="sm-win">&#10003;</td><td class="sm-win">&#10003;</td><td class="sm-win">&#10003;</td><td class="sm-win">&#10003;</td><td class="sm-even">—</td><td class="sm-even">—</td><td class="sm-win">&#10003;</td><td class="sm-even">—</td><td class="sm-even">—</td><td class="sm-even">—</td></tr>
+      <tr><td>Commissions (Backbar/Tiers)</td><td class="sm-lose">Missing</td><td class="sm-win">&#10003;</td><td class="sm-win">&#10003;</td><td class="sm-gap">Partial</td><td class="sm-gap">Partial</td><td class="sm-even">—</td><td class="sm-even">—</td><td class="sm-even">—</td><td class="sm-even">—</td><td class="sm-even">—</td><td class="sm-even">—</td></tr>
+      <tr><td>Smart Booking / Gap Fill</td><td class="sm-lose">Missing</td><td class="sm-win">&#10003;</td><td class="sm-even">—</td><td class="sm-even">—</td><td class="sm-even">—</td><td class="sm-even">—</td><td class="sm-even">—</td><td class="sm-win">&#10003;</td><td class="sm-even">—</td><td class="sm-even">—</td><td class="sm-even">—</td></tr>
+      <tr><td>Client Check-In</td><td class="sm-lose">Missing</td><td class="sm-gap">Partial</td><td class="sm-even">—</td><td class="sm-even">—</td><td class="sm-win">&#10003;</td><td class="sm-even">—</td><td class="sm-even">—</td><td class="sm-even">—</td><td class="sm-even">—</td><td class="sm-even">—</td><td class="sm-even">—</td></tr>
+      <tr><td>SOAP Notes / EMR</td><td class="sm-win" style="color:var(--green);font-weight:700;">IN BETA</td><td class="sm-even">—</td><td class="sm-gap">$50 add-on</td><td class="sm-win">&#10003;</td><td class="sm-even">—</td><td class="sm-even">—</td><td class="sm-even">—</td><td class="sm-even">—</td><td class="sm-even">—</td><td class="sm-even">—</td><td class="sm-even">—</td></tr>
+      <tr><td>MD Sign-Off</td><td class="sm-win" style="color:var(--green);font-weight:700;">IN BETA</td><td class="sm-even">—</td><td class="sm-lose">Missing</td><td class="sm-even">—</td><td class="sm-even">—</td><td class="sm-even">—</td><td class="sm-even">—</td><td class="sm-even">—</td><td class="sm-even">—</td><td class="sm-even">—</td><td class="sm-even">—</td></tr>
+      <tr><td>Photo Markup</td><td class="sm-win" style="color:var(--green);font-weight:700;">IN BETA</td><td class="sm-even">—</td><td class="sm-even">—</td><td class="sm-win">&#10003;</td><td class="sm-even">—</td><td class="sm-even">—</td><td class="sm-even">—</td><td class="sm-even">—</td><td class="sm-even">—</td><td class="sm-even">—</td><td class="sm-even">—</td></tr>
+      <tr><td>Custom Domains</td><td class="sm-lose">Missing</td><td class="sm-win">&#10003;</td><td class="sm-even">—</td><td class="sm-even">—</td><td class="sm-even">—</td><td class="sm-even">—</td><td class="sm-even">—</td><td class="sm-win">&#10003;</td><td class="sm-even">—</td><td class="sm-even">—</td><td class="sm-win">&#10003;</td></tr>
+      <tr><td>2-Way Texting</td><td class="sm-lose">Missing</td><td class="sm-win">&#10003;</td><td class="sm-even">—</td><td class="sm-win">&#10003;</td><td class="sm-even">—</td><td class="sm-even">—</td><td class="sm-even">—</td><td class="sm-even">—</td><td class="sm-even">—</td><td class="sm-even">—</td><td class="sm-even">—</td></tr>
+      <tr><td>Multi-Language</td><td class="sm-lose">Missing</td><td class="sm-even">—</td><td class="sm-even">—</td><td class="sm-even">—</td><td class="sm-even">—</td><td class="sm-even">—</td><td class="sm-even">—</td><td class="sm-even">—</td><td class="sm-even">—</td><td class="sm-even">—</td><td class="sm-even">—</td></tr>
+      <tr><td>Provider Booking Links</td><td class="sm-lose">Missing</td><td class="sm-win">&#10003;</td><td class="sm-win">&#10003;</td><td class="sm-win">&#10003;</td><td class="sm-even">—</td><td class="sm-even">—</td><td class="sm-win">&#10003;</td><td class="sm-even">—</td><td class="sm-even">—</td><td class="sm-even">—</td><td class="sm-even">—</td></tr>
+      <tr><td>Self-Checkout (Pre-Pay)</td><td class="sm-lose">Missing</td><td class="sm-even">—</td><td class="sm-win">&#10003;</td><td class="sm-gap">Partial</td><td class="sm-even">—</td><td class="sm-even">—</td><td class="sm-even">—</td><td class="sm-even">—</td><td class="sm-even">—</td><td class="sm-even">—</td><td class="sm-even">—</td></tr>
+      <tr><td>Per-Service Tax</td><td class="sm-lose">Missing</td><td class="sm-win">&#10003;</td><td class="sm-even">—</td><td class="sm-even">—</td><td class="sm-even">—</td><td class="sm-even">—</td><td class="sm-even">—</td><td class="sm-win">&#10003;</td><td class="sm-even">—</td><td class="sm-even">—</td><td class="sm-even">—</td></tr>
+      <tr><td>Loyalty/Referral Programs</td><td class="sm-lose">Missing</td><td class="sm-win">&#10003;</td><td class="sm-even">—</td><td class="sm-win">&#10003;</td><td class="sm-even">—</td><td class="sm-even">—</td><td class="sm-even">—</td><td class="sm-win">&#10003;</td><td class="sm-even">—</td><td class="sm-even">—</td><td class="sm-even">—</td></tr>
+      <tr><td>Card-on-File Enforcement</td><td class="sm-win" style="color:var(--green);font-weight:700;">&#10003;</td><td class="sm-gap">Partial</td><td class="sm-win">&#10003;</td><td class="sm-win">&#10003;</td><td class="sm-win">&#10003;</td><td class="sm-even">—</td><td class="sm-even">—</td><td class="sm-win">&#10003;</td><td class="sm-win">&#10003;</td><td class="sm-lose">Missing</td><td class="sm-even">—</td></tr>
+      <tr><td>Digital Invoices</td><td class="sm-win" style="color:var(--green);font-weight:700;">&#10003;</td><td class="sm-win">&#10003;</td><td class="sm-even">—</td><td class="sm-lose">Missing</td><td class="sm-even">—</td><td class="sm-even">—</td><td class="sm-even">—</td><td class="sm-win">&#10003;</td><td class="sm-even">—</td><td class="sm-even">—</td><td class="sm-even">—</td></tr>
+      <tr><td>Google Review Routing</td><td class="sm-win" style="color:var(--green);font-weight:700;">&#10003;</td><td class="sm-win">&#10003;</td><td class="sm-even">—</td><td class="sm-even">—</td><td class="sm-even">—</td><td class="sm-even">—</td><td class="sm-even">—</td><td class="sm-even">—</td><td class="sm-lose">Phorest only</td><td class="sm-even">—</td><td class="sm-even">—</td></tr>
+      <tr><td>Chargeback Protection</td><td class="sm-win" style="color:var(--green);font-weight:700;">&#10003;</td><td class="sm-even">—</td><td class="sm-even">—</td><td class="sm-even">—</td><td class="sm-even">—</td><td class="sm-even">—</td><td class="sm-even">—</td><td class="sm-lose">Removed 2019</td><td class="sm-even">—</td><td class="sm-even">—</td><td class="sm-even">—</td></tr>
+      <tr style="background:var(--surface3);"><td style="color:var(--accent2);font-weight:700;">Pricing (est./mo)</td><td style="color:var(--green);font-weight:700;">$24-168</td><td style="color:var(--faint);">$25-85</td><td style="color:var(--faint);">$165-375</td><td style="color:var(--faint);">$175-410</td><td style="color:var(--faint);">$139-399</td><td style="color:var(--faint);">$30-90</td><td style="color:var(--faint);">$30-50</td><td style="color:var(--faint);">Free+2.6%</td><td style="color:var(--faint);">Custom+$30</td><td style="color:var(--faint);">$29-69</td><td style="color:var(--faint);">$17-159</td></tr>
+    </table>
+  </div>
+
+  <!-- COMPETITOR BATTLECARDS -->
+  <div class="sales-section" style="border-top:1px solid var(--border);">
+    <div class="sales-section-hd">&#x1F3AF; Competitor Battlecards <span style="font-size:11px;font-weight:400;color:var(--faint);text-transform:none;letter-spacing:0;">Click to expand</span></div>
+
+    <div class="battlecard-grid">
+      <!-- Vagaro -->
+      <div class="battlecard" data-bc="vagaro">
+        <div class="battlecard-header">
+          <span class="battlecard-name">Vagaro</span>
+          <span class="battlecard-price">$25-85/mo + add-ons</span>
+        </div>
+        <div class="battlecard-body">
+          <div class="battlecard-section bc-win"><h6>Where We Beat Vagaro</h6>
+            <div class="bc-item"><strong>Processing:</strong> 2.6% flat vs. their 2.6%+10c (CP) / 3.5%+15c (CNP). We save businesses $200-500+/mo on processing alone.</div>
+            <div class="bc-item"><strong>Payouts:</strong> Next-day standard. Vagaro = 2-3 business days.</div>
+            <div class="bc-item"><strong>Booking UX:</strong> No client login. Fastest booking flow. Vagaro booking requires account creation.</div>
+            <div class="bc-item"><strong>No add-on pricing:</strong> Vagaro's base is $25/mo but almost every advanced feature costs extra — text marketing, branded app, forms/SOAP notes, check-in kiosk, website builder, Vagaro Pay Later are all add-ons. We include everything.</div>
+            <div class="bc-item"><strong>Surcharge flexibility:</strong> Pros on Vagaro CANNOT pass processing fees onto the customer. We allow 3.5% surcharge.</div>
+            <div class="bc-item"><strong>Website builder:</strong> Best-in-class aesthetics. Vagaro sites look dated.</div>
+            <div class="bc-item"><strong>AI Growth Analyst:</strong> Revenue insights at a glance. Nothing comparable on Vagaro.</div>
+            <div class="bc-item"><strong>Deposit &amp; card-on-file enforcement:</strong> Vagaro sometimes lets clients skip deposits or card-on-file at booking — less protection for no-shows/cancellations.</div>
+            <div class="bc-item"><strong>Customer support:</strong> We have better customer support over Vagaro — consistently cited by switching customers.</div>
+            <div class="bc-item"><strong>MedSpa EMR:</strong> SOAP Notes + MD sign-off in beta. Vagaro has no native EMR (uses ScriptSure add-on at $40/mo/doctor).</div>
+            <div class="bc-item"><strong>App quality:</strong> Vagaro's admin app lacks full desktop functionality. Slow to load / glitchy per user reports.</div>
+            <div class="bc-item"><strong>BNPL:</strong> Built in. Vagaro just switched to Affirm with same fees — we were first.</div>
+          </div>
+          <div class="battlecard-section bc-lose"><h6>Where Vagaro Beats Us</h6>
+            <div class="bc-item"><strong>Add-Ons dropdown</strong> — Their top advantage. Full flexibility at booking.</div>
+            <div class="bc-item"><strong>Smart booking / gap prevention</strong> — Flush-to-edge scheduling we don't have.</div>
+            <div class="bc-item"><strong>Commissions</strong> — Backbar deductions, tiered structures, parts &amp; labor.</div>
+            <div class="bc-item"><strong>Formula tracking</strong> — Hair color formulas and product tracking per client.</div>
+            <div class="bc-item"><strong>Product sales (in-store + online)</strong> — Supports retail product sales both in-store and online.</div>
+            <div class="bc-item"><strong>Marketplace</strong> — Vagaro has a client-facing marketplace for discovery.</div>
+            <div class="bc-item"><strong>Deal of the Day</strong> — Promotional deal feature for client acquisition.</div>
+            <div class="bc-item"><strong>Custom surcharge fees</strong> — Custom name, custom %, $ or % toggle. We only offer 3.5%.</div>
+            <div class="bc-item"><strong>Per-service tax</strong> — Line-item tax control at checkout. We only have cart-level toggle.</div>
+            <div class="bc-item"><strong>Custom domains</strong> — Support custom domain names.</div>
+            <div class="bc-item"><strong>E-Prescribe (eRx)</strong> — Via ScriptSure at $40/mo/doctor + $5/mo/MA.</div>
+            <div class="bc-item"><strong>Booth renter rent collection</strong> — Built-in rent collection. We don't have this.</div>
+            <div class="bc-item"><strong>A la carte pricing</strong> — Solos can pay ~$33/mo for basics. Our floor is higher.</div>
+            <div class="bc-item"><strong>Loyalty programs</strong> — Built-in loyalty and rewards.</div>
+            <div class="bc-item"><strong>Digital forms/waivers/SOAP notes</strong> — Create and store digital forms, waivers, SOAP notes (as add-on).</div>
+          </div>
+          <div class="battlecard-section bc-talk"><h6>Talk Tracks</h6>
+            <div class="bc-item"><strong>On pricing:</strong> "At $83.99/mo for unlimited staff, Vagaro looks cheap — but add processing fees and you're paying more. Our 2.6% flat rate saves most businesses $200-500/mo. Run the math on your monthly volume."</div>
+            <div class="bc-item"><strong>On add-on pricing:</strong> "Vagaro's base price is $25/mo but almost every advanced feature — text marketing, branded app, forms, check-in kiosk, website builder — costs extra. With GG, everything is included. No surprise add-ons eating into your profit."</div>
+            <div class="bc-item"><strong>On add-ons:</strong> "You're right, we don't have add-on dropdowns yet — it's our top priority and in active design for Q3. But here's what we DO have that Vagaro doesn't: AI-powered business insights, next-day payouts, and a booking experience that actually converts."</div>
+            <div class="bc-item"><strong>On switching fear:</strong> "I get it — Vagaro has a lot of legacy features built up over years. But they just raised their processing fees and switched their BNPL to Affirm. The trend is: they're getting more expensive while we're getting more powerful."</div>
+            <div class="bc-item"><strong>On no-shows:</strong> "Unlike Vagaro, our deposit and card-on-file enforcement is airtight. Clients can't skip past it at booking. Most of our users see a big drop in no-shows once they turn that on."</div>
+          </div>
+          <div style="padding:8px 0;border-top:1px solid var(--border);margin-top:8px;">
+            <div style="font-size:11px;color:var(--faint);"><strong>Pricing intel:</strong> Solo ~$33/mo (basic) · $83.99/mo (7+ unlimited staff) · CP: 2.6%+10c · CNP: 3.5%+15c · Tap-to-Pay: 2.6%+16c · eRx add-on: $40/mo/doctor · Add-ons: text marketing, branded app, forms/SOAP, check-in kiosk, website builder all extra</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Mangomint -->
+      <div class="battlecard" data-bc="mangomint">
+        <div class="battlecard-header">
+          <span class="battlecard-name">Mangomint</span>
+          <span class="battlecard-price">$165-375/mo</span>
+        </div>
+        <div class="battlecard-body">
+          <div class="battlecard-section bc-win"><h6>Where We Beat Mangomint</h6>
+            <div class="bc-item"><strong>Pricing:</strong> Significantly cheaper. They charge $165-375/mo. Our Gold is $48-56/mo and even Platinum ($148-168/mo) undercuts their base plan.</div>
+            <div class="bc-item"><strong>MD Sign-Off:</strong> In beta — Mangomint lacks this entirely. Their medspa clients use workarounds.</div>
+            <div class="bc-item"><strong>Website builder:</strong> Mangomint has NO website builder at all.</div>
+            <div class="bc-item"><strong>BNPL:</strong> Built in. Mangomint doesn't offer this.</div>
+            <div class="bc-item"><strong>Forms + charting included:</strong> On MedSpa tiers at no extra cost. Mangomint charges $50/mo add-on.</div>
+          </div>
+          <div class="battlecard-section bc-lose"><h6>Where Mangomint Beats Us</h6>
+            <div class="bc-item"><strong>Add-Ons</strong> — Full service add-on flexibility. Our #1 loss reason against them.</div>
+            <div class="bc-item"><strong>Self-service checkout</strong> — Pre-pay + tip at booking. Lost deals specifically on this.</div>
+            <div class="bc-item"><strong>MSMP / split tickets</strong> — Multi-provider single checkout.</div>
+            <div class="bc-item"><strong>Provider booking links</strong> — Per-provider and per-service URLs.</div>
+            <div class="bc-item"><strong>Online package/membership sales</strong> — Account balance memberships (credit system).</div>
+            <div class="bc-item"><strong>Automated drip campaigns</strong> — Preset marketing flows / aftercare instructions.</div>
+          </div>
+          <div class="battlecard-section bc-talk"><h6>Talk Tracks</h6>
+            <div class="bc-item"><strong>On pricing:</strong> "Mangomint charges $165-375/mo PLUS $50/mo for forms and charting. Our MedSpa tiers include charting, SOAP Notes, and MD sign-off that Mangomint doesn't even have — at a fraction of the cost."</div>
+            <div class="bc-item"><strong>On add-ons:</strong> "That's our top priority feature, in active design now. But ask yourself: is one missing feature worth paying $165-375/mo when our Gold is $48-56/mo? Most businesses save $100+/mo switching to us."</div>
+            <div class="bc-item"><strong>On their AE volume:</strong> "Mangomint closes ~20 accounts/month with ~5,000 total customers. We have a much larger base — more feedback, faster iteration, bigger community."</div>
+          </div>
+          <div style="padding:8px 0;border-top:1px solid var(--border);margin-top:8px;">
+            <div style="font-size:11px;color:var(--faint);"><strong>Pricing intel:</strong> $165-375/mo · Forms+charting add-on: $50/mo · ~5,000 customers · ~1M appts/month · ~$2B GMV run-rate · AEs close ~20 accounts/month</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Boulevard -->
+      <div class="battlecard" data-bc="boulevard">
+        <div class="battlecard-header">
+          <span class="battlecard-name">Boulevard</span>
+          <span class="battlecard-price">$175-410/mo</span>
+        </div>
+        <div class="battlecard-body">
+          <div class="battlecard-section bc-win"><h6>Where We Beat Boulevard</h6>
+            <div class="bc-item"><strong>Pricing:</strong> They charge $175-410/mo plus per-appointment fees. Our Gold ($48-56/mo) and Platinum ($148-168/mo) are dramatically cheaper. Even Platinum saves $30-240+/mo vs Boulevard's base.</div>
+            <div class="bc-item"><strong>Instant payouts:</strong> Next-day standard. Boulevard customers report NOT getting instant payouts — confirmed at SKO customer panel (Jan 2026).</div>
+            <div class="bc-item"><strong>Processing fees:</strong> Flat 2.6%. Boulevard has higher, complex tiered processing — confirmed by switching customers at SKO panel.</div>
+            <div class="bc-item"><strong>Easier reporting:</strong> SKO customer panel feedback: "easier to gather reports in GG" vs. Boulevard. Our analytics are simpler and more actionable.</div>
+            <div class="bc-item"><strong>Customer support:</strong> Boulevard has tried to get on calls with multiple support reps and they've never showed — reported by switching customer at SKO panel. GG's support is responsive.</div>
+            <div class="bc-item"><strong>Onboarding speed:</strong> Live in days, not weeks. Boulevard onboarding is 2-4 weeks.</div>
+            <div class="bc-item"><strong>No contracts:</strong> Boulevard contracts auto-renew without business owners knowing, locking them into another year. One prospect (Christi Rantis) was confused by Boulevard buyout terms.</div>
+            <div class="bc-item"><strong>Digital invoices:</strong> Boulevard does NOT offer digital invoices to pay through — may require integrating with other platforms like QuickBooks.</div>
+            <div class="bc-item"><strong>Customer service is everything:</strong> SKO panel insight — "customer service is everything" and GG delivers where BLVD doesn't. Data migration is emotional — give client complete confidence.</div>
+          </div>
+          <div class="battlecard-section bc-lose"><h6>Where Boulevard Beats Us</h6>
+            <div class="bc-item"><strong>2-way texting + number porting</strong> — 6+ medspa deals lost specifically over this. Their biggest advantage.</div>
+            <div class="bc-item"><strong>Precision Scheduling</strong> — AI-optimized appointment times.</div>
+            <div class="bc-item"><strong>Loyalty / referral programs</strong> — $1,000 referral incentives. We have nothing.</div>
+            <div class="bc-item"><strong>Individual service booking links</strong> — Per-service URLs for marketing automation.</div>
+            <div class="bc-item"><strong>Self-service checkout</strong> — Pre-pay at booking.</div>
+            <div class="bc-item"><strong>Client check-in</strong> — Arrival notifications for front desk.</div>
+          </div>
+          <div class="battlecard-section bc-talk"><h6>Talk Tracks</h6>
+            <div class="bc-item"><strong>On pricing:</strong> "Boulevard charges $175-410/mo PLUS per-appointment fees. One prospect said it felt like getting 'nickel and dimed.' Our Gold is $48-56/mo, Platinum is $148-168/mo — even Platinum is cheaper than Boulevard's base plan. That's thousands back in your pocket every year."</div>
+            <div class="bc-item"><strong>On 2-way texting:</strong> "You're right, we don't have that yet — it's on our AI Receptionist roadmap. But consider: Boulevard locks you into auto-renewing contracts. We don't. If texting matters that much, try us first — you can always add Boulevard later, but you can't easily leave Boulevard."</div>
+            <div class="bc-item"><strong>On switching FROM Boulevard:</strong> "Belleza Latina is actively leaving Boulevard for us right now. The per-appointment pricing model gets expensive fast for growing businesses."</div>
+            <div class="bc-item"><strong>On invoices:</strong> "Boulevard doesn't even offer digital invoices to pay through — you may have to integrate with QuickBooks or other platforms just to send an invoice. With GG, it's built right in."</div>
+            <div class="bc-item"><strong>On support:</strong> "We hear from Boulevard switchers that they've tried to get on calls with BLVD support reps and nobody shows up. With GG, our support team is there when you need them."</div>
+          </div>
+          <div style="padding:8px 0;border-top:1px solid var(--border);margin-top:8px;">
+            <div style="font-size:11px;color:var(--faint);"><strong>Pricing intel:</strong> $175-410/mo + per-appt fees · Auto-renewing contracts · ~5,000 businesses · ~$5B in payments/year · ~15% medspa market share · Raised $80M recently</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Combs -->
+      <div class="battlecard" data-bc="combs">
+        <div class="battlecard-header">
+          <span class="battlecard-name">Combs</span>
+          <span class="battlecard-price">$30-90/mo</span>
+        </div>
+        <div class="battlecard-body">
+          <div class="battlecard-section bc-win"><h6>Where We Beat Combs</h6>
+            <div class="bc-item"><strong>Established platform:</strong> 5+ years of iteration, much larger user base and community.</div>
+            <div class="bc-item"><strong>Analytics &amp; AI:</strong> Growth Analyst, projected revenue — nothing comparable.</div>
+            <div class="bc-item"><strong>Payment processing:</strong> Better integration, lower rates (2.6% vs their 2.7%+5c CP).</div>
+            <div class="bc-item"><strong>Real checkout:</strong> Combs default checkout is a text-based payment link (technically CNP). Doesn't work well for older clients.</div>
+            <div class="bc-item"><strong>Bounceback customer:</strong> At least one user switched FROM Comb back to GG — "I didn't want all of the AI generated things. I liked how it was simple."</div>
+          </div>
+          <div class="battlecard-section bc-lose"><h6>Where Combs Threatens Us</h6>
+            <div class="bc-item"><strong>Card reader reliability narrative</strong> — Actively poaching GG members via Instagram, marketing "zero bugs or outages." Reviews from former GG members cite card reader issues.</div>
+            <div class="bc-item"><strong>Aggressive marketing</strong> — Paid ads targeting GG users. "Hateful" tone in some campaigns. Directly reaching out to GG members with demo offers.</div>
+          </div>
+          <div class="battlecard-section bc-talk"><h6>Talk Tracks</h6>
+            <div class="bc-item"><strong>If prospect mentions Combs:</strong> "Combs is newer and marketing aggressively, but their default checkout is a text payment link — that's card-not-present with higher rates. Ask them about BNPL, AI marketing, or how their booking site compares to ours."</div>
+            <div class="bc-item"><strong>On card reader concerns:</strong> "We hear you on card reader reliability. Our team is actively working on improving first-connect success rates. But don't take Combs' marketing at face value — every platform has growing pains."</div>
+          </div>
+          <div style="padding:8px 0;border-top:1px solid var(--border);margin-top:8px;">
+            <div style="font-size:11px;color:var(--faint);"><strong>Pricing intel:</strong> $30-90/mo · CP: 2.7%+5c · CNP: 2.5%+21c (lowered Jun 2025) · Default checkout = text-based link</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Booksy -->
+      <div class="battlecard" data-bc="booksy">
+        <div class="battlecard-header">
+          <span class="battlecard-name">Booksy</span>
+          <span class="battlecard-price">$30-50/mo</span>
+        </div>
+        <div class="battlecard-body">
+          <div class="battlecard-section bc-win"><h6>Where We Beat Booksy</h6>
+            <div class="bc-item"><strong>Website builder:</strong> Far superior booking site aesthetics and customization.</div>
+            <div class="bc-item"><strong>Analytics:</strong> AI Growth Analyst, projected revenue, business insights dashboard.</div>
+            <div class="bc-item"><strong>Processing rates:</strong> 2.6% flat vs. Booksy's marketplace-based model.</div>
+            <div class="bc-item"><strong>Client ownership:</strong> Your clients are YOURS. Booksy's marketplace means clients belong to the platform.</div>
+          </div>
+          <div class="battlecard-section bc-lose"><h6>Where Booksy Beats Us</h6>
+            <div class="bc-item"><strong>Client acquisition / marketplace</strong> — Built-in marketplace for discovering new clients. #1 reason barbershops choose Booksy over GG.</div>
+            <div class="bc-item"><strong>Google AI partnership</strong> — Launch partner for beauty/wellness in Google AI Mode agentic booking. 1 in 4 Fresha bookings already come via Google — Booksy positioning similarly.</div>
+            <div class="bc-item"><strong>Referral programs</strong> — Business referral rewards to incentivize client word-of-mouth.</div>
+          </div>
+          <div class="battlecard-section bc-talk"><h6>Talk Tracks</h6>
+            <div class="bc-item"><strong>On marketplace:</strong> "Booksy's marketplace drives new clients, but you're sharing that audience with every competitor on the platform. When a client searches for 'barber near me,' they see you AND your competition side by side. With GG, you build YOUR brand and YOUR client base."</div>
+            <div class="bc-item"><strong>On Google AI:</strong> "Booksy's Google partnership is interesting but early. What matters today is converting the clients you already have — and our booking flow has the highest conversion rate in the industry."</div>
+          </div>
+          <div style="padding:8px 0;border-top:1px solid var(--border);margin-top:8px;">
+            <div style="font-size:11px;color:var(--faint);"><strong>Pricing intel:</strong> $30-50/mo · Marketplace-based model · Google AI Mode launch partner (beauty/wellness)</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Aesthetic Record / Moxie -->
+      <div class="battlecard" data-bc="moxie">
+        <div class="battlecard-header">
+          <span class="battlecard-name">Aesthetic Record / Moxie</span>
+          <span class="battlecard-price">Varies (bundled)</span>
+        </div>
+        <div class="battlecard-body">
+          <div class="battlecard-section bc-win"><h6>Where We Beat Aesthetic Record / Moxie</h6>
+            <div class="bc-item"><strong>All-in-one platform:</strong> Booking + payments + website + marketing + EMR in one tool. Moxie bundles inflate costs.</div>
+            <div class="bc-item"><strong>Booking UX:</strong> Superior client-facing experience, no client login.</div>
+            <div class="bc-item"><strong>Flexible MD sign-off:</strong> Our Charts Dashboard + Sign-off Queue handles GFE, NP supervision, or any compliance workflow the medspa defines. Moxie prescribes your compliance — we give you tools.</div>
+            <div class="bc-item"><strong>Pricing:</strong> Significantly cheaper. Moxie bundles medical director + EMR at premium prices.</div>
+          </div>
+          <div class="battlecard-section bc-lose"><h6>Where Aesthetic Record / Moxie Beats Us</h6>
+            <div class="bc-item"><strong>Bundled medical director</strong> — They provide an actual medical director as part of the package. We provide the tools, not the person.</div>
+            <div class="bc-item"><strong>Compliance tracking</strong> — Legal/compliance team that tracks changing medspa laws, HIPAA/OSHA protocols. 10+ closed-lost deals cite this.</div>
+            <div class="bc-item"><strong>Deeper EMR</strong> — Lab uploads, prescriptions, dot phrases for auto-populating charts.</div>
+            <div class="bc-item"><strong>Regulatory updates</strong> — Proactive notifications about changing medspa regulations by state.</div>
+          </div>
+          <div class="battlecard-section bc-talk"><h6>Talk Tracks</h6>
+            <div class="bc-item"><strong>On medical director:</strong> "Moxie includes a medical director, but you're paying for that — and you're locked into their compliance interpretation. Our MD sign-off gives you flexibility: it works for GFE, NP supervision, or any workflow you define. If you already have an MD relationship, why pay Moxie for one?"</div>
+            <div class="bc-item"><strong>On compliance:</strong> "We deliberately take a flexible approach — it's on the medspa to know their obligations, and we give you the tools to meet them. That's actually what most savvy operators prefer. Even Mangomint users are doing workarounds for this."</div>
+            <div class="bc-item"><strong>If prospect has no MD yet:</strong> "If you don't have a medical director relationship yet, Moxie's bundle might make sense for now. But as you grow, you'll want the flexibility to choose your own MD and your own tools. We'll be here when you're ready."</div>
+          </div>
+          <div style="padding:8px 0;border-top:1px solid var(--border);margin-top:8px;">
+            <div style="font-size:11px;color:var(--faint);"><strong>Intel:</strong> Bundles MD + EMR at premium pricing · 10+ deals lost to them on compliance features · GG's MD sign-off now in beta (closing this gap) · Moxie targets medspas without existing MD relationships</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Square -->
+      <div class="battlecard" data-bc="square">
+        <div class="battlecard-header">
+          <span class="battlecard-name">Square</span>
+          <span class="battlecard-price">Free + 2.6%+10c</span>
+        </div>
+        <div class="battlecard-body">
+          <div class="battlecard-section bc-win"><h6>Where We Beat Square</h6>
+            <div class="bc-item"><strong>Beauty-specific features:</strong> Service-based booking, client profiles, formulas, before/after photos. Square is generic POS — wasn't designed for beauty pros.</div>
+            <div class="bc-item"><strong>Processing rates:</strong> 2.6% flat vs Square's 2.6%+10c (CP). Card-not-present is 3.5% + fee on Square. Invoice fee: ~3.3% + 30c for cards (1% for ACH). We win on processing across the board.</div>
+            <div class="bc-item"><strong>Booth renter booking:</strong> Square has blockers from a booth renter perspective when it comes to booking and calendar collaboration.</div>
+            <div class="bc-item"><strong>Email marketing included:</strong> Square charges extra for email marketing. Ours is built in at no additional cost.</div>
+            <div class="bc-item"><strong>No chargeback protection:</strong> Square discontinued chargeback protection in April 2019. No reimbursements even if you lose a dispute. We protect our merchants better.</div>
+            <div class="bc-item"><strong>Website &amp; booking:</strong> Our booking site converts better for beauty businesses.</div>
+            <div class="bc-item"><strong>Analytics:</strong> AI Growth Analyst built for beauty businesses vs Square's generic dashboards.</div>
+          </div>
+          <div class="battlecard-section bc-lose"><h6>Why Salons Stay on Square</h6>
+            <div class="bc-item"><strong>Square Checking</strong> — Built-in banking/savings account. Auto-pulls % of sales into savings. Booth renters cite this as reason to stay.</div>
+            <div class="bc-item"><strong>Integrations ecosystem</strong> — SalonInteractive (retail + marketing + inventory), Glammatic (branded website + bookings), Zapier/Make/Integrately (connect to CRM/accounting), BigCommerce/Shopify (web store sync), Facebook/Instagram/Google direct booking links.</div>
+            <div class="bc-item"><strong>Unlimited invoices</strong> — Unlimited invoices, estimates, and e-contracts on the free plan.</div>
+            <div class="bc-item"><strong>Multi-service booking</strong> — Group checkout for team salons.</div>
+            <div class="bc-item"><strong>Cash drawer / nightly closeout</strong> — Physical POS workflow we don't replicate.</div>
+            <div class="bc-item"><strong>Familiarity</strong> — 15-year users embedded in ecosystem. Hard to switch.</div>
+          </div>
+          <div class="battlecard-section bc-talk"><h6>Talk Tracks</h6>
+            <div class="bc-item"><strong>On switching:</strong> "Square is a great general POS, but it wasn't built for beauty. You're probably spending 30 min/day on workarounds that GG handles automatically — booking, client management, marketing. That time has a cost."</div>
+            <div class="bc-item"><strong>On processing:</strong> "Square's card-not-present rate is 3.5% plus fees, and invoices are 3.3% + 30 cents. We're a flat 2.6% on everything — in-person, online, deposits, memberships. Run the numbers on your monthly volume."</div>
+            <div class="bc-item"><strong>On chargeback protection:</strong> "Did you know Square discontinued their chargeback protection back in 2019? If you lose a dispute, they won't reimburse you — you just eat the loss. With GG, your business is better protected."</div>
+            <div class="bc-item"><strong>On integrations:</strong> "Square has more integrations, sure — but you're duct-taping together 4-5 tools to do what GG does natively. Booking, payments, marketing, website, analytics — all in one. Less complexity, fewer monthly bills."</div>
+          </div>
+          <div style="padding:8px 0;border-top:1px solid var(--border);margin-top:8px;">
+            <div style="font-size:11px;color:var(--faint);"><strong>Intel:</strong> Free plan + CP: 2.6%+10c · CNP: 3.5%+fee · Invoices: 3.3%+30c · No chargeback protection since Apr 2019 · Email marketing is add-on · Integrations: SalonInteractive, Glammatic, Zapier · AI assistants in development</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Phorest -->
+      <div class="battlecard" data-bc="phorest">
+        <div class="battlecard-header">
+          <span class="battlecard-name">Phorest</span>
+          <span class="battlecard-price">Custom + $30/mo terminal</span>
+        </div>
+        <div class="battlecard-body">
+          <div class="battlecard-section bc-win"><h6>Where We Beat Phorest</h6>
+            <div class="bc-item"><strong>No hidden fees:</strong> Phorest charges $30/mo just for the PhorestPay card terminal, $1 per online booking (US/Canada), variable deposit fees, PLUS 1.4%+$0.10 per transaction. Our flat 2.6% has zero hidden costs.</div>
+            <div class="bc-item"><strong>Pricing transparency:</strong> Our pricing is public and simple. Phorest requires demos for pricing and nickel-and-dimes with add-on fees.</div>
+            <div class="bc-item"><strong>Google reviews:</strong> Phorest users love Phorest but their biggest pain point — when clients leave reviews, they only appear on the Phorest site, NOT on Google. Our reviews flow to Google.</div>
+            <div class="bc-item"><strong>Modern UX:</strong> Cleaner, more modern interface. Phorest feels legacy.</div>
+            <div class="bc-item"><strong>BNPL:</strong> Built-in. Phorest doesn't offer this natively.</div>
+          </div>
+          <div class="battlecard-section bc-lose"><h6>Where Phorest Threatens Us</h6>
+            <div class="bc-item"><strong>Front Desk AI:</strong> AI receptionist for scheduling and client communication.</div>
+            <div class="bc-item"><strong>Cheat Sheet AI:</strong> Smart client prep before appointments.</div>
+            <div class="bc-item"><strong>Reporting AI (Gemini-powered):</strong> Natural language reporting and goal setting.</div>
+            <div class="bc-item"><strong>Trade show presence:</strong> Attending shows in GG's territory. Increasing brand awareness.</div>
+          </div>
+          <div class="battlecard-section bc-talk"><h6>Talk Tracks</h6>
+            <div class="bc-item"><strong>On fees:</strong> "One of the biggest complaints from salon owners using Phorest is all the extra fees — that $30 monthly card reader charge, the $1 fee for every online booking, and variable deposit fees really add up. With GG, it's simple: flat 2.6% on every transaction — no hidden costs, no booking fees, no surprises."</div>
+            <div class="bc-item"><strong>On reviews:</strong> "Ask any Phorest user about reviews — when their clients leave one, it only shows up on Phorest's own site, not on Google where it actually matters. With GG, your reviews go where prospects will find them."</div>
+            <div class="bc-item"><strong>On AI:</strong> "Phorest is layering AI onto a legacy platform. We built AI into the foundation — our Growth Analyst already delivers the insights their Cheat Sheet AI promises. And we ship faster."</div>
+          </div>
+          <div style="padding:8px 0;border-top:1px solid var(--border);margin-top:8px;">
+            <div style="font-size:11px;color:var(--faint);"><strong>Intel:</strong> Custom pricing + $30/mo terminal fee · 1.4%+$0.10/transaction · $1/online booking · Variable deposit fees · Reviews stuck on Phorest (not Google) · Gemini-powered reporting AI · Affiliated with Highlift.ai · Front Desk AI + Cheat Sheet AI</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Mindbody -->
+      <div class="battlecard" data-bc="mindbody">
+        <div class="battlecard-header">
+          <span class="battlecard-name">Mindbody</span>
+          <span class="battlecard-price">$169-759/mo</span>
+        </div>
+        <div class="battlecard-body">
+          <div class="battlecard-section bc-win"><h6>Where We Beat Mindbody</h6>
+            <div class="bc-item"><strong>Pricing:</strong> 3-15x cheaper. Their Starter is $169/mo; Ultimate+ is $759/mo.</div>
+            <div class="bc-item"><strong>Beauty focus:</strong> We're purpose-built for beauty/wellness. Mindbody is fitness-first expanding into beauty.</div>
+            <div class="bc-item"><strong>Simplicity:</strong> Mindbody is notoriously complex to set up and manage.</div>
+          </div>
+          <div class="battlecard-section bc-lose"><h6>Where Mindbody Beats Us</h6>
+            <div class="bc-item"><strong>EMR capabilities</strong> — Mentioned as competitor for medspa EMR by Quintessa Chavez.</div>
+            <div class="bc-item"><strong>Marketplace</strong> — Consumer-facing marketplace for client discovery.</div>
+            <div class="bc-item"><strong>SMS marketing</strong> — Partnered with Attentive for AI-powered SMS/email campaigns.</div>
+            <div class="bc-item"><strong>Classes/group bookings</strong> — Core strength for fitness-adjacent businesses.</div>
+          </div>
+          <div class="battlecard-section bc-talk"><h6>Talk Tracks</h6>
+            <div class="bc-item"><strong>On pricing:</strong> "Mindbody's Starter plan is $169/mo — that's more than our Platinum at $148-168/mo. Their Ultimate+ is $759/mo. For a solo stylist or small team, that math doesn't work."</div>
+          </div>
+          <div style="padding:8px 0;border-top:1px solid var(--border);margin-top:8px;">
+            <div style="font-size:11px;color:var(--faint);"><strong>Pricing:</strong> Starter $169 · Accelerate $299 · Ultimate $539 · Ultimate+ $759/mo · Partnered with Attentive for AI SMS · Ads layered into booking flows</div>
+          </div>
+        </div>
+      </div>
+      <!-- Meevo -->
+      <div class="battlecard" data-bc="meevo">
+        <div class="battlecard-header">
+          <span class="battlecard-name">Meevo</span>
+          <span class="battlecard-price">$139-399/mo</span>
+        </div>
+        <div class="battlecard-body">
+          <div class="battlecard-section bc-win"><h6>Where We Beat Meevo</h6>
+            <div class="bc-item"><strong>Simpler analytics:</strong> Meevo has SO many reports that it's very hard to track client retention and team member performance metrics. Our analytics tab is a big hit with Meevo switchers — clean, actionable, at a glance.</div>
+            <div class="bc-item"><strong>Forms &amp; waivers included:</strong> Meevo charges add-on fees for forms and waivers. Ours are included.</div>
+            <div class="bc-item"><strong>Automated birthday notifications:</strong> Meevo doesn't have automated birthday notifications. We do.</div>
+            <div class="bc-item"><strong>Booth renter support (SBA):</strong> Meevo has limited functionality for renters/independents — especially around client tracking, reporting, and key features. Our Separate Bank Accounts (SBA) enable each provider to accept payments independently while allowing the business to offer online booking, collect deposits, maintain schedule visibility, and track retail commissions for renters.</div>
+            <div class="bc-item"><strong>Online booking for all providers:</strong> Meevo restricts online booking when not all providers use Meevo for processing. Our SBA model solves this.</div>
+            <div class="bc-item"><strong>Processing:</strong> Flat 2.6%. Meevo has complex tiered processing.</div>
+          </div>
+          <div class="battlecard-section bc-lose"><h6>Where Meevo Beats Us</h6>
+            <div class="bc-item"><strong>Deep reporting suite</strong> — Hundreds of reports for large enterprise salons. Overkill for most, but enterprise buyers want it.</div>
+            <div class="bc-item"><strong>Advanced commissions</strong> — Full commission engine with backbar deductions, tiered structures.</div>
+            <div class="bc-item"><strong>Client check-in</strong> — Arrival notifications for front desk workflow.</div>
+            <div class="bc-item"><strong>Add-Ons</strong> — Full service add-on flexibility at booking.</div>
+            <div class="bc-item"><strong>MSMP / split tickets</strong> — Multi-provider single checkout.</div>
+          </div>
+          <div class="battlecard-section bc-talk"><h6>Talk Tracks</h6>
+            <div class="bc-item"><strong>On reports:</strong> "Meevo has hundreds of reports, but that's actually the problem — salon owners tell us it's overwhelming and hard to find what matters. Our analytics tab gives you client retention, team performance, and revenue trends at a glance."</div>
+            <div class="bc-item"><strong>On booth renters:</strong> "If you have renters or independents, Meevo creates major gaps in visibility because not all providers use their processing. With GG's Separate Bank Accounts, every provider can accept payments independently while you still see the full picture — online booking, deposits, schedules, commissions."</div>
+            <div class="bc-item"><strong>On switching:</strong> "Ask your team how long it takes to pull a client retention report in Meevo. With us, it's one tap. Plus, our forms and waivers are included — no add-on charges."</div>
+          </div>
+          <div style="padding:8px 0;border-top:1px solid var(--border);margin-top:8px;">
+            <div style="font-size:11px;color:var(--faint);"><strong>Pricing intel:</strong> $139-399/mo · Forms/waivers are add-on cost · No automated birthday notifications · Limited renter/independent functionality · Complex reporting suite</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Rosy -->
+      <div class="battlecard" data-bc="rosy">
+        <div class="battlecard-header">
+          <span class="battlecard-name">Rosy</span>
+          <span class="battlecard-price">$29-69/mo</span>
+        </div>
+        <div class="battlecard-body">
+          <div class="battlecard-section bc-win"><h6>Where We Beat Rosy</h6>
+            <div class="bc-item"><strong>Card on file at booking:</strong> Rosy's biggest gap — clients can book online WITHOUT a card on file. Business can't enforce no-show or cancellation policy. With GG, you can require deposits or full card capture at booking.</div>
+            <div class="bc-item"><strong>Deposit enforcement:</strong> Customizable deposits &amp; cancellation fees — enforce policies automatically, no awkward conversations or chasing clients.</div>
+            <div class="bc-item"><strong>Fewer no-shows:</strong> Most users see a big drop in no-shows once they enable card-on-file. Cash flow protected even with last-minute cancellations.</div>
+            <div class="bc-item"><strong>Processing:</strong> Flat 2.6% with next-day payouts.</div>
+            <div class="bc-item"><strong>Website &amp; booking:</strong> Superior booking site aesthetics and client experience.</div>
+            <div class="bc-item"><strong>AI Growth Analyst:</strong> Revenue insights that Rosy can't match.</div>
+          </div>
+          <div class="battlecard-section bc-lose"><h6>Where Rosy Competes</h6>
+            <div class="bc-item"><strong>Lower price point</strong> — Starting at $29/mo, competitive for budget-conscious solos.</div>
+            <div class="bc-item"><strong>Established salon base</strong> — Long-standing salon software with loyal users.</div>
+          </div>
+          <div class="battlecard-section bc-talk"><h6>Talk Tracks</h6>
+            <div class="bc-item"><strong>On no-shows:</strong> "Unlike Rosy, GlossGenius lets you securely collect a card on file right at the time of online booking. That means you can actually enforce your cancellation or no-show policy without having to chase anyone down. Most of our users see a big drop in no-shows once they turn that on — because clients know your time is valuable."</div>
+            <div class="bc-item"><strong>On deposits:</strong> "With Rosy, clients can skip past putting down a deposit — so your no-show policy has no teeth. With GG, deposits and card-on-file are enforced automatically. Your time is protected."</div>
+          </div>
+          <div style="padding:8px 0;border-top:1px solid var(--border);margin-top:8px;">
+            <div style="font-size:11px;color:var(--faint);"><strong>Intel:</strong> $29-69/mo · No card-on-file enforcement at booking · Can't enforce no-show/cancellation policies · Budget option for solos</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Wix -->
+      <div class="battlecard" data-bc="wix">
+        <div class="battlecard-header">
+          <span class="battlecard-name">Wix</span>
+          <span class="battlecard-price">$17-159/mo + 2.9%+30c</span>
+        </div>
+        <div class="battlecard-body">
+          <div class="battlecard-section bc-win"><h6>Where We Beat Wix</h6>
+            <div class="bc-item"><strong>Beauty-specific:</strong> Wix is a generic website builder with booking bolted on. Not purpose-built for beauty professionals.</div>
+            <div class="bc-item"><strong>Processing rates:</strong> 2.6% flat vs Wix Payments 2.9%+$0.30 online. Even Wix POS at 2.6% has no fixed fee advantage — and lacks beauty-specific features.</div>
+            <div class="bc-item"><strong>All-in-one simplicity:</strong> Wix requires stitching together multiple tools (Wix Bookings, Wix Payments, separate marketing tools). GG is purpose-built.</div>
+            <div class="bc-item"><strong>Client management:</strong> No client profiles, formulas, before/after photos, or beauty-specific CRM.</div>
+            <div class="bc-item"><strong>AI Growth Analyst:</strong> Revenue insights and business analytics that Wix can't match for beauty businesses.</div>
+          </div>
+          <div class="battlecard-section bc-lose"><h6>Why Some Stay on Wix</h6>
+            <div class="bc-item"><strong>Custom website flexibility</strong> — Full website builder with complete design control, custom domains, and SEO tools.</div>
+            <div class="bc-item"><strong>Payment method variety</strong> — Accepts via Wix Payments, PayPal, Stripe, Apple Pay, Google Pay, and third-party providers.</div>
+            <div class="bc-item"><strong>E-commerce</strong> — Full online store capabilities for retail product sales.</div>
+            <div class="bc-item"><strong>Price</strong> — Wix Bookings starts cheaper for basic needs.</div>
+          </div>
+          <div class="battlecard-section bc-talk"><h6>Talk Tracks</h6>
+            <div class="bc-item"><strong>On pricing:</strong> "Wix charges 2.9% plus 30 cents per transaction — that's significantly more than our flat 2.6%. On $10K/mo in processing, you're paying $300+ more annually with Wix. Plus you need to pay for their business plan just to accept payments."</div>
+            <div class="bc-item"><strong>On the platform:</strong> "Wix is a great website builder, but it wasn't designed for beauty pros. You'd need to cobble together Wix Bookings, Wix Payments, a separate marketing tool, and still won't get client management, formulas, or before/after photos. GG does all of that in one place."</div>
+          </div>
+          <div style="padding:8px 0;border-top:1px solid var(--border);margin-top:8px;">
+            <div style="font-size:11px;color:var(--faint);"><strong>Intel:</strong> Plans $17-159/mo · Wix Payments: 2.9%+$0.30 online · POS: 2.6% · Accepts PayPal, Stripe, Apple Pay, Google Pay · Generic platform, not beauty-specific</div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- DEAL INTELLIGENCE FEED -->
+  <div class="sales-section" style="border-top:1px solid var(--border);">
+    <div class="sales-section-hd">&#x1F4AC; Deal Intelligence Feed</div>
+    <div class="sales-intro">Recent wins, losses, and at-risk accounts with context. Use these to anticipate objections and learn from the field.</div>
+
+    <div class="deal-feed">
+      <div class="deal-card deal-lost">
+        <div><div class="deal-label">Deal Lost — Boulevard</div><div class="deal-biz">Medspa (Quintessa's pipeline)</div><div class="deal-detail">"We LOVE the platform but unfortunately we really need individual service links for marketing and automations." Lost specifically over provider/service booking links.</div></div>
+        <div class="deal-meta">Apr 23, 2026</div>
+      </div>
+      <div class="deal-card deal-lost">
+        <div><div class="deal-label">Deal Lost — Aesthetic Record</div><div class="deal-biz">Dipti Desai — Medspa</div><div class="deal-detail">Needed medical director oversight + compliance tracking for changing medspa laws. Chose Aesthetic Record package deal (MD + EMR bundled). Note: MD sign-off is now in our beta — this objection is addressable.</div></div>
+        <div class="deal-meta">Apr 21, 2026</div>
+      </div>
+      <div class="deal-card deal-lost">
+        <div><div class="deal-label">Deal Lost — Booksy</div><div class="deal-biz">Barbershop (Shaina's pipeline)</div><div class="deal-detail">"Ultimately want a platform that is going to help them market to new clients not just internally of existing clients." GG's marketing is inward-facing — no client acquisition tools.</div></div>
+        <div class="deal-meta">Apr 22, 2026</div>
+      </div>
+      <div class="deal-card deal-lost">
+        <div><div class="deal-label">Deal Lost — Vagaro</div><div class="deal-biz">Jonna's Ohio Salon (from Acuity)</div><div class="deal-detail">Per-service tax control at checkout was the blocker. Ohio doesn't tax hair services but does tax other services — GG can only toggle tax for entire cart.</div></div>
+        <div class="deal-meta">Apr 20, 2026</div>
+      </div>
+      <div class="deal-card deal-lost">
+        <div><div class="deal-label">Deal Lost — Mangomint</div><div class="deal-biz">Platinum 7-Provider Salon (Shaina's pipeline)</div><div class="deal-detail">"The 'Add On' feature should be a no brainer and already built in. I lose money on the other workflow." Add-Ons was the deal breaker.</div></div>
+        <div class="deal-meta">Mar 2026</div>
+      </div>
+      <div class="deal-card deal-risk">
+        <div><div class="deal-label">Churn Risk</div><div class="deal-biz">Callys Curls — Top-Grossing Team Business</div><div class="deal-detail">"These new updates really are not user-friendly. They're really sloppy and awkward. Update the updates back." One of GG's highest-grossing accounts frustrated with recent UI changes.</div></div>
+        <div class="deal-meta">Apr 24, 2026</div>
+      </div>
+      <div class="deal-card deal-risk">
+        <div><div class="deal-label">Churn Risk — Square</div><div class="deal-biz">20-Person Massage Business</div><div class="deal-detail">At risk of churning because they can't field appointment notifications to both provider and front desk simultaneously. Not interested in workarounds.</div></div>
+        <div class="deal-meta">Apr 23, 2026</div>
+      </div>
+      <div class="deal-card deal-risk">
+        <div><div class="deal-label">Churn Risk — Square</div><div class="deal-biz">Booth Rental Salon (Meghan's pipeline)</div><div class="deal-detail">All team members can see everyone's transactions. AO has access to renters' reports. Cancellation policies can't be customized per renter. Considering returning to Square.</div></div>
+        <div class="deal-meta">Mar 2026</div>
+      </div>
+      <div class="deal-card deal-risk">
+        <div><div class="deal-label">Churn Risk — Vagaro</div><div class="deal-biz">Medspa (Quintessa's pipeline)</div><div class="deal-detail">Vagaro user paying 2.9% surcharge — GG only offers 3.5% option. "Our patients would be furious." Also missing consumable cost tracking for services.</div></div>
+        <div class="deal-meta">Apr 2026</div>
+      </div>
+      <div class="deal-card deal-won" style="opacity:.85;">
+        <div><div class="deal-label">Positive Signal</div><div class="deal-biz">8-Person Hair/Skin/Makeup Salon (Laura's pipeline)</div><div class="deal-detail">"This is the only booking system I've ever seen that gives you this much information about your business, literally at a glance." Loves analytics, Growth Analyst, speed of improvement. 3-year customer, came from Vagaro + Square.</div></div>
+        <div class="deal-meta">Mar 27, 2026</div>
+      </div>
+      <div class="deal-card deal-won" style="opacity:.85;">
+        <div><div class="deal-label">Positive Signal</div><div class="deal-biz">Sola Suite Solo (Chrissie's community)</div><div class="deal-detail">"I tried the new system and went right back to GG because clients don't have to make a log in and you can save pictures to their profile. I've used GG for 5 years!" Loyal member chose GG over Sola's preferred system.</div></div>
+        <div class="deal-meta">Mar 17, 2026</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- FEATURE STATUS: What to Promise -->
+  <div class="sales-section" style="border-top:1px solid var(--border);">
+    <div class="sales-section-hd">&#x1F6A6; Feature Status — What You Can Promise</div>
+    <div class="sales-intro">Only promise what's shipped or in beta. For "Coming Soon" items, say "on our roadmap" without committing to dates unless noted. For "Not Planned," be honest.</div>
+    <div class="status-grid">
+      <div class="status-card sc-shipped">
+        <h6>&#x2705; Shipped / In Beta</h6>
+        <div class="status-item"><strong>SOAP Notes &amp; Charting</strong> — Live on MedSpa tiers</div>
+        <div class="status-item"><strong>Medical Director Sign-Off</strong> — Live, AO can sign as MD by default</div>
+        <div class="status-item"><strong>Photo Markup</strong> — Live for MedSpas in beta</div>
+        <div class="status-item"><strong>Photo Bulk Upload + Autosort</strong> — Live on Gold+</div>
+        <div class="status-item"><strong>Practice Essentials &amp; Advanced Tiers</strong> — Live</div>
+        <div class="status-item"><strong>Outside Payment Tracking</strong> — Venmo/Zelle/Cash recording</div>
+        <div class="status-item"><strong>AI Growth Analyst</strong> — Live for all plans</div>
+        <div class="status-item"><strong>Resource Management (Rooms)</strong> — In gradual rollout</div>
+      </div>
+      <div class="status-card sc-coming">
+        <h6>&#x1F7E1; Coming Soon (On Roadmap)</h6>
+        <div class="status-item"><strong>Add-Ons</strong> — In Design, targeting Q3 2026</div>
+        <div class="status-item"><strong>MSMP</strong> — In Design, after Add-Ons (Q4 2026+)</div>
+        <div class="status-item"><strong>Photo Markup on Mobile</strong> — TBD, being figured out</div>
+        <div class="status-item"><strong>Custom Chart Templates</strong> — Q2 2026</div>
+        <div class="status-item"><strong>Mobile Calendar Re-architecture</strong> — Gradual rollout underway</div>
+        <div class="status-item"><strong>Inventory Auto-Decrementing</strong> — After Forms improvements</div>
+      </div>
+      <div class="status-card sc-not-planned">
+        <h6>&#x26D4; Not Planned / Long-Term</h6>
+        <div class="status-item"><strong>2-Way Texting</strong> — Unlikely before Fall 2026</div>
+        <div class="status-item"><strong>Multi-Language (Spanish)</strong> — Deferred to H2+ (XL effort)</div>
+        <div class="status-item"><strong>Custom Domains</strong> — Not currently planned</div>
+        <div class="status-item"><strong>Smart Booking / Gap Prevention</strong> — Not started</div>
+        <div class="status-item"><strong>Commissions (Backbar/Tiers)</strong> — Not started</div>
+        <div class="status-item"><strong>New Client Marketing / Marketplace</strong> — Not planned</div>
+        <div class="status-item"><strong>Classes / Group Bookings</strong> — Not started</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- SALES FOOTER -->
+  <div class="methodology">
+    <div class="meth-grid" style="grid-template-columns:1fr 1fr 1fr;">
+      <div class="meth-section">
+        <h5>How to Use This Dashboard</h5>
+        <p>This Sales view is built from 206 real customer signals across 7 Slack channels, plus competitive intel from the Outbound Sales Source of Truth doc, SKO customer panel feedback, and internal sales resources. Use the "Where We Win" section to lead conversations. Use "Where We Struggle" to prep for objections — prospects respect honesty. Check the Deal Intel feed for recent wins/losses to learn from the field. Switch to "Product / Exec" view for full scoring and methodology.</p>
+      </div>
+      <div class="meth-section">
+        <h5>Quick Resources</h5>
+        <p><strong>Demo sites:</strong> <a href="https://earthenbeauty.glossgenius.com/" style="color:var(--accent2);">Salons</a> · <a href="https://complexioncounters.glossgenius.com/" style="color:var(--accent2);">MedSpas/Estheticians</a></p>
+        <p style="margin-top:4px;"><strong>Case studies:</strong> AB Aesthetics (6-figure monthly rev) · Glamour By Gee (10x BNPL booking value) · Blushed! Bridal (500% ticket growth)</p>
+        <p style="margin-top:4px;"><strong>Key docs:</strong> <a href="https://docs.google.com/document/d/1ksRJuh_YgE3DNkplMLqr9cbA5JRFpPXTZpE286rqjd4/edit" style="color:var(--accent2);">Outbound Pitch Guide</a> · <a href="https://docs.google.com/spreadsheets/d/1MwjUQ4gFNaWa4RZo14l23KC1RTLPmINpPncTcYirM8A/edit" style="color:var(--accent2);">Competitor Rates SOT</a> · <a href="https://docs.google.com/presentation/d/1ZsXU_VeALXwgY5xg4aWbSu_d4MW1-gq0uvROzCE21Dk/edit" style="color:var(--accent2);">Selling Platinum Deck</a></p>
+        <p style="margin-top:4px;"><strong>Outbound KPIs:</strong> 60 dials/day · 2 demos/day · 10 demos/week · 40 demos/month (fully ramped) · 20 completed</p>
+      </div>
+      <div class="meth-section">
+        <h5>Escalation Path</h5>
+        <p>If a prospect raises a feature gap not on this dashboard, post it in <strong>#voiceofthecustomer</strong> with the customer quote and account tier. For urgent churn risks, escalate via <strong>#customer-experience</strong>. For medspa-specific blockers, use <strong>#sales-medspa-largeteams-pilot</strong>.</p>
+        <p style="margin-top:6px;"><strong>Lead discrepancies:</strong> Use the <a href="https://docs.google.com/document/d/14lLaHqr5l1e6gYzINWJYl-7iuz90ADDjDq0JnUVF0SU/edit" style="color:var(--accent2);">Sales Rules of Engagement</a> doc.</p>
+        <p style="margin-top:6px;"><strong>Owner:</strong> Karlo Andrei Antalan · Product Strategy / CX Insights</p>
+      </div>
+    </div>
+  </div>
+
 </div>
 
 <script>
@@ -2764,6 +3650,40 @@ document.querySelectorAll('.progress-toggle').forEach(toggle => {
     e.stopPropagation();
     const tracker = toggle.closest('.progress-tracker');
     tracker.classList.toggle('open');
+  });
+});
+
+// ── ROLE SWITCHING ──
+function setRole(role) {
+  document.body.classList.remove('mode-sales');
+  if (role === 'sales') {
+    document.body.classList.add('mode-sales');
+  }
+  document.querySelectorAll('.role-toggle-btn').forEach(btn => {
+    btn.classList.toggle('active', btn.dataset.role === role);
+  });
+}
+
+// Splash screen
+document.querySelectorAll('.splash-role').forEach(role => {
+  role.addEventListener('click', () => {
+    const selectedRole = role.dataset.role;
+    document.getElementById('splashOverlay').classList.add('hidden');
+    setRole(selectedRole);
+  });
+});
+
+// Topbar toggle
+document.querySelectorAll('.role-toggle-btn').forEach(btn => {
+  btn.addEventListener('click', () => {
+    setRole(btn.dataset.role);
+  });
+});
+
+// Battlecard expand/collapse
+document.querySelectorAll('.battlecard').forEach(card => {
+  card.querySelector('.battlecard-header').addEventListener('click', () => {
+    card.classList.toggle('open');
   });
 });
 </script>
